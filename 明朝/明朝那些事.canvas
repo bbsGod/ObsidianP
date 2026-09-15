@@ -1,0 +1,21 @@
+{
+	"nodes":[
+		{"id":"061de4a9b8a9ab8a","type":"file","file":"Pasted image 20260901093329.png","x":-280,"y":-360,"width":1605,"height":200},
+		{"id":"0142322f4c9b5683","type":"file","file":"Pasted image 20260901093342.png","x":-1160,"y":-320,"width":776,"height":640},
+		{"id":"3b96c42dc38b8d48","type":"file","file":"Pasted image 20260901093257.png","x":-240,"y":0,"width":1768,"height":1118},
+		{"id":"028dc896d235356d","type":"text","text":"## 任何人答应你的都不算数，==只有你自己能做主的事才算数==","x":-1092,"y":-440,"width":640,"height":50},
+		{"id":"42a4bf69cf2f25f0","type":"text","text":"### 决战陈友谅","x":-240,"y":1199,"width":250,"height":513,"color":"3"},
+		{"id":"e2d1bbe0b1a8b5d6","type":"file","file":"Pasted image 20260901104645.png","x":-195,"y":1280,"width":160,"height":95},
+		{"id":"35a77666ff2fd511","type":"file","file":"Pasted image 20260901104712.png","x":-238,"y":1400,"width":248,"height":112},
+		{"id":"9ee7a08f0bac46be","type":"file","file":"Pasted image 20260901104823.png","x":-233,"y":1540,"width":236,"height":52},
+		{"id":"720e97ed97a472e0","type":"file","file":"Pasted image 20260902163340.png","x":523,"y":-120,"width":399,"height":58}
+	],
+	"edges":[
+		{"id":"3f005b56ea2eabde","fromNode":"0142322f4c9b5683","fromSide":"right","toNode":"3b96c42dc38b8d48","toSide":"left","label":"打天下"},
+		{"id":"e37c755afd642deb","fromNode":"0142322f4c9b5683","fromSide":"right","toNode":"061de4a9b8a9ab8a","toSide":"bottom","label":"出头露面"},
+		{"id":"1d94026fe9fd4939","fromNode":"35a77666ff2fd511","fromSide":"left","toNode":"3b96c42dc38b8d48","toSide":"left","label":"军师"},
+		{"id":"45838d141264751b","fromNode":"028dc896d235356d","fromSide":"bottom","toNode":"0142322f4c9b5683","toSide":"top"},
+		{"id":"f99851459fe9ad7e","fromNode":"35a77666ff2fd511","fromSide":"top","toNode":"e2d1bbe0b1a8b5d6","toSide":"bottom"},
+		{"id":"9b73990e5fa265f6","fromNode":"720e97ed97a472e0","fromSide":"bottom","toNode":"3b96c42dc38b8d48","toSide":"top"}
+	]
+}

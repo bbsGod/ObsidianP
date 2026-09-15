@@ -1,0 +1,15 @@
+{
+	"nodes":[
+		{"id":"7610b819bde1c273","type":"text","text":"TongWeb 解决","x":-305,"y":-560,"width":700,"height":60,"color":"2"},
+		{"id":"d2f78aad7b4a16eb","type":"text","text":"jar包上传私服\n","x":-305,"y":-440,"width":250,"height":60,"color":"2"},
+		{"id":"37413d68ac5aa51f","type":"text","text":"linces文件指定","x":30,"y":-440,"width":250,"height":60,"color":"2"},
+		{"id":"43c0d3f114d34e01","type":"text","text":"Docker环境需要考虑打包的问题-没有问题","x":360,"y":-440,"width":250,"height":60,"color":"2"},
+		{"id":"92757d68f6bf3597","type":"text","text":"POM中去掉tomcat，根据springboot的版本号改成对应的tongWEB","x":45,"y":-340,"width":250,"height":100,"color":"2"}
+	],
+	"edges":[
+		{"id":"745fce83ee3298e3","fromNode":"37413d68ac5aa51f","fromSide":"right","toNode":"43c0d3f114d34e01","toSide":"left"},
+		{"id":"82e386fdf8d47549","fromNode":"37413d68ac5aa51f","fromSide":"bottom","toNode":"92757d68f6bf3597","toSide":"top"},
+		{"id":"0cfd2ee578d588f3","fromNode":"7610b819bde1c273","fromSide":"bottom","toNode":"d2f78aad7b4a16eb","toSide":"top"},
+		{"id":"14971853d50598af","fromNode":"d2f78aad7b4a16eb","fromSide":"right","toNode":"37413d68ac5aa51f","toSide":"left"}
+	]
+}

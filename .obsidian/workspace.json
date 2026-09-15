@@ -1,0 +1,234 @@
+{
+  "main": {
+    "id": "adacdedeb5476f4b",
+    "type": "split",
+    "children": [
+      {
+        "id": "eb676f8b2902f68d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "895c17f7da8d43df",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "Java/多线程并发.canvas",
+                "viewState": {
+                  "x": -4014.727809069827,
+                  "y": 1523.7586033042226,
+                  "zoom": -3.666666666666667
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "多线程并发"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "cbaf14d675909891",
+    "type": "split",
+    "children": [
+      {
+        "id": "46feb56ae0b97536",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b9ab62789be6f4d7",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "585bc5d7eb5d684b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "6548741a8fd2719d",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 274.16668701171875
+  },
+  "right": {
+    "id": "2335fe4443cdde6a",
+    "type": "split",
+    "children": [
+      {
+        "id": "376287ae25d1315c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cd96506f6dd25b0c",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "信创升级.canvas",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "反向链接"
+            }
+          },
+          {
+            "id": "ce15b7426e2be553",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "多线程并发.canvas",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "出链"
+            }
+          },
+          {
+            "id": "7cc0d0b5df8a9ad6",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "8cb303f865204cfc",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "8fbb11f30740e41a",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "未命名.canvas",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "大纲"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false,
+      "obsidian-git:Open Git source control": false
+    }
+  },
+  "active": "895c17f7da8d43df",
+  "lastOpenFiles": [
+    "Pasted image 20260915153738.png",
+    "Pasted image 20260915153729.png",
+    "Pasted image 20260915153658.png",
+    "Pasted image 20260915153656.png",
+    "Pasted image 20260915153622.png",
+    "Java/信创升级.canvas",
+    "Java/小聪明.canvas",
+    "Java/多线程并发.canvas",
+    "Pasted image 20260914180020.png",
+    "Pasted image 20260914175532.png",
+    "Pasted image 20260914175206.png",
+    "Pasted image 20260914174825.png",
+    "Pasted image 20260914174743.png",
+    "Pasted image 20260914174640.png",
+    "Java/未命名.md",
+    "明朝/明朝那些事.canvas",
+    "未命名.base",
+    "2026-09-10.md",
+    "多线程并发 1.canvas",
+    "明朝",
+    "Java",
+    "未命名 2.canvas",
+    "未命名 2.base",
+    "未命名 1.canvas",
+    "未命名 1.base",
+    "未命名.canvas",
+    "未命名 3.base",
+    "欢迎.md",
+    "未命名 4.base",
+    "删除lastUpdated 1.bat",
+    "删除_remote_repositories 2.bat",
+    "删除_remote_repositories 1.bat",
+    "创建链接.md",
+    "明朝.canvas",
+    "明朝那些事.md"
+  ]
+}
