@@ -15,9 +15,9 @@
               "state": {
                 "file": "Java/多线程并发.canvas",
                 "viewState": {
-                  "x": -4014.727809069827,
-                  "y": 1523.7586033042226,
-                  "zoom": -3.666666666666667
+                  "x": -10642.349436905943,
+                  "y": 7586.861199727663,
+                  "zoom": -0.9999999999999996
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -44,7 +44,7 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": true,
+                "autoReveal": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
@@ -86,7 +86,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 274.16668701171875
+    "width": 200
   },
   "right": {
     "id": "2335fe4443cdde6a",
@@ -189,26 +189,24 @@
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
-      "bases:新建数据库": false,
-      "obsidian-git:Open Git source control": false
+      "bases:新建数据库": false
     }
   },
   "active": "895c17f7da8d43df",
   "lastOpenFiles": [
-    "Pasted image 20260915153738.png",
-    "Pasted image 20260915153729.png",
-    "Pasted image 20260915153658.png",
-    "Pasted image 20260915153656.png",
-    "Pasted image 20260915153622.png",
-    "Java/信创升级.canvas",
     "Java/小聪明.canvas",
     "Java/多线程并发.canvas",
-    "Pasted image 20260914180020.png",
-    "Pasted image 20260914175532.png",
-    "Pasted image 20260914175206.png",
-    "Pasted image 20260914174825.png",
-    "Pasted image 20260914174743.png",
-    "Pasted image 20260914174640.png",
+    "Pasted image 20260917093441.png",
+    "Pasted image 20260917093410.png",
+    "Pasted image 20260916211807.png",
+    "Pasted image 20260916211626.png",
+    "Pasted image 20260916211541.png",
+    "Pasted image 20260916211424.png",
+    "Pasted image 20260916211403.png",
+    "Pasted image 20260916211357.png",
+    "Pasted image 20260916211100.png",
+    "Pasted image 20260916211022.png",
+    "Java/信创升级.canvas",
     "Java/未命名.md",
     "明朝/明朝那些事.canvas",
     "未命名.base",
