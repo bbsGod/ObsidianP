@@ -15,9 +15,9 @@
               "state": {
                 "file": "Java/多线程并发.canvas",
                 "viewState": {
-                  "x": 2675.209852820032,
-                  "y": -12335.138589156166,
-                  "zoom": -1.666666666666666
+                  "x": 4221.3330078125,
+                  "y": 4196.00048828125,
+                  "zoom": -4
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -86,7 +86,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 322.8333435058594
   },
   "right": {
     "id": "2335fe4443cdde6a",
@@ -194,6 +194,10 @@
   },
   "active": "895c17f7da8d43df",
   "lastOpenFiles": [
+    "Java/小聪明.canvas",
+    "未命名 1.base",
+    "未命名.base",
+    "Java/多线程并发.canvas",
     "Pasted image 20260930160033.png",
     "Pasted image 20260930155946.png",
     "Pasted image 20260930155909.png",
@@ -204,13 +208,9 @@
     "Pasted image 20260930155249.png",
     "Pasted image 20260930153339.png",
     "Pasted image 20260930153258.png",
-    "Pasted image 20260930152549.png",
     "Java/信创升级.canvas",
-    "Java/小聪明.canvas",
-    "Java/多线程并发.canvas",
     "Java/未命名.md",
     "明朝/明朝那些事.canvas",
-    "未命名.base",
     "2026-09-10.md",
     "多线程并发 1.canvas",
     "明朝",
@@ -218,7 +218,6 @@
     "未命名 2.canvas",
     "未命名 2.base",
     "未命名 1.canvas",
-    "未命名 1.base",
     "未命名.canvas",
     "未命名 3.base",
     "欢迎.md",
