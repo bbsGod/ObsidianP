@@ -13,15 +13,15 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Java/小聪明.canvas",
+                "file": "Java/多线程并发.canvas",
                 "viewState": {
-                  "x": 2331.391793892102,
-                  "y": 15398.173579445234,
-                  "zoom": -0.6666666666666663
+                  "x": -4994.6669921875,
+                  "y": 12993.33349609375,
+                  "zoom": -4
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "小聪明"
+              "title": "多线程并发"
             }
           }
         ]
@@ -194,12 +194,12 @@
   },
   "active": "26ed8af3fee22bab",
   "lastOpenFiles": [
+    "Java/小聪明.canvas",
     "Pasted image 20261020162135.png",
     "未命名.base",
     "未命名.canvas",
     "未命名 1.canvas",
     "企业微信截图_c7cce554-f9d4-4b4b-b9a0-bc80ece89e3b.png",
-    "Java/小聪明.canvas",
     "Pasted image 20261020161710.png",
     "Java/多线程并发.canvas",
     "Pasted image 20261020003510.png",
@@ -209,7 +209,6 @@
     "Pasted image 20261020002416.png",
     "Pasted image 20261020002408.png",
     "Pasted image 20261020002313.png",
-    "Pasted image 20261020002258.png",
     "Java/信创升级.canvas",
     "未命名 1.base",
     "Java/未命名.md",
