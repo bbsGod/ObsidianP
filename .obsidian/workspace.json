@@ -4,20 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "eb676f8b2902f68d",
+        "id": "4afd6d73697999d6",
         "type": "tabs",
         "children": [
           {
-            "id": "895c17f7da8d43df",
+            "id": "26ed8af3fee22bab",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
                 "file": "Java/小聪明.canvas",
                 "viewState": {
-                  "x": -1600,
-                  "y": 7110,
-                  "zoom": -4
+                  "x": 2331.391793892102,
+                  "y": 15398.173579445234,
+                  "zoom": -0.6666666666666663
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -192,8 +192,15 @@
       "bases:新建数据库": false
     }
   },
-  "active": "895c17f7da8d43df",
+  "active": "26ed8af3fee22bab",
   "lastOpenFiles": [
+    "Pasted image 20261020162135.png",
+    "未命名.base",
+    "未命名.canvas",
+    "未命名 1.canvas",
+    "企业微信截图_c7cce554-f9d4-4b4b-b9a0-bc80ece89e3b.png",
+    "Java/小聪明.canvas",
+    "Pasted image 20261020161710.png",
     "Java/多线程并发.canvas",
     "Pasted image 20261020003510.png",
     "Pasted image 20261020002553.png",
@@ -203,11 +210,7 @@
     "Pasted image 20261020002408.png",
     "Pasted image 20261020002313.png",
     "Pasted image 20261020002258.png",
-    "Pasted image 20261020000901.png",
-    "Pasted image 20261020000736.png",
-    "Java/小聪明.canvas",
     "Java/信创升级.canvas",
-    "未命名.base",
     "未命名 1.base",
     "Java/未命名.md",
     "明朝/明朝那些事.canvas",
@@ -217,8 +220,6 @@
     "Java",
     "未命名 2.canvas",
     "未命名 2.base",
-    "未命名 1.canvas",
-    "未命名.canvas",
     "未命名 3.base",
     "欢迎.md",
     "未命名 4.base",
