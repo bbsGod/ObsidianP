@@ -15,9 +15,9 @@
               "state": {
                 "file": "Java/多线程并发.canvas",
                 "viewState": {
-                  "x": -5657.49988545337,
-                  "y": 29892.978196800308,
-                  "zoom": -1.6666666666666663
+                  "x": -12849.666687011719,
+                  "y": 8751,
+                  "zoom": -1
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -194,6 +194,8 @@
   },
   "active": "26ed8af3fee22bab",
   "lastOpenFiles": [
+    "Pasted image 20261026152717.png",
+    "Pasted image 20261026152455.png",
     "Pasted image 20261023173833.png",
     "Pasted image 20261023173757.png",
     "Pasted image 20261023173734.png",
@@ -203,8 +205,6 @@
     "Pasted image 20261023173633.png",
     "Pasted image 20261023173543.png",
     "Pasted image 20261023173453.png",
-    "Pasted image 20261023173443.png",
-    "Pasted image 20261023173426.png",
     "Java/小聪明.canvas",
     "Java/多线程并发.canvas",
     "未命名.base",
