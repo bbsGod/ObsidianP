@@ -15,9 +15,9 @@
               "state": {
                 "file": "Java/小聪明.canvas",
                 "viewState": {
-                  "x": 7496.022178475138,
-                  "y": 16763.55528688844,
-                  "zoom": -4
+                  "x": 6470.981881819997,
+                  "y": 16469.46421526669,
+                  "zoom": -0.9999999999999996
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -192,7 +192,7 @@
       "bases:新建数据库": false
     }
   },
-  "active": "b9ab62789be6f4d7",
+  "active": "26ed8af3fee22bab",
   "lastOpenFiles": [
     "Pasted image 20261030170251.png",
     "Pasted image 20261030165942.png",
