@@ -1,0 +1,21 @@
+{
+	"nodes":[
+		{"id":"0f838ae13b186d59","type":"text","text":"undo_log回滚日志","x":-750,"y":-1429,"width":250,"height":60},
+		{"id":"b423c480a90492f8","type":"file","file":"Pasted image 20261109110512.png","x":-353,"y":-1617,"width":802,"height":436},
+		{"id":"caaa6d518b63754f","type":"file","file":"Pasted image 20261109111643.png","x":611,"y":-1608,"width":671,"height":419},
+		{"id":"c6e4fc8c2f101d80","type":"text","text":"① 先从磁盘 `.ibd` 文件读取目标索引 / 数据页，加载到 Buffer Pool 内存缓存；","x":1368,"y":-1608,"width":635,"height":50},
+		{"id":"8a84d6c0e42084dd","type":"text","text":"修改之前，把该行（修改前）的旧版本数据写入 Undo Log，Undo Log 支撑事务回滚与多版本并发控制（MVCC）；","x":1368,"y":-1512,"width":710,"height":58},
+		{"id":"2cc679199ac82ad3","type":"text","text":"③ 在 Buffer Pool 内存缓存页上完成（修改后）新数据的修改，同时将本次变更记录写入 Redo Log Buffer；","x":1368,"y":-1423,"width":743,"height":50},
+		{"id":"ece54b49d3a00ad9","type":"text","text":"事务提交时、将内存的 redologbuffer 中的（修改后的）数据写入磁盘的 RedoLog 中\n\n事务提交时、将事务变更记录的提交（操作）记录存到 binLog 中","x":1369,"y":-1336,"width":709,"height":98},
+		{"id":"0fa4e7c6a0eba05b","type":"text","text":"事务提交后 、异步将内存 BufferPool 中的（修改后的）数据写入磁盘","x":1369,"y":-1214,"width":570,"height":50}
+	],
+	"edges":[
+		{"id":"64658b998523c773","fromNode":"0f838ae13b186d59","fromSide":"right","toNode":"b423c480a90492f8","toSide":"left"},
+		{"id":"37021d4e25435825","fromNode":"b423c480a90492f8","fromSide":"right","toNode":"caaa6d518b63754f","toSide":"left"},
+		{"id":"2fb11ab6f3a02380","fromNode":"caaa6d518b63754f","fromSide":"right","toNode":"c6e4fc8c2f101d80","toSide":"left"},
+		{"id":"ae1f3dc7f86e36a7","fromNode":"c6e4fc8c2f101d80","fromSide":"bottom","toNode":"8a84d6c0e42084dd","toSide":"top"},
+		{"id":"bc080c1be1655353","fromNode":"8a84d6c0e42084dd","fromSide":"bottom","toNode":"2cc679199ac82ad3","toSide":"top"},
+		{"id":"6e09d29a56eb2db2","fromNode":"2cc679199ac82ad3","fromSide":"bottom","toNode":"ece54b49d3a00ad9","toSide":"top"},
+		{"id":"1f379482f02cbb6a","fromNode":"ece54b49d3a00ad9","fromSide":"bottom","toNode":"0fa4e7c6a0eba05b","toSide":"top"}
+	]
+}
