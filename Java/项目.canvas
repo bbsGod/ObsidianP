@@ -29,11 +29,11 @@
 		{"id":"88f47586201acd00","type":"text","text":"浏览器通过 Cookie 自动携带（Session方案）","x":1120,"y":-1940,"width":380,"height":50},
 		{"id":"d6be103322a3df03","type":"file","file":"Pasted image 20261029160311.png","x":1120,"y":-1639,"width":681,"height":127},
 		{"id":"1274c9ccfc321067","type":"text","text":" 真正下发 Set-Cookie: SESSION=xxx 的时刻，是你打开登录页、前端拉取图形验证码的那一刻","x":1049,"y":-1112,"width":531,"height":50},
+		{"id":"ff75ef1b73dcf370","type":"file","file":"Pasted image 20261029160723.png","x":1474,"y":-1400,"width":400,"height":59},
 		{"id":"394149b0980c6b10","type":"file","file":"Pasted image 20261029160024.png","x":1600,"y":-1800,"width":828,"height":50},
 		{"id":"466d2fec3ebd1799","type":"file","file":"Pasted image 20261029155641.png","x":1580,"y":-2029,"width":588,"height":159},
 		{"id":"2072b3635ae2be77","type":"file","file":"Pasted image 20261029155732.png","x":2168,"y":-2029,"width":608,"height":150},
 		{"id":"c156652af70b1488","type":"file","file":"Pasted image 20261029170028.png","x":1768,"y":-1185,"width":400,"height":245},
-		{"id":"ff75ef1b73dcf370","type":"file","file":"Pasted image 20261029160723.png","x":1474,"y":-1400,"width":400,"height":59},
 		{"id":"30cf9543b0710ccb","type":"text","text":"springSession","x":1120,"y":-1400,"width":250,"height":60}
 	],
 	"edges":[

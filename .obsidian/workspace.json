@@ -13,15 +13,15 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Java/信创升级.canvas",
+                "file": "Java/多线程并发.canvas",
                 "viewState": {
-                  "x": -55,
-                  "y": 180.28411633109616,
-                  "zoom": -0.6923899161891998
+                  "x": -15244.094755732549,
+                  "y": -1849.9071899467363,
+                  "zoom": 1.1102230246251565e-16
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "信创升级"
+              "title": "多线程并发"
             }
           }
         ]
@@ -86,7 +86,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 322.8333435058594
+    "width": 322.8333435058594,
+    "collapsed": true
   },
   "right": {
     "id": "2335fe4443cdde6a",
@@ -194,11 +195,15 @@
   },
   "active": "26564200eee770f8",
   "lastOpenFiles": [
-    "Java/小聪明-分析.md",
+    "Java/GLM/01jvm/02-JVM补充知识点.md",
+    "Java/GLM/01jvm/04-JVM总预习讲义.md",
     "Java/小聪明.canvas",
+    "Java/GLM/01jvm/04-JVM总预习讲义+02-JVM补充知识点.md",
     "Java/项目.canvas",
-    "Java/数据库.canvas",
     "Java/多线程并发.canvas",
+    "Java/数据库.canvas",
+    "Java/信创升级.canvas",
+    "Java/小聪明-分析.md",
     "Pasted image 20261116215043.png",
     "Pasted image 20261116214622.png",
     "Pasted image 20261116214512.png",
@@ -218,7 +223,6 @@
     "欢迎.md",
     "未命名.base",
     "未命名 1.canvas",
-    "Java/信创升级.canvas",
     "未命名 1.base",
     "明朝/明朝那些事.canvas",
     "2026-09-10.md",
