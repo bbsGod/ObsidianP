@@ -1,0 +1,1333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title>ch010.xhtml</title>
+  <style>
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" type="text/css" href="../styles/stylesheet1.css" />
+</head>
+<body epub:type="bodymatter">
+<section id="第八章异常处理" class="level1">
+<h1>第八章：异常处理</h1>
+<p></p>
+<section id="id_81-java异常处理全面解析" class="level2">
+<h2>8.1 Java异常处理全面解析</h2>
+<section id="id_01什么是异常" class="level3">
+<h3>01、什么是异常</h3>
+<p>“二哥，今天就要学习异常了吗？”三妹问。</p>
+<p>“是的。只有正确地处理好异常，才能保证程序的可靠性，所以异常的学习还是很有必要的。”我说。</p>
+<p>“那到底什么是异常呢？”三妹问。</p>
+<p>“异常是指中断程序正常执行的一个不确定的事件。当异常发生时，程序的正常执行流程就会被打断。一般情况下，程序都会有很多条语句，如果没有异常处理机制，前面的语句一旦出现了异常，后面的语句就没办法继续执行了。”</p>
+<p>“有了异常处理机制后，程序在发生异常的时候就不会中断，我们可以对异常进行捕获，然后改变程序执行的流程。”</p>
+<p>“除此之外，异常处理机制可以保证我们向用户提供友好的提示信息，而不是程序原生的异常信息——用户根本理解不了。”</p>
+<p>“不过，站在开发者的角度，我们更希望看到原生的异常信息，因为这有助于我们更快地找到 bug 的根源，反而被过度包装的异常信息会干扰我们的视线。”</p>
+<p>“Java 语言在一开始就提供了相对完善的异常处理机制，这种机制大大降低了编写可靠程序的门槛，这也是 Java 之所以能够流行的原因之一。”</p>
+<p>“那导致程序抛出异常的原因有哪些呢？”三妹问。</p>
+<p>比如说：</p>
+<ul>
+<li><p>程序在试图打开一个不存在的文件；</p></li>
+<li><p>程序遇到了网络连接问题；</p></li>
+<li><p>用户输入了糟糕的数据；</p></li>
+<li><p>程序在处理算术问题时没有考虑除数为 0 的情况；</p></li>
+</ul>
+<p>等等等等。</p>
+<p>挑个最简单的原因来说吧。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Demo <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="dv">10</span><span class="op">/</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>这段代码在运行的时候抛出的异常信息如下所示：</p>
+<pre><code>Exception in thread &quot;main&quot; java.lang.ArithmeticException: / by zero
+	at com.itwanger.s41.Demo.main(Demo.java:8)</code></pre>
+<p>“你看，三妹，这个原生的异常信息对用户来说，显然是不太容易理解的，但对于我们开发者来说，简直不要太直白了——很容易就能定位到异常发生的根源。”</p>
+</section>
+<section id="id_02exception和error的区别" class="level3">
+<h3>02、Exception和Error的区别</h3>
+<p>“哦，我知道了。下一个问题，我经常看到一些文章里提到 Exception 和 Error，二哥你能帮我解释一下它们之间的区别吗？”三妹问。</p>
+<p>“这是一个好问题呀，三妹！”</p>
+<p>从单词的释义上来看，error 为错误，exception 为异常，错误的等级明显比异常要高一些。</p>
+<p>从程序的角度来看，也的确如此。</p>
+<p>Error 的出现，意味着程序出现了严重的问题，而这些问题不应该再交给 Java 的异常处理机制来处理，程序应该直接崩溃掉，比如说 OutOfMemoryError，内存溢出了，这就意味着程序在运行时申请的内存大于系统能够提供的内存，导致出现的错误，这种错误的出现，对于程序来说是致命的。</p>
+<p>Exception 的出现，意味着程序出现了一些在可控范围内的问题，我们应当采取措施进行挽救。</p>
+<p>比如说之前提到的 ArithmeticException，很明显是因为除数出现了 0 的情况，我们可以选择捕获异常，然后提示用户不应该进行除 0 操作，当然了，更好的做法是直接对除数进行判断，如果是 0 就不进行除法运算，而是告诉用户换一个非 0 的数进行运算。</p>
+</section>
+<section id="id_03checked和unchecked异常" class="level3">
+<h3>03、checked和unchecked异常</h3>
+<p>“三妹，还能想到其他的问题吗？”</p>
+<p>“嗯，不用想，二哥，我已经提前做好预习工作了。”三妹自信地说，“异常又可以分为 checked 和 unchecked，它们之间又有什么区别呢？”</p>
+<p>“哇，三妹，果然又是一个好问题呢。”</p>
+<p>checked 异常（检查型异常）在源代码里必须显式地捕获或者抛出，否则编译器会提示你进行相应的操作；而 unchecked 异常（非检查型异常）就是所谓的运行时异常，通常是可以通过编码进行规避的，并不需要显式地捕获或者抛出。</p>
+<p>“我先画一幅思维导图给你感受一下。”</p>
+<p><img src="../media/file287.png" title="fig:" alt="" /></p>
+<p>首先，Exception 和 Error 都继承了 Throwable 类。换句话说，只有 Throwable 类（或者子类）的对象才能使用 throw 关键字抛出，或者作为 catch 的参数类型。</p>
+<p>面试中经常问到的一个问题是，NoClassDefFoundError 和 ClassNotFoundException 有什么区别？</p>
+<p>“三妹你知道吗？”</p>
+<p>“不知道，二哥，你解释下呗。”</p>
+<p>它们都是由于系统运行时找不到要加载的类导致的，但是触发的原因不一样。</p>
+<ul>
+<li><p>NoClassDefFoundError：程序在编译时可以找到所依赖的类，但是在运行时找不到指定的类文件，导致抛出该错误；原因可能是 jar 包缺失或者调用了初始化失败的类。</p></li>
+<li><p>ClassNotFoundException：当动态加载 Class 对象的时候找不到对应的类时抛出该异常；原因可能是要加载的类不存在或者类名写错了。</p></li>
+</ul>
+<p>其次，像 IOException、ClassNotFoundException、SQLException 都属于 checked 异常；像 RuntimeException 以及子类 ArithmeticException、ClassCastException、ArrayIndexOutOfBoundsException、NullPointerException，都属于 unchecked 异常。</p>
+<p>unchecked 异常可以不在程序中显示处理，就像之前提到的 ArithmeticException 就是的；但 checked 异常必须显式处理。</p>
+<p>比如说下面这行代码：</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Class</span> clz <span class="op">=</span> <span class="bu">Class</span><span class="op">.</span><span class="fu">forName</span><span class="op">(</span><span class="st">&quot;com.itwanger.s41.Demo1&quot;</span><span class="op">);</span></span></code></pre></div>
+<p>如果没做处理，比如说在 Intellij IDEA 环境下，就会提示你这行代码可能会抛出 <code>java.lang.ClassNotFoundException</code>。</p>
+<p><img src="../media/file288.png" title="fig:" alt="" /></p>
+<p>建议你要么使用 try-catch 进行捕获：</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Class</span> clz <span class="op">=</span> <span class="bu">Class</span><span class="op">.</span><span class="fu">forName</span><span class="op">(</span><span class="st">&quot;com.itwanger.s41.Demo1&quot;</span><span class="op">);</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">ClassNotFoundException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>注意打印异常堆栈信息的 <code>printStackTrace()</code> 方法，该方法会将异常的堆栈信息打印到标准的控制台下，如果是测试环境，这样的写法还 OK，如果是生产环境，这样的写法是不可取的，必须使用日志框架把异常的堆栈信息输出到日志系统中，否则可能没办法跟踪。</p>
+<p>要么在方法签名上使用 throws 关键字抛出：</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Demo1 <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="kw">throws</span> <span class="bu">ClassNotFoundException</span> <span class="op">{</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Class</span> clz <span class="op">=</span> <span class="bu">Class</span><span class="op">.</span><span class="fu">forName</span><span class="op">(</span><span class="st">&quot;com.itwanger.s41.Demo1&quot;</span><span class="op">);</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>这样做的好处是不需要对异常进行捕获处理，只需要交给 Java 虚拟机来处理即可；坏处就是没法针对这种情况做相应的处理。</p>
+<p>“二哥，针对 checked 异常，我在知乎上看到一个帖子，说 Java 中的 checked 很没有必要，这种异常在编译期要么 try-catch，要么 throws，但又不一定会出现异常，你觉得这样的设计有意义吗？”三妹提出了一个很尖锐的问题。</p>
+<p>“哇，这种问题问的好。”我不由得对三妹心生敬佩。</p>
+<p>“的确，checked 异常在业界是有争论的，它假设我们捕获了异常，并且针对这种情况作了相应的处理，但有些时候，根本就没法处理。”我说，“就拿上面提到的 ClassNotFoundException 异常来说，我们假设对其进行了 try-catch，可真的出现了 ClassNotFoundException 异常后，我们也没多少的可操作性，再 <code>Class.forName()</code> 一次？”</p>
+<p>另外，checked 异常也不兼容函数式编程，后面如果你写 Lambda/Stream 代码的时候，就会体验到这种苦涩。</p>
+<p>当然了，checked 异常并不是一无是处，尤其是在遇到 IO 或者网络异常的时候，比如说进行 Socket 链接，我大致写了一段：</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Demo2 <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> mHost<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">int</span> mPort<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">Socket</span> mSocket<span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">final</span> <span class="bu">Object</span> mLock <span class="op">=</span> <span class="kw">new</span> <span class="bu">Object</span><span class="op">();</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">run</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">initSocket</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                <span class="bu">Socket</span> socket <span class="op">=</span> <span class="kw">new</span> <span class="bu">Socket</span><span class="op">(</span>mHost<span class="op">,</span> mPort<span class="op">);</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                <span class="kw">synchronized</span> <span class="op">(</span>mLock<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                    mSocket <span class="op">=</span> socket<span class="op">;</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>                e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>当发生 IOException 的时候，socket 就重新尝试连接，否则就 break 跳出循环。意味着如果 IOException 不是 checked 异常，这种写法就略显突兀，因为 IOException 没办法像 ArithmeticException 那样用一个 if 语句判断除数是否为 0 去规避。</p>
+<p>或者说，强制性的 checked 异常可以让我们在编程的时候去思考，遇到这种异常的时候该怎么更优雅的去处理。显然，Socket 编程中，肯定是会遇到 IOException 的，假如 IOException 是非检查型异常，就意味着开发者也可以不考虑，直接跳过，交给 Java 虚拟机来处理，但我觉得这样做肯定更不合适。</p>
+</section>
+<section id="id_04关于-throw-和-throws" class="level3">
+<h3>04、关于 throw 和 throws</h3>
+<p>“二哥，你能告诉我 throw 和 throws 两个关键字的区别吗？”三妹问。</p>
+<p>“throw 关键字，用于主动地抛出异常；正常情况下，当除数为 0 的时候，程序会主动抛出 ArithmeticException；但如果我们想要除数为 1 的时候也抛出 ArithmeticException，就可以使用 throw 关键字主动地抛出异常。”我说。</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">throw</span> <span class="kw">new</span> <span class="fu">exception_class</span><span class="op">(</span><span class="st">&quot;error message&quot;</span><span class="op">);</span></span></code></pre></div>
+<p>语法也非常简单，throw 关键字后跟上 new 关键字，以及异常的类型还有参数即可。</p>
+<p>举个例子。</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> ThrowDemo <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">static</span> <span class="dt">void</span> <span class="fu">checkEligibilty</span><span class="op">(</span><span class="dt">int</span> stuage<span class="op">){</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>stuage<span class="op">&lt;</span><span class="dv">18</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>            <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">ArithmeticException</span><span class="op">(</span><span class="st">&quot;年纪未满 18 岁，禁止观影&quot;</span><span class="op">);</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;请认真观影!!&quot;</span><span class="op">);</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span> args<span class="op">[]){</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">checkEligibilty</span><span class="op">(</span><span class="dv">10</span><span class="op">);</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;愉快地周末..&quot;</span><span class="op">);</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>这段代码在运行的时候就会抛出以下错误：</p>
+<pre><code>Exception in thread &quot;main&quot; java.lang.ArithmeticException: 年纪未满 18 岁，禁止观影
+    at com.itwanger.s43.ThrowDemo.checkEligibilty(ThrowDemo.java:9)
+    at com.itwanger.s43.ThrowDemo.main(ThrowDemo.java:16)</code></pre>
+<p>“throws 关键字的作用就和 throw 完全不同。”我说，“前面的小节里已经讲了 checked exception 和 unchecked exception，也就是检查型异常和非检查型异常；对于检查型异常来说，如果你没有做处理，编译器就会提示你。”</p>
+<p><code>Class.forName()</code> 方法在执行的时候可能会遇到 <code>java.lang.ClassNotFoundException</code> 异常，一个检查型异常，如果没有做处理，IDEA 就会提示你，要么在方法签名上声明，要么放在 try-catch 中。</p>
+<p><img src="../media/file289.png" title="fig:" alt="" /></p>
+<p>“那什么情况下使用 throws 而不是 try-catch 呢？”三妹问。</p>
+<p>“假设现在有这么一个方法 <code>myMethod()</code>，可能会出现 ArithmeticException 异常，也可能会出现 NullPointerException。这种情况下，可以使用 try-catch 来处理。”我回答。</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">myMethod</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 可能抛出异常 </span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">ArithmeticException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 算术异常</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">NullPointerException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 空指针异常</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“但假设有好几个类似 <code>myMethod()</code> 的方法，如果为每个方法都加上 try-catch，就会显得非常繁琐。代码就会变得又臭又长，可读性就差了。”我继续说。</p>
+<p>“一个解决办法就是，使用 throws 关键字，在方法签名上声明可能会抛出的异常，然后在调用该方法的地方使用 try-catch 进行处理。”</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span> args<span class="op">[]){</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">myMethod1</span><span class="op">();</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">ArithmeticException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 算术异常</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">NullPointerException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 空指针异常</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">myMethod1</span><span class="op">()</span> <span class="kw">throws</span> <span class="bu">ArithmeticException</span><span class="op">,</span> <span class="bu">NullPointerException</span><span class="op">{</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 方法签名上声明异常</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“好了，我来总结下 throw 和 throws 的区别，三妹，你记一下。”</p>
+<p> 1）throws 关键字用于声明异常，它的作用和 try-catch 相似；而 throw 关键字用于显式的抛出异常。</p>
+<p>2）throws 关键字后面跟的是异常的名字；而 throw 关键字后面跟的是异常的对象。</p>
+<p>示例。</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">throws</span> <span class="bu">ArithmeticException</span><span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">throw</span> <span class="kw">new</span> <span class="bu">ArithmeticException</span><span class="op">(</span><span class="st">&quot;算术异常&quot;</span><span class="op">);</span></span></code></pre></div>
+<p>3）throws 关键字出现在方法签名上，而 throw 关键字出现在方法体里。</p>
+<p>4）throws 关键字在声明异常的时候可以跟多个，用逗号隔开；而 throw 关键字每次只能抛出一个异常。</p>
+</section>
+<section id="id_05关于-try-catch-finally" class="level3">
+<h3>05、关于 try-catch-finally</h3>
+<p>“二哥，之前你讲了异常处理机制，这一节讲什么呢？”三妹问。</p>
+<p>“该讲 try-catch-finally 了。”我说，“try 关键字后面会跟一个大括号 <code>{}</code>，我们把一些可能发生异常的代码放到大括号里；<code>try</code> 块后面一般会跟 <code>catch</code> 块，用来处理发生异常的情况；当然了，异常不一定会发生，为了保证发不发生异常都能执行一些代码，就会跟一个 <code>finally</code> 块。”</p>
+<p>“具体该怎么用呀，二哥？”三妹问。</p>
+<p>“别担心，三妹，我一一来说明下。”我说。</p>
+<p><code>try</code> 块的语法很简单：</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span><span class="op">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">// 可能发生异常的代码</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“注意啊，三妹，如果一些代码确定不会抛出异常，就尽量不要把它包裹在 <code>try</code> 块里，因为加了异常处理的代码执行起来要比没有加的花费更多的时间。”</p>
+<p><code>catch</code> 块的语法也很简单：</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span><span class="op">{</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">// 可能发生异常的代码</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span><span class="cf">catch</span> <span class="op">(</span><span class="fu">exception</span><span class="op">(</span>type<span class="op">)</span> <span class="fu">e</span><span class="op">(</span>object<span class="op">)){</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">// 异常处理代码</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>一个 <code>try</code> 块后面可以跟多个 <code>catch</code> 块，用来捕获不同类型的异常并做相应的处理，当 try 块中的某一行代码发生异常时，之后的代码就不再执行，而是会跳转到异常对应的 catch 块中执行。</p>
+<p>如果一个 try 块后面跟了多个与之关联的 catch 块，那么应该把特定的异常放在前面，通用型的异常放在后面，不然编译器会提示错误。举例来说。</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="dt">void</span> <span class="fu">test</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> num1<span class="op">,</span> num2<span class="op">;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        num1 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        num2 <span class="op">=</span> <span class="dv">62</span> <span class="op">/</span> num1<span class="op">;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>num2<span class="op">);</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;try 块的最后一句&quot;</span><span class="op">);</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">ArithmeticException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 算术运算发生时跳转到这里</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;除数不能为零&quot;</span><span class="op">);</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Exception</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 通用型的异常意味着可以捕获所有的异常，它应该放在最后面，</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;异常发生了&quot;</span><span class="op">);</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;try-catch 之外的代码.&quot;</span><span class="op">);</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“为什么 Exception 不能放到 ArithmeticException 前面呢？”三妹问。</p>
+<p>“因为 ArithmeticException 是 Exception 的子类，它更具体，我们看到就这个异常就知道是发生了算术错误，而 Exception 比较泛，它隐藏了具体的异常信息，我们看到后并不确定到底是发生了哪一种类型的异常，对错误的排查很不利。”我说，“再者，如果把通用型的异常放在前面，就意味着其他的 catch 块永远也不会执行，所以编译器就直接提示错误了。”</p>
+<p>“再给你举个例子，注意看，三妹。”</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="dt">void</span> <span class="fu">test1</span> <span class="op">()</span> <span class="op">{</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span><span class="op">{</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> arr<span class="op">[]=</span><span class="kw">new</span> <span class="dt">int</span><span class="op">[</span><span class="dv">7</span><span class="op">];</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        arr<span class="op">[</span><span class="dv">4</span><span class="op">]=</span><span class="dv">30</span><span class="op">/</span><span class="dv">0</span><span class="op">;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;try 块的最后&quot;</span><span class="op">);</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span><span class="op">(</span><span class="bu">ArithmeticException</span> e<span class="op">){</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;除数必须是 0&quot;</span><span class="op">);</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span><span class="op">(</span><span class="bu">ArrayIndexOutOfBoundsException</span> e<span class="op">){</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;数组越界了&quot;</span><span class="op">);</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span><span class="op">(</span><span class="bu">Exception</span> e<span class="op">){</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;一些其他的异常&quot;</span><span class="op">);</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;try-catch 之外&quot;</span><span class="op">);</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>这段代码在执行的时候，第一个 catch 块会执行，因为除数为零；我再来稍微改动下代码。</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="dt">void</span> <span class="fu">test1</span> <span class="op">()</span> <span class="op">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span><span class="op">{</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> arr<span class="op">[]=</span><span class="kw">new</span> <span class="dt">int</span><span class="op">[</span><span class="dv">7</span><span class="op">];</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        arr<span class="op">[</span><span class="dv">9</span><span class="op">]=</span><span class="dv">30</span><span class="op">/</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;try 块的最后&quot;</span><span class="op">);</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span><span class="op">(</span><span class="bu">ArithmeticException</span> e<span class="op">){</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;除数必须是 0&quot;</span><span class="op">);</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span><span class="op">(</span><span class="bu">ArrayIndexOutOfBoundsException</span> e<span class="op">){</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;数组越界了&quot;</span><span class="op">);</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span><span class="op">(</span><span class="bu">Exception</span> e<span class="op">){</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;一些其他的异常&quot;</span><span class="op">);</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;try-catch 之外&quot;</span><span class="op">);</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“我知道，二哥，第二个 catch 块会执行，因为没有发生算术异常，但数组越界了。”三妹没等我把代码运行起来就说出了答案。</p>
+<p>“三妹，你说得很对，我再来改一下代码。”</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="dt">void</span> <span class="fu">test1</span> <span class="op">()</span> <span class="op">{</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span><span class="op">{</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> arr<span class="op">[]=</span><span class="kw">new</span> <span class="dt">int</span><span class="op">[</span><span class="dv">7</span><span class="op">];</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        arr<span class="op">[</span><span class="dv">9</span><span class="op">]=</span><span class="dv">30</span><span class="op">/</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;try 块的最后&quot;</span><span class="op">);</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span><span class="op">(</span><span class="bu">ArithmeticException</span> <span class="op">|</span> <span class="bu">ArrayIndexOutOfBoundsException</span> e<span class="op">){</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;除数必须是 0&quot;</span><span class="op">);</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;try-catch 之外&quot;</span><span class="op">);</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“当有多个 catch 的时候，也可以放在一起，用竖划线 <code>|</code> 隔开，就像上面这样。”我说。</p>
+<p>“这样不错呀，看起来更简洁了。”三妹说。</p>
+<p><code>finally</code> 块的语法也不复杂。</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 可能发生异常的代码</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span><span class="cf">catch</span> <span class="op">{</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>   <span class="co">// 异常处理</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span><span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>   <span class="co">// 必须执行的代码</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>在没有 <a href="https://tobebetterjavaer.com/exception/try-with-resources.html"><code>try-with-resources</code></a> 之前，finally 块常用来关闭一些连接资源，比如说 socket、数据库链接、IO 输入输出流等。</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">OutputStream</span> osf <span class="op">=</span> <span class="kw">new</span> <span class="bu">FileOutputStream</span><span class="op">(</span> <span class="st">&quot;filename&quot;</span> <span class="op">);</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">OutputStream</span> osb <span class="op">=</span> <span class="kw">new</span> <span class="bu">BufferedOutputStream</span><span class="op">(</span>opf<span class="op">);</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">ObjectOutput</span> op <span class="op">=</span> <span class="kw">new</span> <span class="bu">ObjectOutputStream</span><span class="op">(</span>osb<span class="op">);</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span><span class="op">{</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    output<span class="op">.</span><span class="fu">writeObject</span><span class="op">(</span>writableObject<span class="op">);</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">finally</span><span class="op">{</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    op<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“三妹，注意，使用 finally 块的时候需要遵守这些规则。”</p>
+<ul>
+<li><p>finally 块前面必须有 try 块，不要把 finally 块单独拉出来使用。编译器也不允许这样做。</p></li>
+<li><p>finally 块不是必选项，有 try 块的时候不一定要有 finally 块。</p></li>
+<li><p>如果 finally 块中的代码可能会发生异常，也应该使用 try-catch 进行包裹。</p></li>
+<li><p>即便是 try 块中执行了 return、break、continue 这些跳转语句，finally 块也会被执行。</p></li>
+</ul>
+<p>“真的吗，二哥？”三妹对最后一个规则充满了疑惑。</p>
+<p>“来试一下就知道了。”我说。</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="dt">int</span> <span class="fu">test2</span> <span class="op">()</span> <span class="op">{</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">112</span><span class="op">;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;即使 try 块有 return，finally 块也会执行&quot;</span><span class="op">);</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>来看一下输出结果：</p>
+<pre><code>即使 try 块有 return，finally 块也会执行</code></pre>
+<p>“那，会不会有不执行 finally 的情况呀？”三妹很好奇。</p>
+<p>“有的。”我斩钉截铁地回答。</p>
+<ul>
+<li><p>遇到了死循环。</p></li>
+<li><p>执行了 <code>System. exit()</code> 这行代码。</p></li>
+</ul>
+<p><code>System.exit()</code> 和 <code>return</code> 语句不同，前者是用来退出程序的，后者只是回到了上一级方法调用。</p>
+<p>“三妹，来看一下源码的文档注释就全明白了！”</p>
+<p><img src="../media/file290.png" title="fig:" alt="" /></p>
+<p>至于参数 status 的值也很好理解，如果是异常退出，设置为非 0 即可，通常用 1 来表示；如果是想正常退出程序，用 0 表示即可。</p>
+</section>
+<section id="id_06小结-3" class="level3">
+<h3>06、小结</h3>
+<p>Java 的异常处理是一种重要的机制，可以帮助我们处理程序执行期间发生的错误❎或异常。</p>
+<p>异常分为两类：Checked Exception 和 Unchecked Exception，其中 Checked Exception 需要在代码中显式地处理或声明抛出，而 Unchecked Exception 不需要在代码中显式地处理或声明抛出。异常处理通常使用 try-catch-finally 块来处理，也可以使用 throws 关键字将异常抛出给调用者处理。</p>
+<p>下面是 Java 异常处理的一些总结：</p>
+<ul>
+<li><p>使用 try-catch 块捕获并处理异常，可以避免程序因异常而崩溃。</p></li>
+<li><p>可以使用多个 catch 块来捕获不同类型的异常，并进行不同的处理。</p></li>
+<li><p>可以使用 finally 块来执行一些必要的清理工作，无论是否发生异常都会执行。</p></li>
+<li><p>可以使用 throw 关键字手动抛出异常，用于在程序中明确指定某些异常情况。</p></li>
+<li><p>可以使用 throws 关键字将异常抛出给调用者处理，用于在方法签名中声明可能会出现的异常。</p></li>
+<li><p>Checked Exception 通常是由于外部因素导致的问题，需要在代码中显式地处理或声明抛出。</p></li>
+<li><p>Unchecked Exception 通常是由于程序内部逻辑或数据异常导致的，可以不处理或者在需要时进行处理。</p></li>
+<li><p>在处理异常时，应该根据具体的异常类型进行处理，例如可以尝试重新打开文件、重新建立网络连接等操作。</p></li>
+<li><p>异常处理应该根据具体的业务需求和设计原则进行，避免过度捕获和处理异常，从而降低程序的性能和可维护性。</p></li>
+</ul>
+<hr />
+<p>GitHub 上标星 7600+ 的开源知识库《二哥的 Java 进阶之路》第一版 PDF 终于来了！包括Java基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM等等，共计 32 万余字，可以说是通俗易懂、风趣幽默……详情戳：<a href="https://tobebetterjavaer.com/overview/">太赞了，GitHub 上标星 7600+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img src="../media/file4.jpg" title="fig:" alt="" /></p>
+</section>
+</section>
+<section id="id_82-try-with-resources" class="level2">
+<h2>8.2 try-with-resources</h2>
+<p>“二哥，终于等到你讲 try-with-resources 了！”三妹夸张的表情让我有些吃惊。</p>
+<p>“三妹，不要激动呀！开讲之前，我们还是要来回顾一下 try–catch-finally，好做个铺垫。”我说，“来看看这段代码吧。”</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> TrycatchfinallyDecoder <span class="op">{</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">BufferedReader</span> br <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>            <span class="bu">String</span> path <span class="op">=</span> TrycatchfinallyDecoder<span class="op">.</span><span class="fu">class</span><span class="op">.</span><span class="fu">getResource</span><span class="op">(</span><span class="st">&quot;/牛逼.txt&quot;</span><span class="op">).</span><span class="fu">getFile</span><span class="op">();</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>            <span class="bu">String</span> decodePath <span class="op">=</span> <span class="bu">URLDecoder</span><span class="op">.</span><span class="fu">decode</span><span class="op">(</span>path<span class="op">,</span><span class="st">&quot;utf-8&quot;</span><span class="op">);</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>            br <span class="op">=</span> <span class="kw">new</span> <span class="bu">BufferedReader</span><span class="op">(</span><span class="kw">new</span> <span class="bu">FileReader</span><span class="op">(</span>decodePath<span class="op">));</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>            <span class="bu">String</span> str <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> <span class="op">((</span>str <span class="op">=</span>br<span class="op">.</span><span class="fu">readLine</span><span class="op">())</span> <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>                <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>str<span class="op">);</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>            e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>br <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>                <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>                    br<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>                    e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“我简单来解释下。”等三妹看完这段代码后，我继续说，“在 try 块中读取文件中的内容，并一行一行地打印到控制台。如果文件找不到或者出现 IO 读写错误，就在 catch 中捕获并打印错误的堆栈信息。最后，在 finally 中关闭缓冲字符读取器对象 BufferedReader，有效杜绝了资源未被关闭的情况下造成的严重性能后果。”</p>
+<p>“在 Java 7 之前，try–catch-finally 的确是确保资源会被及时关闭的最佳方法，无论程序是否会抛出异常。”</p>
+<p>三妹点了点头，表示同意。</p>
+<p>“不过，这段代码还是有些臃肿，尤其是 finally 中的代码。”我说，“况且，try–catch-finally 至始至终存在一个严重的隐患：try 中的 <code>br.readLine()</code> 有可能会抛出 <code>IOException</code>，finally 中的 <code>br.close()</code> 也有可能会抛出 <code>IOException</code>。假如两处都不幸地抛出了 IOException，那程序的调试任务就变得复杂了起来，到底是哪一处出了错误，就需要花一番功夫，这是我们不愿意看到的结果。”</p>
+<p>“我来给你演示下，三妹。”</p>
+<p>“首先，我们来定义这样一个类 MyfinallyReadLineThrow，它有两个方法，分别是 <code>readLine()</code> 和 <code>close()</code>，方法体都是主动抛出异常。”</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyfinallyReadLineThrow <span class="op">{</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">close</span><span class="op">()</span> <span class="kw">throws</span> <span class="bu">Exception</span> <span class="op">{</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Exception</span><span class="op">(</span><span class="st">&quot;close&quot;</span><span class="op">);</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">readLine</span><span class="op">()</span> <span class="kw">throws</span> <span class="bu">Exception</span> <span class="op">{</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Exception</span><span class="op">(</span><span class="st">&quot;readLine&quot;</span><span class="op">);</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“然后在 <code>main()</code> 方法中使用 try-catch-finally 的方式调用 MyfinallyReadLineThrow 的 <code>readLine()</code> 和 <code>close()</code> 方法。”</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> TryfinallyCustomReadLineThrow <span class="op">{</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="kw">throws</span> <span class="bu">Exception</span> <span class="op">{</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>        MyfinallyReadLineThrow myThrow <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>            myThrow <span class="op">=</span> <span class="kw">new</span> <span class="fu">MyfinallyReadLineThrow</span><span class="op">();</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>            myThrow<span class="op">.</span><span class="fu">readLine</span><span class="op">();</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>            myThrow<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>运行上述代码后，错误堆栈如下所示：</p>
+<pre><code>Exception in thread &quot;main&quot; java.lang.Exception: close
+	at com.cmower.dzone.trycatchfinally.MyfinallyOutThrow.close(TryfinallyCustomOutThrow.java:17)
+	at com.cmower.dzone.trycatchfinally.TryfinallyCustomOutThrow.main(TryfinallyCustomOutThrow.java:10)</code></pre>
+<p>“看出来问题了吗，三妹？”</p>
+<p>“啊？<code>readLine()</code> 方法的异常信息竟然被 <code>close()</code> 方法的堆栈信息吃了！”</p>
+<p>“不错啊，三妹，火眼金睛，的确，这会让我们误以为要调查的目标是 <code>close()</code> 方法而不是 <code>readLine()</code> 方法——尽管它也是应该怀疑的对象。”</p>
+<p>“但有了 try-with-resources 后，这些问题就迎刃而解了。前提条件只有一个，就是需要释放的资源（比如 BufferedReader）实现了 AutoCloseable 接口。”</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">(</span><span class="bu">BufferedReader</span> br <span class="op">=</span> <span class="kw">new</span> <span class="bu">BufferedReader</span><span class="op">(</span><span class="kw">new</span> <span class="bu">FileReader</span><span class="op">(</span>decodePath<span class="op">));)</span> <span class="op">{</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> str <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">((</span>str <span class="op">=</span>br<span class="op">.</span><span class="fu">readLine</span><span class="op">())</span> <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>str<span class="op">);</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“你瞧，三妹，finally 块消失了，取而代之的是把要释放的资源写在 try 后的 <code>()</code> 中。如果有多个资源（BufferedReader 和 PrintWriter）需要释放的话，可以直接在 <code>()</code> 中添加。”</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">(</span><span class="bu">BufferedReader</span> br <span class="op">=</span> <span class="kw">new</span> <span class="bu">BufferedReader</span><span class="op">(</span><span class="kw">new</span> <span class="bu">FileReader</span><span class="op">(</span>decodePath<span class="op">));</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>     <span class="bu">PrintWriter</span> writer <span class="op">=</span> <span class="kw">new</span> <span class="bu">PrintWriter</span><span class="op">(</span><span class="kw">new</span> <span class="bu">File</span><span class="op">(</span>writePath<span class="op">)))</span> <span class="op">{</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> str <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">((</span>str <span class="op">=</span>br<span class="op">.</span><span class="fu">readLine</span><span class="op">())</span> <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>        writer<span class="op">.</span><span class="fu">print</span><span class="op">(</span>str<span class="op">);</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“如果想释放自定义资源的话，只要让它实现 AutoCloseable 接口，并提供 <code>close()</code> 方法即可。”</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> TrywithresourcesCustom <span class="op">{</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">(</span>MyResource resource <span class="op">=</span> <span class="kw">new</span> <span class="fu">MyResource</span><span class="op">();)</span> <span class="op">{</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Exception</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>            e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyResource <span class="kw">implements</span> AutoCloseable <span class="op">{</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">close</span><span class="op">()</span> <span class="kw">throws</span> <span class="bu">Exception</span> <span class="op">{</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;关闭自定义资源&quot;</span><span class="op">);</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>来看一下代码运行后的输出结果：</p>
+<pre><code>关闭自定义资源</code></pre>
+<p>“好神奇呀！”三妹欣喜若狂，“在 <code>try ()</code> 中只是 new 了一个 MyResource 的对象，其他什么也没干，<code>close()</code> 方法就执行了！”</p>
+<p>“想知道为什么吗？三妹。”</p>
+<p>“当然想啊。”</p>
+<p>“来看看反编译后的字节码吧。”</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyResource <span class="kw">implements</span> AutoCloseable <span class="op">{</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">MyResource</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">close</span><span class="op">()</span> <span class="kw">throws</span> <span class="bu">Exception</span> <span class="op">{</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;关闭自定义资源&quot;</span><span class="op">);</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> TrywithresourcesCustom <span class="op">{</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">TrywithresourcesCustom</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>            MyResource resource <span class="op">=</span> <span class="kw">new</span> <span class="fu">MyResource</span><span class="op">();</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>            resource<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Exception</span> var2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>            var2<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“啊，原来如此。编译器主动为 try-with-resources 进行了变身，在 try 中调用了 <code>close()</code> 方法。”</p>
+<p>“是这样的。接下来，我们在 <code>MyResourceOut</code> 类中再添加一个 <code>out()</code> 方法。”</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyResourceOut <span class="kw">implements</span> AutoCloseable <span class="op">{</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">close</span><span class="op">()</span> <span class="kw">throws</span> <span class="bu">Exception</span> <span class="op">{</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;关闭自定义资源&quot;</span><span class="op">);</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">out</span><span class="op">()</span> <span class="kw">throws</span> <span class="bu">Exception</span><span class="op">{</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;沉默王二，一枚有趣的程序员&quot;</span><span class="op">);</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“这次，我们在 try 中调用一下 <code>out()</code> 方法。”</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> TrywithresourcesCustomOut <span class="op">{</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">(</span>MyResourceOut resource <span class="op">=</span> <span class="kw">new</span> <span class="fu">MyResourceOut</span><span class="op">();)</span> <span class="op">{</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>            resource<span class="op">.</span><span class="fu">out</span><span class="op">();</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Exception</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>            e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“再来看一下反编译的字节码。”</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> TrywithresourcesCustomOut <span class="op">{</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">TrywithresourcesCustomOut</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>            MyResourceOut resource <span class="op">=</span> <span class="kw">new</span> <span class="fu">MyResourceOut</span><span class="op">();</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>                resource<span class="op">.</span><span class="fu">out</span><span class="op">();</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Throwable</span> var5<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>                <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>                    resource<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Throwable</span> var4<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>                    var5<span class="op">.</span><span class="fu">addSuppressed</span><span class="op">(</span>var4<span class="op">);</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>                <span class="cf">throw</span> var5<span class="op">;</span></span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>            resource<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Exception</span> var6<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>            var6<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“这次，<code>catch</code> 块主动调用了 <code>resource.close()</code>，并且有一段很关键的代码 <code>var5.addSuppressed(var4)</code>。”</p>
+<p>“这是为了什么呢？”三妹问。</p>
+<p>“当一个异常被抛出的时候，可能有其他异常因为该异常而被抑制住，从而无法正常抛出。这时可以通过 <code>addSuppressed()</code> 方法把这些被抑制的方法记录下来，然后被抑制的异常就会出现在抛出的异常的堆栈信息中，可以通过 <code>getSuppressed()</code> 方法来获取这些异常。这样做的好处是不会丢失任何异常，方便我们进行调试。”我说。</p>
+<p>“有没有想到之前的那个例子——在 try-catch-finally 中，<code>readLine()</code> 方法的异常信息竟然被 <code>close()</code> 方法的堆栈信息吃了。现在有了 try-with-resources，再来看看和 <code>readLine()</code> 方法一致的 <code>out()</code> 方法会不会被 <code>close()</code> 吃掉吧。”</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyResourceOutThrow <span class="kw">implements</span> AutoCloseable <span class="op">{</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">close</span><span class="op">()</span> <span class="kw">throws</span> <span class="bu">Exception</span> <span class="op">{</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">throw</span>  <span class="kw">new</span> <span class="bu">Exception</span><span class="op">(</span><span class="st">&quot;close()&quot;</span><span class="op">);</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">out</span><span class="op">()</span> <span class="kw">throws</span> <span class="bu">Exception</span><span class="op">{</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Exception</span><span class="op">(</span><span class="st">&quot;out()&quot;</span><span class="op">);</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“调用这 2 个方法。”</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> TrywithresourcesCustomOutThrow <span class="op">{</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">(</span>MyResourceOutThrow resource <span class="op">=</span> <span class="kw">new</span> <span class="fu">MyResourceOutThrow</span><span class="op">();)</span> <span class="op">{</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>            resource<span class="op">.</span><span class="fu">out</span><span class="op">();</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Exception</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>            e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“程序输出的结果如下所示。”</p>
+<pre><code>java.lang.Exception: out()
+	at com.cmower.dzone.trycatchfinally.MyResourceOutThrow.out(TrywithresourcesCustomOutThrow.java:20)
+	at com.cmower.dzone.trycatchfinally.TrywithresourcesCustomOutThrow.main(TrywithresourcesCustomOutThrow.java:6)
+	Suppressed: java.lang.Exception: close()
+		at com.cmower.dzone.trycatchfinally.MyResourceOutThrow.close(TrywithresourcesCustomOutThrow.java:16)
+		at com.cmower.dzone.trycatchfinally.TrywithresourcesCustomOutThrow.main(TrywithresourcesCustomOutThrow.java:5)</code></pre>
+<p>“瞧，这次不会了，<code>out()</code> 的异常堆栈信息打印出来了，并且 <code>close()</code> 方法的堆栈信息上加了一个关键字 <code>Suppressed</code>，一目了然。”</p>
+<p>“三妹，怎么样？是不是感觉 try-with-resources 好用多了！我来简单总结下哈，在处理必须关闭的资源时，始终有限考虑使用 try-with-resources，而不是 try–catch-finally。前者产生的代码更加简洁、清晰，产生的异常信息也更靠谱。”</p>
+<p>“靠谱！”三妹说。</p>
+<hr />
+<p>GitHub 上标星 7600+ 的开源知识库《二哥的 Java 进阶之路》第一版 PDF 终于来了！包括Java基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM等等，共计 32 万余字，可以说是通俗易懂、风趣幽默……详情戳：<a href="https://tobebetterjavaer.com/overview/">太赞了，GitHub 上标星 7600+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img src="../media/file4.jpg" title="fig:" alt="" /></p>
+</section>
+<section id="id_83-异常处理的20个最佳实践" class="level2">
+<h2>8.3 异常处理的20个最佳实践</h2>
+<p>“三妹啊，今天我来给你传授 20 个异常处理的最佳实践经验，以免你以后在开发中采坑。”我面带着微笑对三妹说。</p>
+<p>“好啊，二哥，我洗耳恭听。”三妹也微微一笑，欣然接受。</p>
+<p>“好，那哥就不废话了。开整。”</p>
+<section id="id_01尽量不要捕获-runtimeexception" class="level3">
+<h3>01、尽量不要捕获 RuntimeException</h3>
+<p><a href="https://tobebetterjavaer.com/pdf/ali-java-shouce.html">阿里出品的 Java 开发手册</a>上这样规定：</p>
+<blockquote>
+<p>尽量不要 catch RuntimeException，比如 NullPointerException、IndexOutOfBoundsException 等等，应该用预检查的方式来规避。</p>
+</blockquote>
+<p>正例：</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>obj <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">//...</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>反例：</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  obj<span class="op">.</span><span class="fu">method</span><span class="op">();</span> </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">NullPointerException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">//...</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“哦，那如果有些异常预检查不出来呢？”三妹问。</p>
+<p>“的确会存在这样的情况，比如说 NumberFormatException，虽然也属于 RuntimeException，但没办法预检查，所以还是应该用 catch 捕获处理。”我说。</p>
+</section>
+<section id="id_02尽量使用-try-with-resource-来关闭资源" class="level3">
+<h3>02、尽量使用 try-with-resource 来关闭资源</h3>
+<p>当需要关闭资源时，尽量不要使用 try-catch-finally，禁止在 try 块中直接关闭资源。</p>
+<p>反例：</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">doNotCloseResourceInTry</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">FileInputStream</span> inputStream <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">File</span> file <span class="op">=</span> <span class="kw">new</span> <span class="bu">File</span><span class="op">(</span><span class="st">&quot;./tmp.txt&quot;</span><span class="op">);</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>        inputStream <span class="op">=</span> <span class="kw">new</span> <span class="bu">FileInputStream</span><span class="op">(</span>file<span class="op">);</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>        inputStream<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">FileNotFoundException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>        log<span class="op">.</span><span class="fu">error</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>        log<span class="op">.</span><span class="fu">error</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“为什么呢？”三妹问。</p>
+<p>“原因也很简单，因为一旦 <code>close()</code> 之前发生了异常，那么资源就无法关闭。直接使用 <a href="https://tobebetterjavaer.com/exception/try-with-resources.html">try-with-resource</a> 来处理是最佳方式。”我说。</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">automaticallyCloseResource</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">File</span> file <span class="op">=</span> <span class="kw">new</span> <span class="bu">File</span><span class="op">(</span><span class="st">&quot;./tmp.txt&quot;</span><span class="op">);</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">(</span><span class="bu">FileInputStream</span> inputStream <span class="op">=</span> <span class="kw">new</span> <span class="bu">FileInputStream</span><span class="op">(</span>file<span class="op">);)</span> <span class="op">{</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">FileNotFoundException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>        log<span class="op">.</span><span class="fu">error</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>        log<span class="op">.</span><span class="fu">error</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“除非资源没有实现 AutoCloseable 接口。”我补充道。</p>
+<p>“那这种情况下怎么办呢？”三妹问。</p>
+<p>“就在 finally 块关闭流。”我说。</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">closeResourceInFinally</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">FileInputStream</span> inputStream <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">File</span> file <span class="op">=</span> <span class="kw">new</span> <span class="bu">File</span><span class="op">(</span><span class="st">&quot;./tmp.txt&quot;</span><span class="op">);</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>        inputStream <span class="op">=</span> <span class="kw">new</span> <span class="bu">FileInputStream</span><span class="op">(</span>file<span class="op">);</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">FileNotFoundException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>        log<span class="op">.</span><span class="fu">error</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>inputStream <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>                inputStream<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>                log<span class="op">.</span><span class="fu">error</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</section>
+<section id="id_03不要捕获-throwable" class="level3">
+<h3>03、不要捕获 Throwable</h3>
+<p>Throwable 是 exception 和 error 的父类，如果在 catch 子句中捕获了 Throwable，很可能把超出程序处理能力之外的错误也捕获了。</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">doNotCatchThrowable</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Throwable</span> t<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 不要这样做</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“到底为什么啊？”三妹问。</p>
+<p>“因为有些 error 是不需要程序来处理，程序可能也处理不了，比如说 OutOfMemoryError 或者 StackOverflowError，前者是因为 Java 虚拟机无法申请到足够的内存空间时出现的非正常的错误，后者是因为线程申请的栈深度超过了允许的最大深度出现的非正常错误，如果捕获了，就掩盖了程序应该被发现的严重错误。”我说。</p>
+<p>“打个比方，一匹马只能拉一车厢的货物，拉两车厢可能就挂了，但一 catch，就发现不了问题了。”我补充道。</p>
+</section>
+<section id="id_04不要省略异常信息的记录" class="level3">
+<h3>04、不要省略异常信息的记录</h3>
+<p>很多时候，由于疏忽大意，我们很容易捕获了异常却没有记录异常信息，导致程序上线后真的出现了问题却没有记录可查。</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">doNotIgnoreExceptions</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">NumberFormatException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 没有记录异常</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>应该把错误信息记录下来。</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">logAnException</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">NumberFormatException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>        log<span class="op">.</span><span class="fu">error</span><span class="op">(</span><span class="st">&quot;哦，错误竟然发生了: &quot;</span> <span class="op">+</span> e<span class="op">);</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</section>
+<section id="id_05不要记录了异常又抛出了异常" class="level3">
+<h3>05、不要记录了异常又抛出了异常</h3>
+<p>这纯属画蛇添足，并且容易造成错误信息的混乱。</p>
+<p>反例：</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">NumberFormatException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    log<span class="op">.</span><span class="fu">error</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> e<span class="op">;</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>要抛出就抛出，不要记录，记录了又抛出，等于多此一举。</p>
+<p>反例：</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">wrapException</span><span class="op">(</span><span class="bu">String</span> input<span class="op">)</span> <span class="kw">throws</span> MyBusinessException <span class="op">{</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">NumberFormatException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">throw</span> <span class="kw">new</span> <span class="fu">MyBusinessException</span><span class="op">(</span><span class="st">&quot;错误信息描述：&quot;</span><span class="op">,</span> e<span class="op">);</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>这种也是一样的道理，既然已经捕获了，就不要在方法签名上抛出了。</p>
+</section>
+<section id="id_06不要在-finally-块中使用-return" class="level3">
+<h3>06、不要在 finally 块中使用 return</h3>
+<p><a href="https://tobebetterjavaer.com/pdf/ali-java-shouce.html">阿里出品的 Java 开发手册</a>上这样规定：</p>
+<blockquote>
+<p>try 块中的 return 语句执行成功后，并不会马上返回，而是继续执行 finally 块中的语句，如果 finally 块中也存在 return 语句，那么 try 块中的 return 就将被覆盖。</p>
+</blockquote>
+<p>反例：</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="dt">int</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">int</span> <span class="fu">checkReturn</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">++</span>x<span class="op">;</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">++</span>x<span class="op">;</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“哦，确实啊，try 块中 x 返回的值为 1，到了 finally 块中就返回 2 了。”三妹说。</p>
+<p>“是这样的。”我点点头。</p>
+</section>
+<section id="id_07抛出具体定义的检查性异常而不是-exception" class="level3">
+<h3>07、抛出具体定义的检查性异常而不是 Exception</h3>
+<div class="sourceCode" id="cb50"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">foo</span><span class="op">()</span> <span class="kw">throws</span> <span class="bu">Exception</span> <span class="op">{</span> <span class="co">//错误方式</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>一定要避免出现上面的代码，它破坏了检查性（checked）异常的目的。声明的方法应该尽可能抛出具体的检查性异常。</p>
+<p>例如，如果一个方法可能会抛出 SQLException 异常，应该显式地声明抛出 SQLException 而不是 Exception 类型的异常。这样可以让其他开发者更好地理解代码的意图和异常处理的方式，并且可以根据 SQLException 的定义和文档来确定异常的处理方式和策略。</p>
+</section>
+<section id="id_08捕获具体的子类而不是捕获-exception-类" class="level3">
+<h3>08、捕获具体的子类而不是捕获 Exception 类</h3>
+<div class="sourceCode" id="cb51"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">someMethod</span><span class="op">();</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Exception</span> e<span class="op">)</span> <span class="op">{</span> <span class="co">//错误方式</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>   LOGGER<span class="op">.</span><span class="fu">error</span><span class="op">(</span><span class="st">&quot;method has failed&quot;</span><span class="op">,</span> e<span class="op">);</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>如果在 catch 块中捕获 Exception 类型的异常，会将所有异常都捕获，从而可能会给程序带来不必要的麻烦。具体来说，如果捕获 Exception 类型的异常，可能会导致以下问题：</p>
+<ul>
+<li><p>难以识别和定位异常：如果捕获 Exception 类型的异常，可能会捕获到一些不应该被处理的异常，从而导致程序难以识别和定位异常。</p></li>
+<li><p>难以调试和排错：如果捕获 Exception 类型的异常，可能会使得调试和排错变得更加困难，因为无法确定具体的异常类型和异常发生的原因。</p></li>
+</ul>
+<p>下面举一个例子来说明为什么应该尽可能地捕获具体的子类而不是 Exception 类型的异常。</p>
+<p>假设我们有一个方法 <code>readFromFile(String filePath)</code>，用于从指定文件中读取数据。在方法实现过程中，可能会出现两种异常：FileNotFoundException 和 IOException。</p>
+<p>如果在方法中使用以下 catch 块来捕获异常：</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 读取数据的代码</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Exception</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 异常处理的代码</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>这样做会捕获所有类型的异常，包括 Checked Exception 和 Unchecked Exception。这可能会导致以下问题：</p>
+<ul>
+<li><p>发生 RuntimeException 类型的异常时，也会被捕获，从而可能会掩盖实际的异常信息。</p></li>
+<li><p>在调试和排错时，无法确定异常的具体类型和发生原因，从而增加了调试和排错的难度。</p></li>
+<li><p>在程序运行时，可能会捕获一些不需要处理的异常（如 NullPointerException、IllegalArgumentException 等），从而降低程序的性能和稳定性。</p></li>
+</ul>
+<p>因此，为了更好地定位和处理异常，应该尽可能地捕获具体的子类，例如：</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 读取数据的代码</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">FileNotFoundException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 处理文件未找到异常的代码</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 处理输入输出异常的代码</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>这样做可以更准确地捕获异常，从而提高程序的健壮性和稳定性。</p>
+</section>
+<section id="id_09自定义异常时不要丢失堆栈跟踪" class="level3">
+<h3>09、自定义异常时不要丢失堆栈跟踪</h3>
+<div class="sourceCode" id="cb54"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="cf">catch</span> <span class="op">(</span><span class="bu">NoSuchMethodException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>   <span class="cf">throw</span> <span class="kw">new</span> <span class="fu">MyServiceException</span><span class="op">(</span><span class="st">&quot;Some information: &quot;</span> <span class="op">+</span> e<span class="op">.</span><span class="fu">getMessage</span><span class="op">());</span>  <span class="co">//错误方式</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>这破坏了原始异常的堆栈跟踪，正确的做法是：</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="cf">catch</span> <span class="op">(</span><span class="bu">NoSuchMethodException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>   <span class="cf">throw</span> <span class="kw">new</span> <span class="fu">MyServiceException</span><span class="op">(</span><span class="st">&quot;Some information: &quot;</span> <span class="op">,</span> e<span class="op">);</span>  <span class="co">//正确方式</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>例如，下面是一个自定义异常类，它重写了 printStackTrace() 方法来打印堆栈跟踪信息：</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> MyException <span class="kw">extends</span> <span class="bu">Exception</span> <span class="op">{</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">MyException</span><span class="op">(</span><span class="bu">String</span> message<span class="op">,</span> <span class="bu">Throwable</span> cause<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span><span class="op">(</span>message<span class="op">,</span> cause<span class="op">);</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">printStackTrace</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">err</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;MyException:&quot;</span><span class="op">);</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span><span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>这样做可以保留堆栈跟踪信息，同时也可以提供自定义的异常信息。在抛出 MyException 异常时，可以得到完整的堆栈跟踪信息，从而更好地定位和解决异常。</p>
+</section>
+<section id="id_10finally-块中不要抛出任何异常" class="level3">
+<h3>10、finally 块中不要抛出任何异常</h3>
+<div class="sourceCode" id="cb57"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">someMethod</span><span class="op">();</span>  <span class="co">//Throws exceptionOne</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cleanUp</span><span class="op">();</span>    <span class="co">//如果finally还抛出异常，那么exceptionOne将永远丢失</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>finally 块用于定义一段代码，无论 try 块中是否出现异常，都会被执行。finally 块通常用于释放资源、关闭文件等必须执行的操作。</p>
+<p>如果在 finally 块中抛出异常，可能会导致原始异常被掩盖。比如说上例中，一旦 cleanup 抛出异常，someMethod 中的异常将会被覆盖。</p>
+</section>
+<section id="id_11不要在生产环境中使用-printstacktrace" class="level3">
+<h3>11、不要在生产环境中使用 <code>printStackTrace()</code></h3>
+<p>在 Java 中，<code>printStackTrace()</code> 方法用于将异常的堆栈跟踪信息输出到标准错误流中。这个方法对于调试和排错非常有用。但在生产环境中，不应该使用 <code>printStackTrace()</code> 方法，因为它可能会导致以下问题：</p>
+<ul>
+<li><p><code>printStackTrace()</code> 方法将异常的堆栈跟踪信息输出到标准错误流中，这可能会暴露敏感信息，如文件路径、用户名、密码等。</p></li>
+<li><p><code>printStackTrace()</code> 方法会将堆栈跟踪信息输出到标准错误流中，这可能会影响程序的性能和稳定性。在高并发的生产环境中，大量的异常堆栈跟踪信息可能会导致系统崩溃或出现意外的行为。</p></li>
+<li><p>由于生产环境中往往是多线程、分布式的复杂系统，<code>printStackTrace()</code> 方法输出的堆栈跟踪信息可能并不完整或准确。</p></li>
+</ul>
+<p>在生产环境中，应该使用日志系统来记录异常信息，例如 <a href="https://tobebetterjavaer.com/gongju/log4j.html">log4j</a>、<a href="https://tobebetterjavaer.com/gongju/slf4j.html">slf4j</a>、<a href="https://tobebetterjavaer.com/gongju/logback.html">logback</a> 等。日志系统可以将异常信息记录到文件或数据库中，而不会暴露敏感信息，也不会影响程序的性能和稳定性。同时，日志系统也提供了更多的功能，如级别控制、滚动日志、邮件通知等。</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>例如，可以使用 logback 记录异常信息，如下所示：</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// some code</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Exception</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    logger<span class="op">.</span><span class="fu">error</span><span class="op">(</span><span class="st">&quot;An error occurred: &quot;</span><span class="op">,</span> e<span class="op">);</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</section>
+<section id="id_12对于不打算处理的异常直接使用-try-finally不用-catch" class="level3">
+<h3>12、对于不打算处理的异常，直接使用 try-finally，不用 catch</h3>
+<div class="sourceCode" id="cb59"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">method1</span><span class="op">();</span>  <span class="co">// 会调用 Method 2</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cleanUp</span><span class="op">();</span>    <span class="co">//do cleanup here</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>如果 method1 正在访问 Method 2，而 Method 2 抛出一些你不想在 Method 1 中处理的异常，但是仍然希望在发生异常时进行一些清理，可以直接在 finally 块中进行清理，不要使用 catch 块。</p>
+</section>
+<section id="id_13记住早-throw-晚-catch-原则" class="level3">
+<h3>13、记住早 throw 晚 catch 原则</h3>
+<p>“早 throw, 晚 catch” 是 Java 中的一种异常处理原则。这个原则指的是在代码中尽可能早地抛出异常，以便在异常发生时能够及时地处理异常。同时，在 catch 块中尽可能晚地捕获异常，以便在捕获异常时能够获得更多的上下文信息，从而更好地处理异常。</p>
+<p>来举个 “早 throw” 例子，如果一个方法需要传递参数，并且该参数必须满足一定的条件，如果参数不符合条件，则应该立即抛出异常，而不是在方法中进行其他操作。这可以确保异常在发生时能够及时被处理，避免更严重的问题。</p>
+<p>再来举个“晚 catch”的例子，如果一个方法调用了其他方法，可能会抛出异常，如果在方法内部立即捕获异常，则可能会导致对异常的处理不充分。</p>
+<p>来看这段代码：</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> ExceptionDemo1 <span class="op">{</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Scanner</span> sc <span class="op">=</span> <span class="kw">new</span> <span class="bu">Scanner</span><span class="op">(</span><span class="bu">System</span><span class="op">.</span><span class="fu">in</span><span class="op">);</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> str <span class="op">=</span> sc<span class="op">.</span><span class="fu">nextLine</span><span class="op">();</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> num <span class="op">=</span> <span class="fu">parseInt</span><span class="op">(</span>str<span class="op">);</span></span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;转换结果：&quot;</span> <span class="op">+</span> num<span class="op">);</span></span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">NumberFormatException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;转换失败：&quot;</span> <span class="op">+</span> e<span class="op">.</span><span class="fu">getMessage</span><span class="op">());</span></span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">int</span> <span class="fu">parseInt</span><span class="op">(</span><span class="bu">String</span> str<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>str <span class="op">==</span> <span class="kw">null</span> <span class="op">||</span> <span class="st">&quot;&quot;</span><span class="op">.</span><span class="fu">equals</span><span class="op">(</span>str<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">NullPointerException</span><span class="op">(</span><span class="st">&quot;字符串为空&quot;</span><span class="op">);</span></span>
+<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(!</span>str<span class="op">.</span><span class="fu">matches</span><span class="op">(</span><span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+&quot;</span><span class="op">))</span> <span class="op">{</span></span>
+<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">NumberFormatException</span><span class="op">(</span><span class="st">&quot;字符串不是数字&quot;</span><span class="op">);</span></span>
+<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>str<span class="op">);</span></span>
+<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb60-22"><a href="#cb60-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>这个示例中，定义了一个 <code>parseInt()</code> 方法，用于将字符串转换为整数。在该方法中，首先检测字符串是否为空，如果为空，则立即抛出 NullPointerException 异常。然后，检测字符串是否为数字，如果不是数字，则抛出 NumberFormatException 异常。最后，使用 <code>Integer.parseInt()</code> 方法将字符串转换为整数，并返回。</p>
+<p>在示例的 <code>main()</code> 方法中，调用 <code>parseInt()</code> 方法，并使用 try-catch 块捕获可能抛出的 NumberFormatException 异常。如果转换成功，则输出转换结果，否则输出转换失败信息。</p>
+<p>这个示例使用了 “早 throw, 晚 catch” 的原则，在 <code>parseInt()</code> 方法中尽可能早地抛出异常，在 <code>main()</code> 方法中尽可能晚地捕获异常，以便在捕获异常时能够获得更多的上下文信息，从而更好地处理异常。</p>
+<p>运行该示例，输入一个数字字符串，可以看到输出转换结果。如果输入一个非数字字符串，则输出转换失败信息。</p>
+</section>
+<section id="id_14只抛出和方法相关的异常" class="level3">
+<h3>14、只抛出和方法相关的异常</h3>
+<p>相关性对于保持代码的整洁非常重要。一种尝试读取文件的方法，如果抛出 NullPointerException，那么它不会给用户提供有价值的信息。相反，如果这种异常被包裹在自定义异常中，则会更好。NoSuchFileFoundException 则对该方法的用户更有用。</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Demo <span class="op">{</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> result <span class="op">=</span> <span class="fu">divide</span><span class="op">(</span><span class="dv">10</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;The result is: &quot;</span> <span class="op">+</span> result<span class="op">);</span></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">ArithmeticException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">err</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Error: &quot;</span> <span class="op">+</span> e<span class="op">.</span><span class="fu">getMessage</span><span class="op">());</span></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">int</span> <span class="fu">divide</span><span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="kw">throws</span> <span class="bu">ArithmeticException</span> <span class="op">{</span></span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>b <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">ArithmeticException</span><span class="op">(</span><span class="st">&quot;Division by zero&quot;</span><span class="op">);</span></span>
+<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> a <span class="op">/</span> b<span class="op">;</span></span>
+<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>在该示例中，只抛出了和方法相关的异常 ArithmeticException，这可以使代码更加清晰和易于维护。</p>
+</section>
+<section id="id_15切勿在代码中使用异常来进行流程控制" class="level3">
+<h3>15、切勿在代码中使用异常来进行流程控制</h3>
+<p>在代码中使用异常来进行流程控制会导致代码的可读性、可维护性和性能出现问题。</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Demo <span class="op">{</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> input <span class="op">=</span> <span class="st">&quot;1,2,3,a,5&quot;</span><span class="op">;</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span><span class="op">[]</span> values <span class="op">=</span> input<span class="op">.</span><span class="fu">split</span><span class="op">(</span><span class="st">&quot;,&quot;</span><span class="op">);</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="bu">String</span> value <span class="op">:</span> values<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>                <span class="dt">int</span> num <span class="op">=</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>value<span class="op">);</span></span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>                <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>num<span class="op">);</span></span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">NumberFormatException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>                <span class="bu">System</span><span class="op">.</span><span class="fu">err</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>value <span class="op">+</span> <span class="st">&quot; is not a valid number&quot;</span><span class="op">);</span></span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>虽然这个示例可以正确地处理输入字符串中的非数字字符，但是它使用异常进行流程控制，这就导致代码变得混乱、难以理解。应该使用其他合适的<a href="https://tobebetterjavaer.com/basic-grammar/flow-control.html">控制结构</a>（如 if、switch、循环等）来管理程序的流程。</p>
+</section>
+<section id="id_16尽早验证用户输入以在请求处理的早期捕获异常" class="level3">
+<h3>16、尽早验证用户输入以在请求处理的早期捕获异常</h3>
+<p>例如：在用户注册的业务中，如果按照这样来做：</p>
+<ol type="1">
+<li><p>验证用户</p></li>
+<li><p>插入用户</p></li>
+<li><p>验证地址</p></li>
+<li><p>插入地址</p></li>
+<li><p>如果出问题回滚一切</p></li>
+</ol>
+<p>这是不正确的做法，它会使数据库在各种情况下处于不一致的状态，应该首先验证所有内容，然后再进行数据库更新。正确的做法是：</p>
+<ol type="1">
+<li><p>验证用户</p></li>
+<li><p>验证地址</p></li>
+<li><p>插入用户</p></li>
+<li><p>插入地址</p></li>
+<li><p>如果问题回滚一切</p></li>
+</ol>
+<p>举个例子，我们用 JDBC 的方式往数据库插入数据，那么最好是先 validate 再 insert，而不是 validateUserInput、insertUserData、validateAddressInput、insertAddressData。</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Connection</span> conn <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Connect to the database</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>    conn <span class="op">=</span> <span class="bu">DriverManager</span><span class="op">.</span><span class="fu">getConnection</span><span class="op">(</span><span class="st">&quot;jdbc:mysql://localhost:3306/mydatabase&quot;</span><span class="op">,</span> <span class="st">&quot;username&quot;</span><span class="op">,</span> <span class="st">&quot;password&quot;</span><span class="op">);</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Start a transaction</span></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>    conn<span class="op">.</span><span class="fu">setAutoCommit</span><span class="op">(</span><span class="kw">false</span><span class="op">);</span></span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Validate user input</span></span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">validateUserInput</span><span class="op">();</span></span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Insert user data</span></span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">insertUserData</span><span class="op">(</span>conn<span class="op">);</span></span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Validate address input</span></span>
+<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">validateAddressInput</span><span class="op">();</span></span>
+<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Insert address data</span></span>
+<span id="cb63-19"><a href="#cb63-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">insertAddressData</span><span class="op">(</span>conn<span class="op">);</span></span>
+<span id="cb63-20"><a href="#cb63-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-21"><a href="#cb63-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Commit the transaction if everything is successful</span></span>
+<span id="cb63-22"><a href="#cb63-22" aria-hidden="true" tabindex="-1"></a>    conn<span class="op">.</span><span class="fu">commit</span><span class="op">();</span></span>
+<span id="cb63-23"><a href="#cb63-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-24"><a href="#cb63-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">SQLException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb63-25"><a href="#cb63-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Rollback the transaction if there is an error</span></span>
+<span id="cb63-26"><a href="#cb63-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>conn <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb63-27"><a href="#cb63-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb63-28"><a href="#cb63-28" aria-hidden="true" tabindex="-1"></a>            conn<span class="op">.</span><span class="fu">rollback</span><span class="op">();</span></span>
+<span id="cb63-29"><a href="#cb63-29" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">SQLException</span> ex<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb63-30"><a href="#cb63-30" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">err</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Error: &quot;</span> <span class="op">+</span> ex<span class="op">.</span><span class="fu">getMessage</span><span class="op">());</span></span>
+<span id="cb63-31"><a href="#cb63-31" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb63-32"><a href="#cb63-32" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb63-33"><a href="#cb63-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">err</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Error: &quot;</span> <span class="op">+</span> e<span class="op">.</span><span class="fu">getMessage</span><span class="op">());</span></span>
+<span id="cb63-34"><a href="#cb63-34" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb63-35"><a href="#cb63-35" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Close the database connection</span></span>
+<span id="cb63-36"><a href="#cb63-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>conn <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb63-37"><a href="#cb63-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb63-38"><a href="#cb63-38" aria-hidden="true" tabindex="-1"></a>            conn<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb63-39"><a href="#cb63-39" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">SQLException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb63-40"><a href="#cb63-40" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">err</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Error: &quot;</span> <span class="op">+</span> e<span class="op">.</span><span class="fu">getMessage</span><span class="op">());</span></span>
+<span id="cb63-41"><a href="#cb63-41" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb63-42"><a href="#cb63-42" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb63-43"><a href="#cb63-43" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</section>
+<section id="id_17一个异常只能包含在一个日志中" class="level3">
+<h3>17、一个异常只能包含在一个日志中</h3>
+<p>不要这样做：</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>log<span class="op">.</span><span class="fu">debug</span><span class="op">(</span><span class="st">&quot;Using cache sector A&quot;</span><span class="op">);</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>log<span class="op">.</span><span class="fu">debug</span><span class="op">(</span><span class="st">&quot;Using retry sector B&quot;</span><span class="op">);</span></span></code></pre></div>
+<p>在单线程环境中，这样看起来没什么问题，但如果在多线程环境中，这两行紧挨着的代码中间可能会输出很多其他的内容，导致问题查起来会很难受。应该这样做：</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>LOGGER<span class="op">.</span><span class="fu">debug</span><span class="op">(</span><span class="st">&quot;Using cache sector A, using retry sector B&quot;</span><span class="op">);</span></span></code></pre></div>
+</section>
+<section id="id_18将所有相关信息尽可能地传递给异常" class="level3">
+<h3>18、将所有相关信息尽可能地传递给异常</h3>
+<p>有用的异常消息和堆栈跟踪非常重要，如果你的日志不能定位异常位置，那要日志有什么用呢？</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Log exception message and stack trace</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>LOGGER<span class="op">.</span><span class="fu">debug</span><span class="op">(</span><span class="st">&quot;Error reading file&quot;</span><span class="op">,</span> e<span class="op">);</span></span></code></pre></div>
+<p>应该尽量把 <code>String message, Throwable cause</code> 异常信息和堆栈都输出。</p>
+</section>
+<section id="id_19终止掉被中断线程" class="level3">
+<h3>19、终止掉被中断线程</h3>
+<div class="sourceCode" id="cb67"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Thread</span><span class="op">.</span><span class="fu">sleep</span><span class="op">(</span><span class="dv">100000</span><span class="op">);</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">InterruptedException</span> e<span class="op">)</span> <span class="op">{}</span> <span class="co">//别这样做</span></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">doSomethingCool</span><span class="op">();</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>InterruptedException 提示应该停止程序正在做的事情，比如事务超时或线程池被关闭等。</p>
+<p>应该尽最大努力完成正在做的事情，并完成当前执行的线程，而不是忽略 InterruptedException。修改后的程序如下：</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Thread</span><span class="op">.</span><span class="fu">sleep</span><span class="op">(</span><span class="dv">100000</span><span class="op">);</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">InterruptedException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a><span class="fu">doSomethingCool</span><span class="op">();</span></span></code></pre></div>
+</section>
+<section id="id_20对于重复的-try-catch使用模板方法" class="level3">
+<h3>20、对于重复的 try-catch，使用模板方法</h3>
+<p>类似的 catch 块是无用的，只会增加代码的重复性，针对这样的问题可以使用模板方法。</p>
+<p>例如，在尝试关闭数据库连接时的异常处理。</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DBUtil<span class="op">{</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">closeConnection</span><span class="op">(</span><span class="bu">Connection</span> conn<span class="op">){</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span><span class="op">{</span></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>            conn<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span><span class="op">(</span><span class="bu">Exception</span> ex<span class="op">){</span></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>            <span class="co">//Log Exception - Cannot close connection</span></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>这类的方法将在应用程序很多地方使用。不要把这块代码放的到处都是，而是定义上面的方法，然后像下面这样使用它：</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">dataAccessCode</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Connection</span> conn <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span><span class="op">{</span></span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>        conn <span class="op">=</span> <span class="fu">getConnection</span><span class="op">();</span></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">...</span><span class="op">.</span></span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">finally</span><span class="op">{</span></span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a>        DBUtil<span class="op">.</span><span class="fu">closeConnection</span><span class="op">(</span>conn<span class="op">);</span></span>
+<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>“好了，三妹，关于异常处理实践就先讲这 20 条吧，实际开发中你还会碰到其他的一些坑，自己踩一踩可能印象更深刻一些。”我说。</p>
+<p>“那万一到时候我工作后被领导骂了怎么办？”三妹委屈地说。</p>
+<p>“新人嘛，总要写几个 bug 才能对得起新人这个称号嘛。”我轻描淡写地说。</p>
+<p>“好吧。”三妹无奈地叹了口气。</p>
+<hr />
+<p>GitHub 上标星 7600+ 的开源知识库《二哥的 Java 进阶之路》第一版 PDF 终于来了！包括Java基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM等等，共计 32 万余字，可以说是通俗易懂、风趣幽默……详情戳：<a href="https://tobebetterjavaer.com/overview/">太赞了，GitHub 上标星 7600+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img src="../media/file4.jpg" title="fig:" alt="" /></p>
+</section>
+</section>
+<section id="id_84-空指针的传说" class="level2">
+<h2>8.4 空指针的传说</h2>
+<p><strong>空指针</strong>，号称天下最强刺客。</p>
+<p>他原本不叫这个名字，空指针原本复姓<strong>异常</strong>，空指针只不过是他的武器，但他杀戮过多，渐渐地人们只记住了空指针这三个字。</p>
+<p>天下武功，唯快不破，空指针的针，以快和诡异著称，稍有不慎，便是伤亡。</p>
+<p>... ...</p>
+<p>我叫王二，我来到这个奇怪的世界已经一年了，我等了一年，穿越附赠的老爷爷、戒指、系统什么的我到现在都没发现。</p>
+<p>而且这个世界看起来也太奇怪了，这里好像叫什么 <strong>Java</strong> 大陆，我只知道这个世界的最强者叫做 <strong>Object</strong>，听说是什么道祖级的存在，我也不知道是什么意思，毕竟我现在好像还是个菜鸡，别的主角一年都应该要飞升仙界了吧，我还连个小火球都放不出来。</p>
+<p>哦，对了，上面的那段话是我在茶馆喝茶的时候听说书的先生说的，总觉得空指针这个名字怪怪的，好像在什么地方听说过。</p>
+<p>我的头痛的毛病又犯了，我已经记不起来我为什么来到这里了，我只记得我的名字叫王二，其他的，我只感觉这个奇怪的世界有一种熟悉，但是我什么都记不起来了。</p>
+<p>算了，得过且过吧。</p>
+<p>我准备去找空指针了，虽然听说他很可怕，但是好像听说他不是嗜杀之人，应该不会滥杀无辜吧，目前为止，我也只对这三个字有熟悉的感觉了，我一定要找到他，找回我的记忆！</p>
+<p>我打听了很久，原来空指针是<strong>异常组织</strong>的三代嫡传，异常组织是这个世界上最恐怖的杀手组织，空指针就是异常现在最出色的刺客。</p>
+<p>听说空指针出生的时候，脖子上就挂着一根针，整个 Java 大陆雪下一月不停，Linux 森林多块陆地直接沉陷，于是他的父亲 <strong>RuntimeException</strong> 就给他起了空指针这个名字。</p>
+<p>空指针出生的天生异象也引起了异常组织高层的注意，听说他的祖父 <strong>Exception</strong>，还有整个异常组织的领军人物 <strong>Throwable</strong> 都亲自接见了空指针，并且认为空指针天赋异禀，未来可期。</p>
+<p>要知道，<strong>Throwable</strong> 可是 <strong>Object</strong> 亲自任命的异常组织头领。作为 Object 最值得信任的亲信，跟随 Object 万年以来，所有的脏活累活都依靠 Thrwoable 创立的异常组织来处理，真可谓一人之下，万人之上。</p>
+<p>Throwable 只有两个亲子，就是 Error 和 Exception，传说中 Error 心狠手辣，手下无一活口，见过 Error 的人还能活下来的寥寥无几。</p>
+<p>整个大陆只有他们恐怖的传说，谁也不知道他们什么时候出现，但是一旦他们出现，基本宣告着你已经是个死人了。</p>
+<p>而我听说过最恐怖的就是<code>OutOfMemoryError</code> 和 <code>StackOverflowError</code> 这两位刺客，因为大陆上永远有一座风云榜悬挂在帝都门口，而这两位，一直位居杀手榜榜首位置，空指针也只只能屈居第三而已。当然，大陆不少人都认为空指针会后来居上。</p>
+<p>我的消息只是打听到这么多，接下来的日子，我走过无数的城市、荒野，我穿过沙漠、丛林，这一天，终于，我来到了大陆的帝都--<strong>堆</strong>。</p>
+<p>这个名字听起来也有点耳熟，不管他，先进城再说。</p>
+<p>进城后我发现这里非常诡异，整座城市好像都非常年轻，好像连一个成年人都没有！街道上熙熙攘攘竟然都是年轻人。</p>
+<p>带着疑惑，我走进了一家叫做<em>同福客栈</em>的酒楼。</p>
+<p>”客官，打尖还是住店啊？“一个小二模样的<em>小孩</em>带着一丝谄媚的对我说。</p>
+<p>”住店，带我去最好的房间，这些钱先押你这里，不够再跟我要。“一路走来，对于这些地方的行情我也算轻车熟路了。</p>
+<p>”小朋友，这里是怎么回事？你们这里没有大人吗？“我一边走一边问这个只有我一半身高的小孩，根据我目测，他身高不超过1米，应该还只有七八岁的样子，难道这里的商人如此黑心，竟然雇佣童工，不过这也不貌似不对，因为周围的客人好像也都是这般年纪，他们竟然还有在抽烟喝酒的！</p>
+<p>”客官可真幽默，不过我看客官应该是刚来帝都，不瞒您说，整个帝都就基本没有超过15岁的人，超过15的据说都在叫做老年区的养老去了！就拿我来说吧，我今年可不小了，我都8岁了，像我这般年纪的已经半截腿迈进棺材咯。哎，这身子也是一年不如一年了。“</p>
+<p>看着这个小二一脸认真的样子，我越发觉得这座城市诡异起来了！8岁，什么鬼？8岁不是应该在家里看喜羊羊吗？！还半截腿迈进棺材！</p>
+<p>”可是你看我比你高这么多，你不觉得奇怪吗？“我奇怪的问他。</p>
+<p>”有什么好奇怪的，要不是我小时候喝多了三鹿，没准我也长这么高了！“小二有点生气的对我说。</p>
+<p>行吧，再说两句把他激怒了，跳起来打我膝盖就大事不妙了。</p>
+<p>接下来的几天，经过我的打探，原来我在的地方是叫做年轻区，整个帝都就只有这两个区域，年轻区的人年龄确实没有超过15岁的，有些人刚出生没几天就死了，对此，生活在这里的人也见怪不怪了。对于他们来说，寄希望能活到超过15岁进入老年区养老就是他们的梦想。</p>
+<p>我在怀疑是不是异常组织在这里暗杀，可是发现结果并不是，这里的人貌似已经习惯了，生活对他们来说就是随便活活就好了，每次的死亡对于他们来说毫无征兆，可能刚踢着球呢，就突然挂了，有的上着厕所突然就死了，临死前连个屁股都没擦，不说了，有点恶心。</p>
+<p>就在我等的不耐烦想打算去老年区看看的时候，一个穿着黑衣的人找到了我。</p>
+<p>”你是谁？“我警惕的问他。</p>
+<p>”本座IOException。“黑衣人神情冰冷的看着我说。</p>
+<p>”你找我什么事？“</p>
+<p>”这些你不用知道，跟我走一趟吧！“</p>
+<p>我刚想说话拒绝，开什么玩笑，跟你们异常组打交道的人非死即残，谁要跟你去。</p>
+<p>但是由不得我拒绝，我只感觉一阵天旋地转，我感觉我在天上飞，然后我就失去了意识。当我醒来的时候，我发现我躺在一张巨大的床上，桌子上点着一支檀香，整个房间只有一张桌子、一把椅子和我躺的地方。</p>
+<p>房间很小，应该只有10几个平方，但是我竟然又有一种熟悉的感觉，这种感觉萦绕在我心头挥散不去。</p>
+<p>没等我再想更多，房门打开了。</p>
+<p>”是你，你把我带来干什么？“</p>
+<p>”走吧，有人要见你。“</p>
+<p>还是不容我抗拒，如果我的战斗力是5的话，我想，IO他该有好几万了吧。</p>
+<p>又是这该死的眩晕感，不过这次没有几秒钟，我就发现我在一个花园里，花园中间一个身穿黄袍的中年人正在慢悠悠的喝茶。在他身上我感受不到任何强大的气息，甚至不如IOException给我的压迫感强烈。这是谁？</p>
+<p>不等我思绪飘飞，IOException弯腰躬身说道：”陛下，人带过来了。“</p>
+<p>”嗯，你退下吧。“中年人转过身来，脸上丝毫看不出情绪的说道。</p>
+<p>我大概猜到了这是哪里了，于是也放下心来，在这里，或许能找到我的答案。</p>
+<p>反正他要对我怎么样，我也没有办法反抗，我径直坐到他的对面，看着他说：”您就是Object陛下吧，不知找我所谓何事？“</p>
+<p>中年人也不在意，没有正面回答我的问题，反而略带一丝调侃的说道：”不用咬文嚼字，说点正常人的话吧。“</p>
+<p>... ...</p>
+<p>这不按套路出牌啊，我这不是来久了，模仿你们古代人说话嘛，怎么还埋怨起我来了？！</p>
+<p>”那我就直说了，我想知道空指针在哪里。“</p>
+<p>”空指针就在皇宫轮值，你找他干嘛？“</p>
+<p>”我暂时不能说“</p>
+<p>”呵呵，你就不好奇我为什么知道你，为什么又把你带过来？“</p>
+<p>”好奇，可是我就是不想问。“</p>
+<p>Object喝了口茶，不紧不慢的回道：”年轻人有性格是好事，可是过刚易折的道理你应该明白。“</p>
+<p>”我不明白，我在这里反正也没看见什么老人，当然，除了你。“我理所当然的认为这肯定是Object搞得鬼，整个帝都都是小朋友，要是没有猫腻，骗鬼呢！</p>
+<p>Object听到这话，皱了皱眉，他沉默了一会儿，缓缓站起身子走到一颗柳树下，背着手说道：“你不知道这一切是为什么吗？”</p>
+<p>废话，我当然不知道了，我知道还能问你吗？！</p>
+<p>又是沉默... ...这个气氛让我感觉很不舒服。就在我受不了想说话的时候，Object突然说了一句：“带他去见空指针吧。”</p>
+<p>“是，陛下！”突然，一个身穿红袍的枯瘦老者出现在我背后，把我吓了一跳。</p>
+<p>我也不想再多生事端，直觉告诉我这里不是久留之地，虽然有点莫名其妙，我还是跟着红袍老者来走了。</p>
+<p>... ...</p>
+<p>“陛下，是他吗？”一个光头大汉的身影在半空若影若现的说道。</p>
+<p>“还不能确定... 不过，留给我们的时间不多了，下一次的轮回就快来了。”</p>
+<p>“轮回，又是轮回。我们还有希望吗？”大汉呢喃着，不知道是对自己说还是对中年人说。</p>
+<p>中年人依然背着手，抬头望着漫天的柳絮说道：“这一世，该是个了断了。”</p>
+<p>... ...</p>
+<p>没多久，他把我带到一个房间门口，也是面无表情的说道：“进去吧，空指针就在里面。”</p>
+<p>我挺住脚步，转过身问他：“你是谁？我们是不是见过？”</p>
+<p>红袍老者怪异一笑：“也许吧，老夫<code>IndexOutOfBoundsException</code>，空指针便是我好友。”</p>
+<p>这个名字可真长，我听说过他，据传闻他的实力也非常之强，可能不下于空指针，都是以诡异的出手角度著称，不过相比于空指针的大名，他好像更低调，难怪在皇宫当个老太监一般。</p>
+<p>我也不在多想，点点头，走进了房间。刚进房间，我就看见一个一身白衣的身影背对着我，笔直的身影好像要冲破天际，身上的气势强大无比，至少在我见过的所有人里足以排进前三了。空指针，果然名不虚传！</p>
+<p>我走到房间中央，环目四望才发现这好像是一座祠堂的样子，就在我还在打量四周之际，一道清冷的声音传到我的耳边：</p>
+<p>“你身上的气息让我非常讨厌！”</p>
+<p>他转过身来，我发现我根本看不清空指针长什么样子，他的脸好像打上了马赛克。听到他的话，我心里的疑惑更多了，我只是觉得他的气息让我感到非常熟悉，他的话让我有点莫名其妙。于是我试探道：</p>
+<p>“你知道我是谁？”</p>
+<p>听到我的话，他一步步走进我，在我身边闻了闻，这让我什么一紧，虽然我想搞清楚我身上的问题，但是我不是出卖肉体的人，我退后一步说：</p>
+<p>“你想干嘛？”</p>
+<p>空指针皱紧了眉头，仿佛自言自语道：“不对，不对，这是... 规则的气息？可是他明明身上没有任何能量波动。”</p>
+<p>我见他好像魔怔了，仿佛在思考什么，于是迈步走到他刚才站立的地方看着前面，原来，这是他们的族谱！这里是异常的祠堂！</p>
+<p><img src="../media/file291.jpg" title="fig:" alt="" /></p>
+<p>看完这张族谱，我恍然大悟，好像明白了什么。突然，我的脑袋里出现了一个冰冷的机器声音：“获取异常族谱，历练完成度+100。”</p>
+<p>我Kao，系统，这是系统啊，我不禁内牛满面，啥任务系统啊，一点提示都没有，我赶紧喊道：</p>
+<p>“系统，系统，还在吗？在线等，挺着急的。”可是没有任何回复！这啥破系统！就在我想破口大骂的时候，空指针看到我和个二傻子似的大呼小叫，突然一脸不可思议的对着我说：</p>
+<p>“你明悟了规则？”</p>
+<p>我愣了愣，嗯？难道我不是战5渣了？规则之力？好像是很高端的样子啊？</p>
+<p>“撒豆成兵！”</p>
+<p>“呼风！”</p>
+<p>”唤雨！“</p>
+<p>”临兵斗者皆阵列在前！“</p>
+<p>一点反应都没有。。。啥玩意儿？还规则之力？九字真言都没用啊？</p>
+<p>空指针好像都蒙了，他敲了敲太阳穴，无语的看着我说：</p>
+<p>”你不是来找我的吗？说完你的问题，然后给我滚！“</p>
+<p>对啊，这系统把我整的我都忘记我来干嘛的了，我赶紧说：</p>
+<p>”你认识我对不对，你是不是觉得我有一种熟悉的感觉？我想知道我的来历！“</p>
+<p>空指针又愣了愣，他看着我，沉默了一会儿，回道：“不知道！”</p>
+<p>我有点奇怪，看他一脸便秘的表情应该是见过我的，他一定在撒谎，既然如此...</p>
+<p>“那你告诉我你们有什么办法能在你们异常的攻击下防身吧？”</p>
+<p>空指针大怒，刚想起身说话，空中突然传来一道声音：答应他的要求！</p>
+<p>他冷哼一声，丢给我一本书，上面写着<strong>catch</strong>一个字，还有一块写着<strong>catch</strong>的令牌，冰冷的说到：“你想知道的都在这里了。”说完，拂袖而去。</p>
+<p>我看着桌子上的这本书，想了想还是翻阅起来。</p>
+<p>原来<code>Exception</code> 和它的儿子们，除了<code>RuntimeException</code> 一支，都叫作<code>Checked Exception</code>，我还能用catch令牌来对抗他们的攻击！包括空指针，以后我就不怕他们了！</p>
+<p>可是，他为什么要给我，看他刚才的样子都想打我了，又突然给了我这些？还有他一直在说的规则之力又是什么？这座城市为什么又这么诡异？</p>
+<blockquote>
+<p>转载链接：<a href="https://mp.weixin.qq.com/s/PDfd8HRtDZafXl47BCxyGg">https://mp.weixin.qq.com/s/PDfd8HRtDZafXl47BCxyGg</a>，作者：艾小仙</p>
+</blockquote>
+<hr />
+<p>GitHub 上标星 7600+ 的开源知识库《二哥的 Java 进阶之路》第一版 PDF 终于来了！包括Java基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM等等，共计 32 万余字，可以说是通俗易懂、风趣幽默……详情戳：<a href="https://tobebetterjavaer.com/overview/">太赞了，GitHub 上标星 7600+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img src="../media/file4.jpg" title="fig:" alt="" /></p>
+</section>
+<section id="id_85-try-catch会影响性能吗" class="level2">
+<h2>8.5 try-catch会影响性能吗？</h2>
+<p>“二哥，你看着这鬼代码，竟然在 for 循环里面搞了个 <code>try-catch</code>，不知道<code>try-catch</code>有性能损耗吗？” 老王煞有其事地指着屏幕里的代码：</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">for</span> <span class="op">(</span>int i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5000</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>     try <span class="op">{</span></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>         dosth</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>     <span class="op">}</span> <span class="fu">catch</span> <span class="op">(</span>Exception e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>         e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>     <span class="op">}</span></span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a> <span class="op">}</span></span></code></pre></div>
+<p>我探过头去看了眼代码，“那 老王你觉得该怎么改？”</p>
+<p>“当然是把 <code>try-catch</code> 提到外面啊！” 老王脑子都不转一下，脱口而出。</p>
+<p>“你是不是傻？且不说性能，这代码的目的明显是让循环内部单次调用出错不影响循环的运行，你移到外面，业务逻辑不就变了吗！”</p>
+<p>老王挠了挠他的地中海，“好像也是啊！”</p>
+<p>“回过头来，catch 整个 for 循环和在循环内部 catch，在不出错的情况下，其实性能差不多。” 我喝一口咖啡不经意地提到，准备在 老王前面秀一下。</p>
+<p>“啥意思？” 老王有点懵地看着我，“<code>try-catch</code>是有性能损耗的，我可是看过网上资料的！”</p>
+<p>果然， 老王上钩了，我二话不说直接打开 idea，一顿操作敲了以下代码：</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> TryCatchTest <span class="op">{</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 用 @Benchmark 注解标记一个方法作为基准测试方法</span></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Benchmark</span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">tryfor</span><span class="op">(</span>Blackhole blackhole<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 使用 try-catch 语句包装一个 for 循环</span></span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">1000</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>                <span class="co">// 在循环中调用 Blackhole.consume() 方法</span></span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a>                blackhole<span class="op">.</span><span class="fu">consume</span><span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb72-11"><a href="#cb72-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Exception</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb72-12"><a href="#cb72-12" aria-hidden="true" tabindex="-1"></a>            <span class="co">// 捕获异常并打印堆栈跟踪信息</span></span>
+<span id="cb72-13"><a href="#cb72-13" aria-hidden="true" tabindex="-1"></a>            e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb72-14"><a href="#cb72-14" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb72-15"><a href="#cb72-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb72-16"><a href="#cb72-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-17"><a href="#cb72-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 用 @Benchmark 注解标记另一个方法作为基准测试方法</span></span>
+<span id="cb72-18"><a href="#cb72-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Benchmark</span></span>
+<span id="cb72-19"><a href="#cb72-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">fortry</span><span class="op">(</span>Blackhole blackhole<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb72-20"><a href="#cb72-20" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 使用 for 循环包装一个 try-catch 语句</span></span>
+<span id="cb72-21"><a href="#cb72-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">1000</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb72-22"><a href="#cb72-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb72-23"><a href="#cb72-23" aria-hidden="true" tabindex="-1"></a>                <span class="co">// 在 try 块中调用 Blackhole.consume() 方法</span></span>
+<span id="cb72-24"><a href="#cb72-24" aria-hidden="true" tabindex="-1"></a>                blackhole<span class="op">.</span><span class="fu">consume</span><span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb72-25"><a href="#cb72-25" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Exception</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb72-26"><a href="#cb72-26" aria-hidden="true" tabindex="-1"></a>                <span class="co">// 捕获异常并打印堆栈跟踪信息</span></span>
+<span id="cb72-27"><a href="#cb72-27" aria-hidden="true" tabindex="-1"></a>                e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb72-28"><a href="#cb72-28" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb72-29"><a href="#cb72-29" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb72-30"><a href="#cb72-30" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb72-31"><a href="#cb72-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>在这里，请允许我补充一些概念，以便大家能更好的理解这段代码。</p>
+<blockquote>
+<p>第一个：<code>@Benchmark</code> 是一个来自于 JMH（Java Microbenchmark Harness）库的注解，用来标记一个方法作为基准测试方法。JMH 是一个专门用于编写 <a href="https://hezhiqiang8909.gitbook.io/java/docs/javalib/jmh">Java 微基准测试</a>的工具包，包含了一些用于测试 Java 代码性能和微调 JVM 的工具和库。使用 <code>@Benchmark</code> 注解标记的方法将被 JMH 自动识别为基准测试方法，并在运行时进行基准测试。在基准测试期间，JMH 会运行被标记的方法多次，并测量方法的执行时间、吞吐量、延迟等指标，并生成统计结果。</p>
+</blockquote>
+<blockquote>
+<p>第二个：在 JMH 进行基准测试时，为了避免 JIT 编译器优化掉测试代码中的某些操作，我们需要在测试代码中使用一些占位符，以便让编译器认为这些操作是有意义的，不应该被优化掉。<code>Blackhole.consume()</code> 方法就是这样的一个占位符。它用来占用一些 CPU 时间和内存空间，以确保测试结果的准确性和可靠性。</p>
+</blockquote>
+<p>“BB 不如 show code，看到没， 老王，我把 <code>try-catch</code> 从 for 循环里面提出来跟在for循环里面做个对比跑一下，你猜猜两个差多少？”</p>
+<p>“切，肯定 tryfor 性能好，想都不用想，不是的话我倒立洗头！” 老王信誓旦旦道。</p>
+<p>我懒得跟他BB，直接开始了 benchmark，跑的结果如下：</p>
+<p><img src="../media/file292.png" title="fig:" alt="" /></p>
+<p>可以看到，两者的性能（数字越大越好）其实差不多：551063.024 VS 551525.861。</p>
+<p>在这里，简单普及一下 JMH 的使用指南。</p>
+<blockquote>
+<p>第一步，在 pom.xml 文件中加入依赖。</p>
+</blockquote>
+<pre><code>&lt;!-- 引入 JMH 工具包 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.openjdk.jmh&lt;/groupId&gt;
+    &lt;artifactId&gt;jmh-core&lt;/artifactId&gt;
+    &lt;version&gt;1.35&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+    &lt;groupId&gt;org.openjdk.jmh&lt;/groupId&gt;
+    &lt;artifactId&gt;jmh-generator-annprocess&lt;/artifactId&gt;
+    &lt;version&gt;1.35&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+<blockquote>
+<p>第二步，Intellij IDEA 中安装 JMH 插件。</p>
+</blockquote>
+<p><img src="../media/file293.png" title="fig:" alt="" /></p>
+<blockquote>
+<p>第三步，在代码编辑器中点击这个带有时间和运行的图标。然后静静等待结果就可以了，我本机（32G 内存 Intel i7 跑了 16 分钟，贼慢，因为 JMH 比较喜欢追求公平公正😂）</p>
+</blockquote>
+<p><img src="../media/file294.png" title="fig:" alt="" /></p>
+<p>老王一看傻了：“说好的性能影响呢？怎么没了？”</p>
+<p>我直接一个javap，让 老王看看，其实两个实现在字节码层面没啥区别：</p>
+<blockquote>
+<p>tryfor 的字节码</p>
+</blockquote>
+<p>异常表记录的是 0 - 20 行，如果这些行里面的代码出现问题，直接跳到 23 行处理。</p>
+<p><img src="../media/file295.png" title="fig:" alt="" /></p>
+<blockquote>
+<p>fortry 的字节码</p>
+</blockquote>
+<p>差别也就是异常表的范围小点，包的是 9-14 行，其它跟 tryfor 都差不多。</p>
+<p><img src="../media/file296.png" title="fig:" alt="" /></p>
+<p>所以从字节码层面来看，没抛错两者的执行效率其实没啥差别。</p>
+<p>“那为什么网上流传着<code>try-catch</code>会有性能问题的说法啊？” 老王觉得非常奇怪。</p>
+<p>这个说法确实有，在《Effective Java》这本书里就提到了 <code>try-catch</code> 性能问题：</p>
+<p><img src="../media/file297.png" title="fig:" alt="" /></p>
+<p>正所谓听话不能听一半，以前读书时候最怕的就是一知半解，因为完全理解选择题能选对，完全不懂蒙可能蒙对，一知半解必定选到错误的选项！</p>
+<p>《Effective Java》书中说的其实是不要用 <code>try-catch</code> 来代替正常的代码，书中的举例了正常的 for 循环肯定这样实现：</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> <span class="op">(</span> Mountain m <span class="op">:</span> range <span class="op">)</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>    m<span class="op">.</span><span class="fu">climb</span><span class="op">();</span></span></code></pre></div>
+<p>但有个卧龙偏偏不这样实现，要通过 <code>try-catch</code> 拐着弯来实现循环：</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a> <span class="co">/* Horrible abuse of exceptions. Don&#39;t ever do this! */</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span> <span class="kw">true</span> <span class="op">)</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>        range<span class="op">[</span>i<span class="op">++].</span><span class="fu">climb</span><span class="op">();</span></span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span> <span class="bu">ArrayIndexOutOfBoundsException</span> e <span class="op">)</span> <span class="op">{</span></span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>这操作我只能说有点逆天，这两个实现的对比就有性能损耗了。</p>
+<p>我们直接再跑下有<code>try-catch</code> 的代码和没 <code>try-catch</code>的 for 循环区别，代码如下：</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> TryCatchTest1 <span class="op">{</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Benchmark</span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">fornotry</span><span class="op">(</span>Blackhole blackhole<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">1000</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>            blackhole<span class="op">.</span><span class="fu">consume</span><span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Benchmark</span></span>
+<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">tryfor</span><span class="op">(</span>Blackhole blackhole<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">1000</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a>                blackhole<span class="op">.</span><span class="fu">consume</span><span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Exception</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a>                e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb76-16"><a href="#cb76-16" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb76-17"><a href="#cb76-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb76-18"><a href="#cb76-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb76-19"><a href="#cb76-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>结果如下：</p>
+<p><img src="../media/file298.png" title="fig:" alt="" /></p>
+<p>+-差不多，直接看前面的分数对比，没有 <code>ry-catch</code> 的性能确实好些，这也和书中说的 <code>try-catch</code> 会影响 JVM 一些特定的优化说法吻合，但是具体没有说影响哪些优化，我猜测可能是指令重排之类的。</p>
+<p>好了，我再总结下有关 <code>try-catch</code> 性能问题说法：</p>
+<ol type="1">
+<li><p><code>try-catch</code> 相比较没 <code>try-catch</code>，确实有一定的性能影响，但是旨在不推荐我们用 <code>try-catch</code> 来代替正常能不用 <code>try-catch</code> 的实现，而不是不让用 <code>try-catch</code>。</p></li>
+<li><p>for循环内用 <code>try-catch</code> 和用 <code>try-catch</code> 包裹整个 for 循环性能差不多，但是其实两者本质上是业务处理方式的不同，跟性能扯不上关系，关键看你的业务流程处理。</p></li>
+<li><p>虽然知道<code>try-catch</code>会有性能影响，但是业务上不需要避讳其使用，业务实现优先（只要不是书中举例的那种逆天代码就行），非特殊情况下性能都是其次，有意识地避免大范围的<code>try-catch</code>，只 catch 需要的部分即可（没把握全 catch 也行，代码安全执行第一）。</p></li>
+</ol>
+<p>“好了， 老王你懂了没？”</p>
+<p>“行啊二哥，BB是一套一套的，走请你喝燕麦拿铁！” 老王一把拉起我，我直接一个挣脱，“少来，我刚喝过咖啡，你那个倒立洗头，赶紧的！”我立马意识到 老王想岔开话题。</p>
+<p>“洗洗洗，我们先喝个咖啡，晚上回去给你洗！”</p>
+<blockquote>
+<p>转载链接：<a href="https://mp.weixin.qq.com/s/H870jLz32oEI_HCMVt1m5Q">https://mp.weixin.qq.com/s/H870jLz32oEI_HCMVt1m5Q</a>，作者：yes，修订和优化：沉默王二</p>
+</blockquote>
+<hr />
+<p>GitHub 上标星 7600+ 的开源知识库《二哥的 Java 进阶之路》第一版 PDF 终于来了！包括Java基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM等等，共计 32 万余字，可以说是通俗易懂、风趣幽默……详情戳：<a href="https://tobebetterjavaer.com/overview/">太赞了，GitHub 上标星 7600+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img src="../media/file4.jpg" title="fig:" alt="" /></p>
+<p></p>
+</section>
+</section>
+</body>
+</html>

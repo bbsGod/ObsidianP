@@ -1,0 +1,3266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ncx version="2005-1" xmlns="http://www.daisy.org/z3986/2005/ncx/">
+  <head>
+    <meta name="dtb:uid" content="urn:uuid:2a7b7742-a752-44c1-8f3b-7a920d029f19" />
+    <meta name="dtb:depth" content="1" />
+    <meta name="dtb:totalPageCount" content="0" />
+    <meta name="dtb:maxPageNumber" content="0" />
+  </head>
+  <docTitle>
+    <text>二哥的 Java 进阶之路.md</text>
+  </docTitle>
+  <navMap>
+    <navPoint id="navPoint-0">
+      <navLabel>
+        <text>二哥的 Java 进阶之路.md</text>
+      </navLabel>
+      <content src="text/title_page.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-1">
+      <navLabel>
+        <text>二哥的 Java 进阶之路.md</text>
+      </navLabel>
+      <content src="text/ch001.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-2">
+      <navLabel>
+        <text>第一章：小册简介</text>
+      </navLabel>
+      <content src="text/ch002.xhtml" />
+      <navPoint id="navPoint-3">
+        <navLabel>
+          <text>小册包含哪些内容？</text>
+        </navLabel>
+        <content src="text/ch002.xhtml#小册包含哪些内容" />
+      </navPoint>
+      <navPoint id="navPoint-4">
+        <navLabel>
+          <text>如何获取最新版？</text>
+        </navLabel>
+        <content src="text/ch002.xhtml#如何获取最新版" />
+      </navPoint>
+      <navPoint id="navPoint-5">
+        <navLabel>
+          <text>面试指南（配套教程）</text>
+        </navLabel>
+        <content src="text/ch002.xhtml#面试指南配套教程）" />
+        <navPoint id="navPoint-6">
+          <navLabel>
+            <text>内容概览</text>
+          </navLabel>
+          <content src="text/ch002.xhtml#内容概览" />
+        </navPoint>
+        <navPoint id="navPoint-7">
+          <navLabel>
+            <text>星球其他资源</text>
+          </navLabel>
+          <content src="text/ch002.xhtml#星球其他资源" />
+        </navPoint>
+        <navPoint id="navPoint-8">
+          <navLabel>
+            <text>星球限时优惠</text>
+          </navLabel>
+          <content src="text/ch002.xhtml#星球限时优惠" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-9">
+        <navLabel>
+          <text>如何贡献？</text>
+        </navLabel>
+        <content src="text/ch002.xhtml#如何贡献" />
+      </navPoint>
+      <navPoint id="navPoint-10">
+        <navLabel>
+          <text>更新记录</text>
+        </navLabel>
+        <content src="text/ch002.xhtml#更新记录" />
+        <navPoint id="navPoint-11">
+          <navLabel>
+            <text>V1.0-2023年04月11日</text>
+          </navLabel>
+          <content src="text/ch002.xhtml#v10-2023年04月11日" />
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-12">
+      <navLabel>
+        <text>第二章：Java概述及环境配置</text>
+      </navLabel>
+      <content src="text/ch003.xhtml" />
+      <navPoint id="navPoint-13">
+        <navLabel>
+          <text>2.1 Java简介</text>
+        </navLabel>
+        <content src="text/ch003.xhtml#id_21-java简介" />
+        <navPoint id="navPoint-14">
+          <navLabel>
+            <text>01、Java由来</text>
+          </navLabel>
+          <content src="text/ch003.xhtml#id_01java由来" />
+        </navPoint>
+        <navPoint id="navPoint-15">
+          <navLabel>
+            <text>02、Java发展简史</text>
+          </navLabel>
+          <content src="text/ch003.xhtml#id_02java发展简史" />
+        </navPoint>
+        <navPoint id="navPoint-16">
+          <navLabel>
+            <text>03、Java特性</text>
+          </navLabel>
+          <content src="text/ch003.xhtml#id_03java特性" />
+        </navPoint>
+        <navPoint id="navPoint-17">
+          <navLabel>
+            <text>04、Java应用领域</text>
+          </navLabel>
+          <content src="text/ch003.xhtml#id_04java应用领域" />
+        </navPoint>
+        <navPoint id="navPoint-18">
+          <navLabel>
+            <text>05、学Java有钱途吗？</text>
+          </navLabel>
+          <content src="text/ch003.xhtml#id_05学java有钱途吗" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-19">
+        <navLabel>
+          <text>2.2 安装JDK</text>
+        </navLabel>
+        <content src="text/ch003.xhtml#id_22-安装jdk" />
+        <navPoint id="navPoint-20">
+          <navLabel>
+            <text>01、JVM、JRE、JDK 有什么关系</text>
+          </navLabel>
+          <content src="text/ch003.xhtml#id_01jvmjrejdk-有什么关系" />
+        </navPoint>
+        <navPoint id="navPoint-21">
+          <navLabel>
+            <text>02、Windows 安装 JDK</text>
+          </navLabel>
+          <content src="text/ch003.xhtml#id_02windows-安装-jdk" />
+        </navPoint>
+        <navPoint id="navPoint-22">
+          <navLabel>
+            <text>03、macOS 安装 JDK</text>
+          </navLabel>
+          <content src="text/ch003.xhtml#id_03macos-安装-jdk" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-23">
+        <navLabel>
+          <text>2.3 安装IDEA</text>
+        </navLabel>
+        <content src="text/ch003.xhtml#id_23-安装idea" />
+        <navPoint id="navPoint-24">
+          <navLabel>
+            <text>01、Windows</text>
+          </navLabel>
+          <content src="text/ch003.xhtml#id_01windows" />
+        </navPoint>
+        <navPoint id="navPoint-25">
+          <navLabel>
+            <text>02、macOS</text>
+          </navLabel>
+          <content src="text/ch003.xhtml#id_02macos" />
+        </navPoint>
+        <navPoint id="navPoint-26">
+          <navLabel>
+            <text>03、小结</text>
+          </navLabel>
+          <content src="text/ch003.xhtml#id_03小结-1" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-27">
+        <navLabel>
+          <text>2.4 第一个Java程序</text>
+        </navLabel>
+        <content src="text/ch003.xhtml#id_24-第一个java程序" />
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-28">
+      <navLabel>
+        <text>第三章：Java语法基础</text>
+      </navLabel>
+      <content src="text/ch004.xhtml" />
+      <navPoint id="navPoint-29">
+        <navLabel>
+          <text>3.1 Java关键字和保留字</text>
+        </navLabel>
+        <content src="text/ch004.xhtml#id_31-java关键字和保留字" />
+      </navPoint>
+      <navPoint id="navPoint-30">
+        <navLabel>
+          <text>3.2 Java注释</text>
+        </navLabel>
+        <content src="text/ch004.xhtml#id_32-java注释" />
+        <navPoint id="navPoint-31">
+          <navLabel>
+            <text>01、单行注释</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_01单行注释" />
+        </navPoint>
+        <navPoint id="navPoint-32">
+          <navLabel>
+            <text>02、多行注释</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_02多行注释" />
+        </navPoint>
+        <navPoint id="navPoint-33">
+          <navLabel>
+            <text>03、文档注释</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_03文档注释" />
+        </navPoint>
+        <navPoint id="navPoint-34">
+          <navLabel>
+            <text>04、文档注释的注意事项</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_04文档注释的注意事项" />
+        </navPoint>
+        <navPoint id="navPoint-35">
+          <navLabel>
+            <text>05、注释规约</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_05注释规约" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-36">
+        <navLabel>
+          <text>3.3 Java数据类型</text>
+        </navLabel>
+        <content src="text/ch004.xhtml#id_33-java数据类型" />
+        <navPoint id="navPoint-37">
+          <navLabel>
+            <text>01、比特和字节</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_01比特和字节" />
+        </navPoint>
+        <navPoint id="navPoint-38">
+          <navLabel>
+            <text>02、基本数据类型</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_02基本数据类型" />
+        </navPoint>
+        <navPoint id="navPoint-39">
+          <navLabel>
+            <text>03、单精度和双精度</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_03单精度和双精度" />
+        </navPoint>
+        <navPoint id="navPoint-40">
+          <navLabel>
+            <text>04、int 和 char 类型互转</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_04int-和-char-类型互转" />
+        </navPoint>
+        <navPoint id="navPoint-41">
+          <navLabel>
+            <text>05、包装器类型</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_05包装器类型" />
+        </navPoint>
+        <navPoint id="navPoint-42">
+          <navLabel>
+            <text>06、引用数据类型</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_06引用数据类型" />
+        </navPoint>
+        <navPoint id="navPoint-43">
+          <navLabel>
+            <text>07、堆和栈</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_07堆和栈" />
+        </navPoint>
+        <navPoint id="navPoint-44">
+          <navLabel>
+            <text>08、小结</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_08小结-1" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-45">
+        <navLabel>
+          <text>3.4 Java数据类型转换</text>
+        </navLabel>
+        <content src="text/ch004.xhtml#id_34-java数据类型转换" />
+        <navPoint id="navPoint-46">
+          <navLabel>
+            <text>01、自动类型转换</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_01自动类型转换" />
+        </navPoint>
+        <navPoint id="navPoint-47">
+          <navLabel>
+            <text>02、强制类型转换</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_02强制类型转换" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-48">
+        <navLabel>
+          <text>3.5 Java基本数据类型缓存池</text>
+        </navLabel>
+        <content src="text/ch004.xhtml#id_35-java基本数据类型缓存池" />
+      </navPoint>
+      <navPoint id="navPoint-49">
+        <navLabel>
+          <text>3.6 Java运算符</text>
+        </navLabel>
+        <content src="text/ch004.xhtml#id_36-java运算符" />
+        <navPoint id="navPoint-50">
+          <navLabel>
+            <text>01、算术运算符</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_01算术运算符" />
+        </navPoint>
+        <navPoint id="navPoint-51">
+          <navLabel>
+            <text>02、关系运算符</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_02关系运算符" />
+        </navPoint>
+        <navPoint id="navPoint-52">
+          <navLabel>
+            <text>03、位运算符</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_03位运算符" />
+        </navPoint>
+        <navPoint id="navPoint-53">
+          <navLabel>
+            <text>04、逻辑运算符</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_04逻辑运算符" />
+        </navPoint>
+        <navPoint id="navPoint-54">
+          <navLabel>
+            <text>05、赋值运算符</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_05赋值运算符" />
+        </navPoint>
+        <navPoint id="navPoint-55">
+          <navLabel>
+            <text>06、三元运算符</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_06三元运算符" />
+        </navPoint>
+        <navPoint id="navPoint-56">
+          <navLabel>
+            <text>07、小结</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_07小结-1" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-57">
+        <navLabel>
+          <text>3.7 Java流程控制语句</text>
+        </navLabel>
+        <content src="text/ch004.xhtml#id_37-java流程控制语句" />
+        <navPoint id="navPoint-58">
+          <navLabel>
+            <text>01、if-else 相关</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_01if-else-相关" />
+        </navPoint>
+        <navPoint id="navPoint-59">
+          <navLabel>
+            <text>02、switch 语句</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_02switch-语句" />
+        </navPoint>
+        <navPoint id="navPoint-60">
+          <navLabel>
+            <text>03、for 循环</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_03for-循环" />
+        </navPoint>
+        <navPoint id="navPoint-61">
+          <navLabel>
+            <text>04、while 循环</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_04while-循环" />
+        </navPoint>
+        <navPoint id="navPoint-62">
+          <navLabel>
+            <text>05、do-while 循环</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_05do-while-循环" />
+        </navPoint>
+        <navPoint id="navPoint-63">
+          <navLabel>
+            <text>06、break</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_06break" />
+        </navPoint>
+        <navPoint id="navPoint-64">
+          <navLabel>
+            <text>07、continue</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_07continue" />
+        </navPoint>
+        <navPoint id="navPoint-65">
+          <navLabel>
+            <text>08、小结</text>
+          </navLabel>
+          <content src="text/ch004.xhtml#id_08小结-2" />
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-66">
+      <navLabel>
+        <text>第四章：数组&amp;字符串</text>
+      </navLabel>
+      <content src="text/ch005.xhtml" />
+      <navPoint id="navPoint-67">
+        <navLabel>
+          <text>4.1 掌握Java数组</text>
+        </navLabel>
+        <content src="text/ch005.xhtml#id_41-掌握java数组" />
+      </navPoint>
+      <navPoint id="navPoint-68">
+        <navLabel>
+          <text>4.2 掌握Java二维数组</text>
+        </navLabel>
+        <content src="text/ch005.xhtml#id_42-掌握java二维数组" />
+        <navPoint id="navPoint-69">
+          <navLabel>
+            <text>01、什么是二维数组</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#id_01什么是二维数组" />
+        </navPoint>
+        <navPoint id="navPoint-70">
+          <navLabel>
+            <text>02、创建二维数组</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#id_02创建二维数组" />
+        </navPoint>
+        <navPoint id="navPoint-71">
+          <navLabel>
+            <text>03、访问二维数组中的元素</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#id_03访问二维数组中的元素" />
+        </navPoint>
+        <navPoint id="navPoint-72">
+          <navLabel>
+            <text>04、二维数组打印杨辉三角</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#id_04二维数组打印杨辉三角" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-73">
+        <navLabel>
+          <text>4.3 打印Java数组</text>
+        </navLabel>
+        <content src="text/ch005.xhtml#id_43-打印java数组" />
+        <navPoint id="navPoint-74">
+          <navLabel>
+            <text>为什么不能直接打印数组</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#为什么不能直接打印数组" />
+        </navPoint>
+        <navPoint id="navPoint-75">
+          <navLabel>
+            <text>stream 流打印 Java 数组</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#stream-流打印-java-数组" />
+        </navPoint>
+        <navPoint id="navPoint-76">
+          <navLabel>
+            <text>for 循环打印 Java 数组</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#for-循环打印-java-数组" />
+        </navPoint>
+        <navPoint id="navPoint-77">
+          <navLabel>
+            <text>Arrays 工具类打印 Java 数组</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#arrays-工具类打印-java-数组" />
+        </navPoint>
+        <navPoint id="navPoint-78">
+          <navLabel>
+            <text>Arrays工具类打印二维数组</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#arrays工具类打印二维数组" />
+        </navPoint>
+        <navPoint id="navPoint-79">
+          <navLabel>
+            <text>POJO 的打印规约</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#pojo-的打印规约" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-80">
+        <navLabel>
+          <text>4.4 解读String类源码</text>
+        </navLabel>
+        <content src="text/ch005.xhtml#id_44-解读string类源码" />
+        <navPoint id="navPoint-81">
+          <navLabel>
+            <text>String 类的声明</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#string-类的声明" />
+        </navPoint>
+        <navPoint id="navPoint-82">
+          <navLabel>
+            <text>String 类的底层实现</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#string-类的底层实现" />
+        </navPoint>
+        <navPoint id="navPoint-83">
+          <navLabel>
+            <text>String 类的 hashCode 方法</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#string-类的-hashcode-方法" />
+        </navPoint>
+        <navPoint id="navPoint-84">
+          <navLabel>
+            <text>String 类的 substring 方法</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#string-类的-substring-方法" />
+        </navPoint>
+        <navPoint id="navPoint-85">
+          <navLabel>
+            <text>String 类的 indexOf 方法</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#string-类的-indexof-方法" />
+        </navPoint>
+        <navPoint id="navPoint-86">
+          <navLabel>
+            <text>String 类的其他方法</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#string-类的其他方法" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-87">
+        <navLabel>
+          <text>4.5 String为什么不可变</text>
+        </navLabel>
+        <content src="text/ch005.xhtml#id_45-string为什么不可变" />
+      </navPoint>
+      <navPoint id="navPoint-88">
+        <navLabel>
+          <text>4.6 深入理解Java字符串常量池</text>
+        </navLabel>
+        <content src="text/ch005.xhtml#id_46-深入理解java字符串常量池" />
+        <navPoint id="navPoint-89">
+          <navLabel>
+            <text>new String(&quot;二哥&quot;)创建了几个对象</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#new-string二哥创建了几个对象" />
+        </navPoint>
+        <navPoint id="navPoint-90">
+          <navLabel>
+            <text>字符串常量池的作用</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#字符串常量池的作用" />
+        </navPoint>
+        <navPoint id="navPoint-91">
+          <navLabel>
+            <text>字符串常量池在内存中的什么位置呢？</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#字符串常量池在内存中的什么位置呢" />
+        </navPoint>
+        <navPoint id="navPoint-92">
+          <navLabel>
+            <text>永久代、方法区、元空间</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#永久代方法区元空间" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-93">
+        <navLabel>
+          <text>4.7 详解 String.intern() 方法</text>
+        </navLabel>
+        <content src="text/ch005.xhtml#id_47-详解-stringintern-方法" />
+      </navPoint>
+      <navPoint id="navPoint-94">
+        <navLabel>
+          <text>4.8 String、StringBuilder、StringBuffer</text>
+        </navLabel>
+        <content src="text/ch005.xhtml#id_48-stringstringbuilderstringbuffer" />
+      </navPoint>
+      <navPoint id="navPoint-95">
+        <navLabel>
+          <text>4.9 String相等判断</text>
+        </navLabel>
+        <content src="text/ch005.xhtml#id_49-string相等判断" />
+      </navPoint>
+      <navPoint id="navPoint-96">
+        <navLabel>
+          <text>4.10 String拼接</text>
+        </navLabel>
+        <content src="text/ch005.xhtml#id_410-string拼接" />
+        <navPoint id="navPoint-97">
+          <navLabel>
+            <text>javap 探究+号操作符拼接字符串的本质</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#javap-探究号操作符拼接字符串的本质" />
+        </navPoint>
+        <navPoint id="navPoint-98">
+          <navLabel>
+            <text>为什么要编译为 StringBuilder.append</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#为什么要编译为-stringbuilderappend" />
+        </navPoint>
+        <navPoint id="navPoint-99">
+          <navLabel>
+            <text>append方法源码解析</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#append方法源码解析" />
+        </navPoint>
+        <navPoint id="navPoint-100">
+          <navLabel>
+            <text>String.concat 拼接字符串</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#stringconcat-拼接字符串" />
+        </navPoint>
+        <navPoint id="navPoint-101">
+          <navLabel>
+            <text>String.join 拼接字符串</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#stringjoin-拼接字符串" />
+        </navPoint>
+        <navPoint id="navPoint-102">
+          <navLabel>
+            <text>StringUtils.join 拼接字符串</text>
+          </navLabel>
+          <content src="text/ch005.xhtml#stringutilsjoin-拼接字符串" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-103">
+        <navLabel>
+          <text>4.11 String拆分</text>
+        </navLabel>
+        <content src="text/ch005.xhtml#id_411-string拆分" />
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-104">
+      <navLabel>
+        <text>第五章：面向对象编程</text>
+      </navLabel>
+      <content src="text/ch006.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-105">
+      <navLabel>
+        <text>5.1 Java中的类和对象</text>
+      </navLabel>
+      <content src="text/ch007.xhtml" />
+      <navPoint id="navPoint-106">
+        <navLabel>
+          <text>01、面向过程和面向对象</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_01面向过程和面向对象" />
+      </navPoint>
+      <navPoint id="navPoint-107">
+        <navLabel>
+          <text>02、类</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_02类" />
+      </navPoint>
+      <navPoint id="navPoint-108">
+        <navLabel>
+          <text>03、new 一个对象</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_03new-一个对象" />
+      </navPoint>
+      <navPoint id="navPoint-109">
+        <navLabel>
+          <text>04、初始化对象</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_04初始化对象" />
+      </navPoint>
+      <navPoint id="navPoint-110">
+        <navLabel>
+          <text>05、关于对象</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_05关于对象" />
+      </navPoint>
+      <navPoint id="navPoint-111">
+        <navLabel>
+          <text>06、小结</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_06小结-1" />
+      </navPoint>
+      <navPoint id="navPoint-112">
+        <navLabel>
+          <text>5.2 Java中的包</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_52-java中的包" />
+        <navPoint id="navPoint-113">
+          <navLabel>
+            <text>关于包</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#关于包" />
+        </navPoint>
+        <navPoint id="navPoint-114">
+          <navLabel>
+            <text>包的作用域</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#包的作用域" />
+        </navPoint>
+        <navPoint id="navPoint-115">
+          <navLabel>
+            <text>导入包</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#导入包" />
+        </navPoint>
+        <navPoint id="navPoint-116">
+          <navLabel>
+            <text>包的最佳实践</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#包的最佳实践" />
+        </navPoint>
+        <navPoint id="navPoint-117">
+          <navLabel>
+            <text>小结</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#小结-1" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-118">
+        <navLabel>
+          <text>5.3 Java中的变量</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_53-java中的变量" />
+        <navPoint id="navPoint-119">
+          <navLabel>
+            <text>01、局部变量</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_01局部变量" />
+        </navPoint>
+        <navPoint id="navPoint-120">
+          <navLabel>
+            <text>02、成员变量</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_02成员变量" />
+        </navPoint>
+        <navPoint id="navPoint-121">
+          <navLabel>
+            <text>03、静态变量</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_03静态变量" />
+        </navPoint>
+        <navPoint id="navPoint-122">
+          <navLabel>
+            <text>04、常量</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_04常量" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-123">
+        <navLabel>
+          <text>5.4 Java中的方法</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_54-java中的方法" />
+        <navPoint id="navPoint-124">
+          <navLabel>
+            <text>01、Java中的方法是什么？</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_01java中的方法是什么" />
+        </navPoint>
+        <navPoint id="navPoint-125">
+          <navLabel>
+            <text>02、如何声明方法？</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_02如何声明方法" />
+        </navPoint>
+        <navPoint id="navPoint-126">
+          <navLabel>
+            <text>03、方法有哪几种？</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_03方法有哪几种" />
+        </navPoint>
+        <navPoint id="navPoint-127">
+          <navLabel>
+            <text>04、什么是实例方法？</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_04什么是实例方法" />
+        </navPoint>
+        <navPoint id="navPoint-128">
+          <navLabel>
+            <text>05、什么是静态方法？</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_05什么是静态方法" />
+        </navPoint>
+        <navPoint id="navPoint-129">
+          <navLabel>
+            <text>06、什么是抽象方法？</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_06什么是抽象方法" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-130">
+        <navLabel>
+          <text>5.5 Java可变参数</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_55-java可变参数" />
+      </navPoint>
+      <navPoint id="navPoint-131">
+        <navLabel>
+          <text>5.6 Java native方法</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_56-java-native方法" />
+        <navPoint id="navPoint-132">
+          <navLabel>
+            <text>1、JNI：Java Native Interface</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_1jnijava-native-interface" />
+        </navPoint>
+        <navPoint id="navPoint-133">
+          <navLabel>
+            <text>2、用 C 语言编写程序本地方法</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_2用-c-语言编写程序本地方法" />
+        </navPoint>
+        <navPoint id="navPoint-134">
+          <navLabel>
+            <text>3、JNI 调用 C 的流程图</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_3jni-调用-c-的流程图" />
+        </navPoint>
+        <navPoint id="navPoint-135">
+          <navLabel>
+            <text>4、native 关键字</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_4native-关键字" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-136">
+        <navLabel>
+          <text>5.7 Java构造方法</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_57-java构造方法" />
+        <navPoint id="navPoint-137">
+          <navLabel>
+            <text>01、创建构造方法的规则</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_01创建构造方法的规则" />
+        </navPoint>
+        <navPoint id="navPoint-138">
+          <navLabel>
+            <text>02、默认构造方法</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_02默认构造方法" />
+        </navPoint>
+        <navPoint id="navPoint-139">
+          <navLabel>
+            <text>03、有参构造方法</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_03有参构造方法" />
+        </navPoint>
+        <navPoint id="navPoint-140">
+          <navLabel>
+            <text>04、重载构造方法</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_04重载构造方法" />
+        </navPoint>
+        <navPoint id="navPoint-141">
+          <navLabel>
+            <text>05、构造方法和方法的区别</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_05构造方法和方法的区别" />
+        </navPoint>
+        <navPoint id="navPoint-142">
+          <navLabel>
+            <text>06、复制对象</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_06复制对象" />
+        </navPoint>
+        <navPoint id="navPoint-143">
+          <navLabel>
+            <text>07、ending</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_07ending" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-144">
+        <navLabel>
+          <text>5.8 Java访问权限修饰符</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_58-java访问权限修饰符" />
+        <navPoint id="navPoint-145">
+          <navLabel>
+            <text>1. 修饰类</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_1-修饰类" />
+        </navPoint>
+        <navPoint id="navPoint-146">
+          <navLabel>
+            <text>2. 修饰方法和变量</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_2-修饰方法和变量" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-147">
+        <navLabel>
+          <text>5.9 Java代码初始化块</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_59-java代码初始化块" />
+      </navPoint>
+      <navPoint id="navPoint-148">
+        <navLabel>
+          <text>5.10 Java抽象类</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_510-java抽象类" />
+        <navPoint id="navPoint-149">
+          <navLabel>
+            <text>01、定义抽象类</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_01定义抽象类" />
+        </navPoint>
+        <navPoint id="navPoint-150">
+          <navLabel>
+            <text>02、抽象类的特征</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_02抽象类的特征" />
+        </navPoint>
+        <navPoint id="navPoint-151">
+          <navLabel>
+            <text>03、抽象类的应用场景</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_03抽象类的应用场景" />
+        </navPoint>
+        <navPoint id="navPoint-152">
+          <navLabel>
+            <text>04、抽象类总结</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_04抽象类总结" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-153">
+        <navLabel>
+          <text>5.11 Java接口</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_511-java接口" />
+        <navPoint id="navPoint-154">
+          <navLabel>
+            <text>01、定义接口</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_01定义接口" />
+        </navPoint>
+        <navPoint id="navPoint-155">
+          <navLabel>
+            <text>02、接口的作用</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_02接口的作用" />
+        </navPoint>
+        <navPoint id="navPoint-156">
+          <navLabel>
+            <text>03、接口的三种模式</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_03接口的三种模式" />
+        </navPoint>
+        <navPoint id="navPoint-157">
+          <navLabel>
+            <text>04、抽象类和接口的区别</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_04抽象类和接口的区别" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-158">
+        <navLabel>
+          <text>5.12 Java内部类</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_512-java内部类" />
+        <navPoint id="navPoint-159">
+          <navLabel>
+            <text>1）成员内部类</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_1）成员内部类" />
+        </navPoint>
+        <navPoint id="navPoint-160">
+          <navLabel>
+            <text>2）局部内部类</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_2）局部内部类" />
+        </navPoint>
+        <navPoint id="navPoint-161">
+          <navLabel>
+            <text>3）匿名内部类</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_3）匿名内部类" />
+        </navPoint>
+        <navPoint id="navPoint-162">
+          <navLabel>
+            <text>4）静态内部类</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_4）静态内部类" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-163">
+        <navLabel>
+          <text>5.13 Java封装继承多态</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_513-java封装继承多态" />
+        <navPoint id="navPoint-164">
+          <navLabel>
+            <text>1）封装</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_1）封装" />
+        </navPoint>
+        <navPoint id="navPoint-165">
+          <navLabel>
+            <text>2）继承</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_2）继承" />
+        </navPoint>
+        <navPoint id="navPoint-166">
+          <navLabel>
+            <text>3）多态</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_3）多态" />
+        </navPoint>
+        <navPoint id="navPoint-167">
+          <navLabel>
+            <text>4）小结</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_4）小结-1" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-168">
+        <navLabel>
+          <text>5.14 Java this和super关键字</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_514-java-this和super关键字" />
+        <navPoint id="navPoint-169">
+          <navLabel>
+            <text>01、 指向当前对象</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_01-指向当前对象" />
+        </navPoint>
+        <navPoint id="navPoint-170">
+          <navLabel>
+            <text>02、调用当前类的方法</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_02调用当前类的方法" />
+        </navPoint>
+        <navPoint id="navPoint-171">
+          <navLabel>
+            <text>03、调用当前类的构造方法</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_03调用当前类的构造方法" />
+        </navPoint>
+        <navPoint id="navPoint-172">
+          <navLabel>
+            <text>04、作为参数在方法中传递</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_04作为参数在方法中传递" />
+        </navPoint>
+        <navPoint id="navPoint-173">
+          <navLabel>
+            <text>05、作为参数在构造方法中传递</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_05作为参数在构造方法中传递" />
+        </navPoint>
+        <navPoint id="navPoint-174">
+          <navLabel>
+            <text>06、作为方法的返回值</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_06作为方法的返回值" />
+        </navPoint>
+        <navPoint id="navPoint-175">
+          <navLabel>
+            <text>07、super 关键字</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_07super-关键字" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-176">
+        <navLabel>
+          <text>5.15 Java static关键字</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_515-java-static关键字" />
+        <navPoint id="navPoint-177">
+          <navLabel>
+            <text>01、静态变量</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_01静态变量" />
+        </navPoint>
+        <navPoint id="navPoint-178">
+          <navLabel>
+            <text>02、静态方法</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_02静态方法" />
+        </navPoint>
+        <navPoint id="navPoint-179">
+          <navLabel>
+            <text>03、静态代码块</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_03静态代码块" />
+        </navPoint>
+        <navPoint id="navPoint-180">
+          <navLabel>
+            <text>04、静态内部类</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_04静态内部类" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-181">
+        <navLabel>
+          <text>5.16 Java final关键字</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_516-java-final关键字" />
+        <navPoint id="navPoint-182">
+          <navLabel>
+            <text>01、final 变量</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_01final-变量" />
+        </navPoint>
+        <navPoint id="navPoint-183">
+          <navLabel>
+            <text>02、final 方法</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_02final-方法" />
+        </navPoint>
+        <navPoint id="navPoint-184">
+          <navLabel>
+            <text>03、final 类</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_03final-类" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-185">
+        <navLabel>
+          <text>5.17 Java instanceof关键字</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_517-java-instanceof关键字" />
+      </navPoint>
+      <navPoint id="navPoint-186">
+        <navLabel>
+          <text>5.18 Java不可变对象</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_518-java不可变对象" />
+        <navPoint id="navPoint-187">
+          <navLabel>
+            <text>01、什么是不可变类</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_01什么是不可变类" />
+        </navPoint>
+        <navPoint id="navPoint-188">
+          <navLabel>
+            <text>02、常见的不可变类</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_02常见的不可变类" />
+        </navPoint>
+        <navPoint id="navPoint-189">
+          <navLabel>
+            <text>03、手撸一个不可变类</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_03手撸一个不可变类" />
+        </navPoint>
+        <navPoint id="navPoint-190">
+          <navLabel>
+            <text>04、总结</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_04总结" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-191">
+        <navLabel>
+          <text>5.19 Java方法重写和方法重载</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_519-java方法重写和方法重载" />
+        <navPoint id="navPoint-192">
+          <navLabel>
+            <text>01、方法重载</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_01方法重载" />
+        </navPoint>
+        <navPoint id="navPoint-193">
+          <navLabel>
+            <text>02、方法重写</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_02方法重写" />
+        </navPoint>
+        <navPoint id="navPoint-194">
+          <navLabel>
+            <text>03、总结</text>
+          </navLabel>
+          <content src="text/ch007.xhtml#id_03总结" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-195">
+        <navLabel>
+          <text>5.20 Java注解</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_520-java注解" />
+      </navPoint>
+      <navPoint id="navPoint-196">
+        <navLabel>
+          <text>5.21 Java枚举（enum）</text>
+        </navLabel>
+        <content src="text/ch007.xhtml#id_521-java枚举enum）" />
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-197">
+      <navLabel>
+        <text>第六章：Java 集合框架</text>
+      </navLabel>
+      <content src="text/ch008.xhtml" />
+      <navPoint id="navPoint-198">
+        <navLabel>
+          <text>6.1 List、Set、Map、队列，全面解析</text>
+        </navLabel>
+        <content src="text/ch008.xhtml#id_61-listsetmap队列全面解析" />
+        <navPoint id="navPoint-199">
+          <navLabel>
+            <text>01、List</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_01list" />
+        </navPoint>
+        <navPoint id="navPoint-200">
+          <navLabel>
+            <text>02、Set</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_02set" />
+        </navPoint>
+        <navPoint id="navPoint-201">
+          <navLabel>
+            <text>03、Queue</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_03queue" />
+        </navPoint>
+        <navPoint id="navPoint-202">
+          <navLabel>
+            <text>04、Map</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_04map" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-203">
+        <navLabel>
+          <text>6.2 时间复杂度，了解下</text>
+        </navLabel>
+        <content src="text/ch008.xhtml#id_62-时间复杂度了解下" />
+        <navPoint id="navPoint-204">
+          <navLabel>
+            <text>1）O(1)</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_1）o1" />
+        </navPoint>
+        <navPoint id="navPoint-205">
+          <navLabel>
+            <text>2）O(n)</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_2）on" />
+        </navPoint>
+        <navPoint id="navPoint-206">
+          <navLabel>
+            <text>3）O(logn)</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_3）ologn" />
+        </navPoint>
+        <navPoint id="navPoint-207">
+          <navLabel>
+            <text>4）平方时间复杂度 O(n^2)</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_4）平方时间复杂度-on2" />
+        </navPoint>
+        <navPoint id="navPoint-208">
+          <navLabel>
+            <text>5）指数时间复杂度 O(2^n)</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_5）指数时间复杂度-o2n" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-209">
+        <navLabel>
+          <text>6.3 ArrayList详解（附源码）</text>
+        </navLabel>
+        <content src="text/ch008.xhtml#id_63-arraylist详解附源码）" />
+        <navPoint id="navPoint-210">
+          <navLabel>
+            <text>01、创建 ArrayList</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_01创建-arraylist" />
+        </navPoint>
+        <navPoint id="navPoint-211">
+          <navLabel>
+            <text>02、向 ArrayList 中添加元素</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_02向-arraylist-中添加元素" />
+        </navPoint>
+        <navPoint id="navPoint-212">
+          <navLabel>
+            <text>03、右移操作符</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_03右移操作符" />
+        </navPoint>
+        <navPoint id="navPoint-213">
+          <navLabel>
+            <text>04、向 ArrayList 的指定位置添加元素</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_04向-arraylist-的指定位置添加元素" />
+        </navPoint>
+        <navPoint id="navPoint-214">
+          <navLabel>
+            <text>05、更新 ArrayList 中的元素</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_05更新-arraylist-中的元素" />
+        </navPoint>
+        <navPoint id="navPoint-215">
+          <navLabel>
+            <text>06、删除 ArrayList 中的元素</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_06删除-arraylist-中的元素" />
+        </navPoint>
+        <navPoint id="navPoint-216">
+          <navLabel>
+            <text>07、查找 ArrayList 中的元素</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_07查找-arraylist-中的元素" />
+        </navPoint>
+        <navPoint id="navPoint-217">
+          <navLabel>
+            <text>08、二分查找法</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_08二分查找法" />
+        </navPoint>
+        <navPoint id="navPoint-218">
+          <navLabel>
+            <text>09、ArrayList增删改查时的时间复杂度</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_09arraylist增删改查时的时间复杂度" />
+        </navPoint>
+        <navPoint id="navPoint-219">
+          <navLabel>
+            <text>10、总结</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_10总结-1" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-220">
+        <navLabel>
+          <text>6.4 LinkedList详解（附源码）</text>
+        </navLabel>
+        <content src="text/ch008.xhtml#id_64-linkedlist详解附源码）" />
+        <navPoint id="navPoint-221">
+          <navLabel>
+            <text>01、LinkedList的内功心法</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_01linkedlist的内功心法" />
+        </navPoint>
+        <navPoint id="navPoint-222">
+          <navLabel>
+            <text>02、LinkedList的招式</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_02linkedlist的招式" />
+        </navPoint>
+        <navPoint id="navPoint-223">
+          <navLabel>
+            <text>03、LinkedList 的挑战</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_03linkedlist-的挑战" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-224">
+        <navLabel>
+          <text>6.5 ArrayList和LinkedList的区别</text>
+        </navLabel>
+        <content src="text/ch008.xhtml#id_65-arraylist和linkedlist的区别" />
+        <navPoint id="navPoint-225">
+          <navLabel>
+            <text>01、ArrayList 是如何实现的？</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_01arraylist-是如何实现的" />
+        </navPoint>
+        <navPoint id="navPoint-226">
+          <navLabel>
+            <text>02、LinkedList 是如何实现的？</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_02linkedlist-是如何实现的" />
+        </navPoint>
+        <navPoint id="navPoint-227">
+          <navLabel>
+            <text>03、新增元素时究竟谁快？</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_03新增元素时究竟谁快" />
+        </navPoint>
+        <navPoint id="navPoint-228">
+          <navLabel>
+            <text>04、删除元素时究竟谁快？</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_04删除元素时究竟谁快" />
+        </navPoint>
+        <navPoint id="navPoint-229">
+          <navLabel>
+            <text>05、遍历元素时究竟谁快？</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_05遍历元素时究竟谁快" />
+        </navPoint>
+        <navPoint id="navPoint-230">
+          <navLabel>
+            <text>06、两者的使用场景</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_06两者的使用场景" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-231">
+        <navLabel>
+          <text>6.6 Java泛型，深入解析</text>
+        </navLabel>
+        <content src="text/ch008.xhtml#id_66-java泛型深入解析" />
+        <navPoint id="navPoint-232">
+          <navLabel>
+            <text>动手设计一个泛型</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#动手设计一个泛型" />
+        </navPoint>
+        <navPoint id="navPoint-233">
+          <navLabel>
+            <text>泛型限定符</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#泛型限定符" />
+        </navPoint>
+        <navPoint id="navPoint-234">
+          <navLabel>
+            <text>类型擦除</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#类型擦除" />
+        </navPoint>
+        <navPoint id="navPoint-235">
+          <navLabel>
+            <text>泛型通配符</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#泛型通配符" />
+        </navPoint>
+        <navPoint id="navPoint-236">
+          <navLabel>
+            <text>小结</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#小结-2" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-237">
+        <navLabel>
+          <text>6.7 Iterator和Iterable的区别</text>
+        </navLabel>
+        <content src="text/ch008.xhtml#id_67-iterator和iterable的区别" />
+      </navPoint>
+      <navPoint id="navPoint-238">
+        <navLabel>
+          <text>6.8 Java foreach 循环陷阱</text>
+        </navLabel>
+        <content src="text/ch008.xhtml#id_68-java-foreach-循环陷阱" />
+        <navPoint id="navPoint-239">
+          <navLabel>
+            <text>关于fail-fast</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#关于fail-fast" />
+        </navPoint>
+        <navPoint id="navPoint-240">
+          <navLabel>
+            <text>for-each 删除元素报错</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#for-each-删除元素报错" />
+        </navPoint>
+        <navPoint id="navPoint-241">
+          <navLabel>
+            <text>分析代码执行的逻辑</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#分析代码执行的逻辑" />
+        </navPoint>
+        <navPoint id="navPoint-242">
+          <navLabel>
+            <text>那该如何正确地删除元素呢？</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#那该如何正确地删除元素呢" />
+        </navPoint>
+        <navPoint id="navPoint-243">
+          <navLabel>
+            <text>小结</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#小结-3" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-244">
+        <navLabel>
+          <text>6.9 HashMap详解（附源码）</text>
+        </navLabel>
+        <content src="text/ch008.xhtml#id_69-hashmap详解附源码）" />
+        <navPoint id="navPoint-245">
+          <navLabel>
+            <text>01、hash方法的原理</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_01hash方法的原理" />
+        </navPoint>
+        <navPoint id="navPoint-246">
+          <navLabel>
+            <text>02、HashMap的扩容机制</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_02hashmap的扩容机制" />
+        </navPoint>
+        <navPoint id="navPoint-247">
+          <navLabel>
+            <text>03、加载因子为什么是0.75</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_03加载因子为什么是075" />
+        </navPoint>
+        <navPoint id="navPoint-248">
+          <navLabel>
+            <text>04、线程不安全</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_04线程不安全" />
+        </navPoint>
+        <navPoint id="navPoint-249">
+          <navLabel>
+            <text>05、总结</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_05总结" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-250">
+        <navLabel>
+          <text>6.10 LinkedHashMap详解（附源码）</text>
+        </navLabel>
+        <content src="text/ch008.xhtml#id_610-linkedhashmap详解附源码）" />
+        <navPoint id="navPoint-251">
+          <navLabel>
+            <text>01、插入顺序</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_01插入顺序" />
+        </navPoint>
+        <navPoint id="navPoint-252">
+          <navLabel>
+            <text>02、访问顺序</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_02访问顺序" />
+        </navPoint>
+        <navPoint id="navPoint-253">
+          <navLabel>
+            <text>03、小结</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_03小结-2" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-254">
+        <navLabel>
+          <text>6.11 TreeMap详解（附源码）</text>
+        </navLabel>
+        <content src="text/ch008.xhtml#id_611-treemap详解附源码）" />
+        <navPoint id="navPoint-255">
+          <navLabel>
+            <text>01、自然顺序</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_01自然顺序" />
+        </navPoint>
+        <navPoint id="navPoint-256">
+          <navLabel>
+            <text>02、自定义排序</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_02自定义排序" />
+        </navPoint>
+        <navPoint id="navPoint-257">
+          <navLabel>
+            <text>03、排序的好处</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_03排序的好处" />
+        </navPoint>
+        <navPoint id="navPoint-258">
+          <navLabel>
+            <text>04、如何选择 Map</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_04如何选择-map" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-259">
+        <navLabel>
+          <text>6.12 双端队列ArrayDeque详解</text>
+        </navLabel>
+        <content src="text/ch008.xhtml#id_612-双端队列arraydeque详解" />
+        <navPoint id="navPoint-260">
+          <navLabel>
+            <text>栈和队列</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#栈和队列" />
+        </navPoint>
+        <navPoint id="navPoint-261">
+          <navLabel>
+            <text>方法剖析</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#方法剖析-1" />
+        </navPoint>
+        <navPoint id="navPoint-262">
+          <navLabel>
+            <text>小结</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#小结-7" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-263">
+        <navLabel>
+          <text>6.13 优先级队列PriorityQueue详解</text>
+        </navLabel>
+        <content src="text/ch008.xhtml#id_613-优先级队列priorityqueue详解" />
+        <navPoint id="navPoint-264">
+          <navLabel>
+            <text>PriorityQueue的作用</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#priorityqueue的作用" />
+        </navPoint>
+        <navPoint id="navPoint-265">
+          <navLabel>
+            <text>方法剖析</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#方法剖析-2" />
+        </navPoint>
+        <navPoint id="navPoint-266">
+          <navLabel>
+            <text>小结</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#小结-8" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-267">
+        <navLabel>
+          <text>6.14 Comparable和Comparator的区别</text>
+        </navLabel>
+        <content src="text/ch008.xhtml#id_614-comparable和comparator的区别" />
+        <navPoint id="navPoint-268">
+          <navLabel>
+            <text>01、Comparable</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_01comparable" />
+        </navPoint>
+        <navPoint id="navPoint-269">
+          <navLabel>
+            <text>02、Comparator</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_02comparator" />
+        </navPoint>
+        <navPoint id="navPoint-270">
+          <navLabel>
+            <text>03、到底该用哪一个？</text>
+          </navLabel>
+          <content src="text/ch008.xhtml#id_03到底该用哪一个" />
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-271">
+      <navLabel>
+        <text>第七章：Java IO</text>
+      </navLabel>
+      <content src="text/ch009.xhtml" />
+      <navPoint id="navPoint-272">
+        <navLabel>
+          <text>7.1 IO 分类</text>
+        </navLabel>
+        <content src="text/ch009.xhtml#id_71-io-分类" />
+        <navPoint id="navPoint-273">
+          <navLabel>
+            <text>00、初识 Java IO</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_00初识-java-io" />
+        </navPoint>
+        <navPoint id="navPoint-274">
+          <navLabel>
+            <text>01、传输方式划分</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_01传输方式划分" />
+        </navPoint>
+        <navPoint id="navPoint-275">
+          <navLabel>
+            <text>02、操作对象划分</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_02操作对象划分" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-276">
+        <navLabel>
+          <text>7.2 文件流</text>
+        </navLabel>
+        <content src="text/ch009.xhtml#id_72-文件流" />
+        <navPoint id="navPoint-277">
+          <navLabel>
+            <text>File 构造方法</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#file-构造方法" />
+        </navPoint>
+        <navPoint id="navPoint-278">
+          <navLabel>
+            <text>File 常用方法</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#file-常用方法" />
+        </navPoint>
+        <navPoint id="navPoint-279">
+          <navLabel>
+            <text>RandomAccessFile</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#randomaccessfile" />
+        </navPoint>
+        <navPoint id="navPoint-280">
+          <navLabel>
+            <text>Apache FileUtils 类</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#apache-fileutils-类" />
+        </navPoint>
+        <navPoint id="navPoint-281">
+          <navLabel>
+            <text>Hutool FileUtil 类</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#hutool-fileutil-类" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-282">
+        <navLabel>
+          <text>7.3 字节流</text>
+        </navLabel>
+        <content src="text/ch009.xhtml#id_73-字节流" />
+        <navPoint id="navPoint-283">
+          <navLabel>
+            <text>字节输出流（OutputStream）</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#字节输出流outputstream）" />
+        </navPoint>
+        <navPoint id="navPoint-284">
+          <navLabel>
+            <text>FileOutputStream类</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#fileoutputstream类" />
+        </navPoint>
+        <navPoint id="navPoint-285">
+          <navLabel>
+            <text>字节输入流（InputStream）</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#字节输入流inputstream）" />
+        </navPoint>
+        <navPoint id="navPoint-286">
+          <navLabel>
+            <text>FileInputStream类</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#fileinputstream类" />
+        </navPoint>
+        <navPoint id="navPoint-287">
+          <navLabel>
+            <text>小结</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#小结-9" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-288">
+        <navLabel>
+          <text>7.4 字符流</text>
+        </navLabel>
+        <content src="text/ch009.xhtml#id_74-字符流" />
+        <navPoint id="navPoint-289">
+          <navLabel>
+            <text>01、字符输入流（Reader）</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_01字符输入流reader）" />
+        </navPoint>
+        <navPoint id="navPoint-290">
+          <navLabel>
+            <text>02、字符输出流（Writer）</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_02字符输出流writer）" />
+        </navPoint>
+        <navPoint id="navPoint-291">
+          <navLabel>
+            <text>03、IO异常的处理</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_03io异常的处理" />
+        </navPoint>
+        <navPoint id="navPoint-292">
+          <navLabel>
+            <text>04、小结</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_04小结-1" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-293">
+        <navLabel>
+          <text>7.5 缓冲流</text>
+        </navLabel>
+        <content src="text/ch009.xhtml#id_75-缓冲流" />
+        <navPoint id="navPoint-294">
+          <navLabel>
+            <text>01、字节缓冲流</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_01字节缓冲流" />
+        </navPoint>
+        <navPoint id="navPoint-295">
+          <navLabel>
+            <text>02、字符缓冲流</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_02字符缓冲流" />
+        </navPoint>
+        <navPoint id="navPoint-296">
+          <navLabel>
+            <text>03、字符缓冲流练习</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_03字符缓冲流练习" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-297">
+        <navLabel>
+          <text>7.6 转换流</text>
+        </navLabel>
+        <content src="text/ch009.xhtml#id_76-转换流" />
+        <navPoint id="navPoint-298">
+          <navLabel>
+            <text>01、编码和解码</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_01编码和解码" />
+        </navPoint>
+        <navPoint id="navPoint-299">
+          <navLabel>
+            <text>02、字符集</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_02字符集" />
+        </navPoint>
+        <navPoint id="navPoint-300">
+          <navLabel>
+            <text>03、乱码</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_03乱码" />
+        </navPoint>
+        <navPoint id="navPoint-301">
+          <navLabel>
+            <text>04、InputStreamReader</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_04inputstreamreader" />
+        </navPoint>
+        <navPoint id="navPoint-302">
+          <navLabel>
+            <text>05、OutputStreamWriter</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_05outputstreamwriter" />
+        </navPoint>
+        <navPoint id="navPoint-303">
+          <navLabel>
+            <text>06、小结</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_06小结-2" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-304">
+        <navLabel>
+          <text>7.7 打印流</text>
+        </navLabel>
+        <content src="text/ch009.xhtml#id_77-打印流" />
+      </navPoint>
+      <navPoint id="navPoint-305">
+        <navLabel>
+          <text>7.8 序列流(序列化和反序列化)</text>
+        </navLabel>
+        <content src="text/ch009.xhtml#id_78-序列流序列化和反序列化" />
+        <navPoint id="navPoint-306">
+          <navLabel>
+            <text>01、ObjectOutputStream</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_01objectoutputstream" />
+        </navPoint>
+        <navPoint id="navPoint-307">
+          <navLabel>
+            <text>02、ObjectInputStream</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_02objectinputstream" />
+        </navPoint>
+        <navPoint id="navPoint-308">
+          <navLabel>
+            <text>03、Kryo</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_03kryo" />
+        </navPoint>
+        <navPoint id="navPoint-309">
+          <navLabel>
+            <text>04、小结</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_04小结-2" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-310">
+        <navLabel>
+          <text>7.9 序列接口Serializable</text>
+        </navLabel>
+        <content src="text/ch009.xhtml#id_79-序列接口serializable" />
+        <navPoint id="navPoint-311">
+          <navLabel>
+            <text>01、先来点理论</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_01先来点理论" />
+        </navPoint>
+        <navPoint id="navPoint-312">
+          <navLabel>
+            <text>02、再来点实战</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_02再来点实战" />
+        </navPoint>
+        <navPoint id="navPoint-313">
+          <navLabel>
+            <text>03、再来点注意事项</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_03再来点注意事项" />
+        </navPoint>
+        <navPoint id="navPoint-314">
+          <navLabel>
+            <text>04、再来点干货</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_04再来点干货" />
+        </navPoint>
+        <navPoint id="navPoint-315">
+          <navLabel>
+            <text>05、再来点甜点</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_05再来点甜点" />
+        </navPoint>
+        <navPoint id="navPoint-316">
+          <navLabel>
+            <text>06、再来点总结</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_06再来点总结" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-317">
+        <navLabel>
+          <text>7.10 transient关键字</text>
+        </navLabel>
+        <content src="text/ch009.xhtml#id_710-transient关键字" />
+        <navPoint id="navPoint-318">
+          <navLabel>
+            <text>01、transient 的作用及使用方法</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_01transient-的作用及使用方法" />
+        </navPoint>
+        <navPoint id="navPoint-319">
+          <navLabel>
+            <text>02、transient 使用小结</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_02transient-使用小结" />
+        </navPoint>
+        <navPoint id="navPoint-320">
+          <navLabel>
+            <text>03、transient 修饰的字段真的不能被序列化？</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_03transient-修饰的字段真的不能被序列化" />
+        </navPoint>
+        <navPoint id="navPoint-321">
+          <navLabel>
+            <text>04、小结</text>
+          </navLabel>
+          <content src="text/ch009.xhtml#id_04小结-3" />
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-322">
+      <navLabel>
+        <text>第八章：异常处理</text>
+      </navLabel>
+      <content src="text/ch010.xhtml" />
+      <navPoint id="navPoint-323">
+        <navLabel>
+          <text>8.1 Java异常处理全面解析</text>
+        </navLabel>
+        <content src="text/ch010.xhtml#id_81-java异常处理全面解析" />
+        <navPoint id="navPoint-324">
+          <navLabel>
+            <text>01、什么是异常</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_01什么是异常" />
+        </navPoint>
+        <navPoint id="navPoint-325">
+          <navLabel>
+            <text>02、Exception和Error的区别</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_02exception和error的区别" />
+        </navPoint>
+        <navPoint id="navPoint-326">
+          <navLabel>
+            <text>03、checked和unchecked异常</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_03checked和unchecked异常" />
+        </navPoint>
+        <navPoint id="navPoint-327">
+          <navLabel>
+            <text>04、关于 throw 和 throws</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_04关于-throw-和-throws" />
+        </navPoint>
+        <navPoint id="navPoint-328">
+          <navLabel>
+            <text>05、关于 try-catch-finally</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_05关于-try-catch-finally" />
+        </navPoint>
+        <navPoint id="navPoint-329">
+          <navLabel>
+            <text>06、小结</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_06小结-3" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-330">
+        <navLabel>
+          <text>8.2 try-with-resources</text>
+        </navLabel>
+        <content src="text/ch010.xhtml#id_82-try-with-resources" />
+      </navPoint>
+      <navPoint id="navPoint-331">
+        <navLabel>
+          <text>8.3 异常处理的20个最佳实践</text>
+        </navLabel>
+        <content src="text/ch010.xhtml#id_83-异常处理的20个最佳实践" />
+        <navPoint id="navPoint-332">
+          <navLabel>
+            <text>01、尽量不要捕获 RuntimeException</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_01尽量不要捕获-runtimeexception" />
+        </navPoint>
+        <navPoint id="navPoint-333">
+          <navLabel>
+            <text>02、尽量使用 try-with-resource 来关闭资源</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_02尽量使用-try-with-resource-来关闭资源" />
+        </navPoint>
+        <navPoint id="navPoint-334">
+          <navLabel>
+            <text>03、不要捕获 Throwable</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_03不要捕获-throwable" />
+        </navPoint>
+        <navPoint id="navPoint-335">
+          <navLabel>
+            <text>04、不要省略异常信息的记录</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_04不要省略异常信息的记录" />
+        </navPoint>
+        <navPoint id="navPoint-336">
+          <navLabel>
+            <text>05、不要记录了异常又抛出了异常</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_05不要记录了异常又抛出了异常" />
+        </navPoint>
+        <navPoint id="navPoint-337">
+          <navLabel>
+            <text>06、不要在 finally 块中使用 return</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_06不要在-finally-块中使用-return" />
+        </navPoint>
+        <navPoint id="navPoint-338">
+          <navLabel>
+            <text>07、抛出具体定义的检查性异常而不是 Exception</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_07抛出具体定义的检查性异常而不是-exception" />
+        </navPoint>
+        <navPoint id="navPoint-339">
+          <navLabel>
+            <text>08、捕获具体的子类而不是捕获 Exception 类</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_08捕获具体的子类而不是捕获-exception-类" />
+        </navPoint>
+        <navPoint id="navPoint-340">
+          <navLabel>
+            <text>09、自定义异常时不要丢失堆栈跟踪</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_09自定义异常时不要丢失堆栈跟踪" />
+        </navPoint>
+        <navPoint id="navPoint-341">
+          <navLabel>
+            <text>10、finally 块中不要抛出任何异常</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_10finally-块中不要抛出任何异常" />
+        </navPoint>
+        <navPoint id="navPoint-342">
+          <navLabel>
+            <text>11、不要在生产环境中使用 printStackTrace()</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_11不要在生产环境中使用-printstacktrace" />
+        </navPoint>
+        <navPoint id="navPoint-343">
+          <navLabel>
+            <text>12、对于不打算处理的异常，直接使用 try-finally，不用 catch</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_12对于不打算处理的异常直接使用-try-finally不用-catch" />
+        </navPoint>
+        <navPoint id="navPoint-344">
+          <navLabel>
+            <text>13、记住早 throw 晚 catch 原则</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_13记住早-throw-晚-catch-原则" />
+        </navPoint>
+        <navPoint id="navPoint-345">
+          <navLabel>
+            <text>14、只抛出和方法相关的异常</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_14只抛出和方法相关的异常" />
+        </navPoint>
+        <navPoint id="navPoint-346">
+          <navLabel>
+            <text>15、切勿在代码中使用异常来进行流程控制</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_15切勿在代码中使用异常来进行流程控制" />
+        </navPoint>
+        <navPoint id="navPoint-347">
+          <navLabel>
+            <text>16、尽早验证用户输入以在请求处理的早期捕获异常</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_16尽早验证用户输入以在请求处理的早期捕获异常" />
+        </navPoint>
+        <navPoint id="navPoint-348">
+          <navLabel>
+            <text>17、一个异常只能包含在一个日志中</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_17一个异常只能包含在一个日志中" />
+        </navPoint>
+        <navPoint id="navPoint-349">
+          <navLabel>
+            <text>18、将所有相关信息尽可能地传递给异常</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_18将所有相关信息尽可能地传递给异常" />
+        </navPoint>
+        <navPoint id="navPoint-350">
+          <navLabel>
+            <text>19、终止掉被中断线程</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_19终止掉被中断线程" />
+        </navPoint>
+        <navPoint id="navPoint-351">
+          <navLabel>
+            <text>20、对于重复的 try-catch，使用模板方法</text>
+          </navLabel>
+          <content src="text/ch010.xhtml#id_20对于重复的-try-catch使用模板方法" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-352">
+        <navLabel>
+          <text>8.4 空指针的传说</text>
+        </navLabel>
+        <content src="text/ch010.xhtml#id_84-空指针的传说" />
+      </navPoint>
+      <navPoint id="navPoint-353">
+        <navLabel>
+          <text>8.5 try-catch会影响性能吗？</text>
+        </navLabel>
+        <content src="text/ch010.xhtml#id_85-try-catch会影响性能吗" />
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-354">
+      <navLabel>
+        <text>第九章：常用工具类</text>
+      </navLabel>
+      <content src="text/ch011.xhtml" />
+      <navPoint id="navPoint-355">
+        <navLabel>
+          <text>9.1 Scanner工具类</text>
+        </navLabel>
+        <content src="text/ch011.xhtml#id_91-scanner工具类" />
+        <navPoint id="navPoint-356">
+          <navLabel>
+            <text>01、扫描控制台输入</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_01扫描控制台输入" />
+        </navPoint>
+        <navPoint id="navPoint-357">
+          <navLabel>
+            <text>02、扫描文件</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_02扫描文件" />
+        </navPoint>
+        <navPoint id="navPoint-358">
+          <navLabel>
+            <text>03、查找匹配项</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_03查找匹配项" />
+        </navPoint>
+        <navPoint id="navPoint-359">
+          <navLabel>
+            <text>04、小结</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_04小结-4" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-360">
+        <navLabel>
+          <text>9.2 Arrays工具类</text>
+        </navLabel>
+        <content src="text/ch011.xhtml#id_92-arrays工具类" />
+        <navPoint id="navPoint-361">
+          <navLabel>
+            <text>01、创建数组</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_01创建数组" />
+        </navPoint>
+        <navPoint id="navPoint-362">
+          <navLabel>
+            <text>02、比较数组</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_02比较数组" />
+        </navPoint>
+        <navPoint id="navPoint-363">
+          <navLabel>
+            <text>03、数组排序</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_03数组排序" />
+        </navPoint>
+        <navPoint id="navPoint-364">
+          <navLabel>
+            <text>04、数组检索</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_04数组检索" />
+        </navPoint>
+        <navPoint id="navPoint-365">
+          <navLabel>
+            <text>05、数组转流</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_05数组转流" />
+        </navPoint>
+        <navPoint id="navPoint-366">
+          <navLabel>
+            <text>06、打印数组</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_06打印数组" />
+        </navPoint>
+        <navPoint id="navPoint-367">
+          <navLabel>
+            <text>07、数组转 List</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_07数组转-list" />
+        </navPoint>
+        <navPoint id="navPoint-368">
+          <navLabel>
+            <text>08、setAll</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_08setall" />
+        </navPoint>
+        <navPoint id="navPoint-369">
+          <navLabel>
+            <text>09、parallelPrefix</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_09parallelprefix" />
+        </navPoint>
+        <navPoint id="navPoint-370">
+          <navLabel>
+            <text>10、总结</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_10总结-2" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-371">
+        <navLabel>
+          <text>9.3 StringUtils工具类</text>
+        </navLabel>
+        <content src="text/ch011.xhtml#id_93-stringutils工具类" />
+        <navPoint id="navPoint-372">
+          <navLabel>
+            <text>字符串判空</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#字符串判空" />
+        </navPoint>
+        <navPoint id="navPoint-373">
+          <navLabel>
+            <text>分隔字符串</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#分隔字符串" />
+        </navPoint>
+        <navPoint id="navPoint-374">
+          <navLabel>
+            <text>判断是否纯数字</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#判断是否纯数字" />
+        </navPoint>
+        <navPoint id="navPoint-375">
+          <navLabel>
+            <text>将集合拼接成字符串</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#将集合拼接成字符串" />
+        </navPoint>
+        <navPoint id="navPoint-376">
+          <navLabel>
+            <text>其他方法</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#其他方法" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-377">
+        <navLabel>
+          <text>9.4 Objects工具类</text>
+        </navLabel>
+        <content src="text/ch011.xhtml#id_94-objects工具类" />
+        <navPoint id="navPoint-378">
+          <navLabel>
+            <text>对象判空</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#对象判空" />
+        </navPoint>
+        <navPoint id="navPoint-379">
+          <navLabel>
+            <text>对象为空时抛异常</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#对象为空时抛异常" />
+        </navPoint>
+        <navPoint id="navPoint-380">
+          <navLabel>
+            <text>判断两个对象是否相等</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#判断两个对象是否相等" />
+        </navPoint>
+        <navPoint id="navPoint-381">
+          <navLabel>
+            <text>获取对象的hashCode</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#获取对象的hashcode" />
+        </navPoint>
+        <navPoint id="navPoint-382">
+          <navLabel>
+            <text>比较两个对象</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#比较两个对象" />
+        </navPoint>
+        <navPoint id="navPoint-383">
+          <navLabel>
+            <text>比较两个数组</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#比较两个数组" />
+        </navPoint>
+        <navPoint id="navPoint-384">
+          <navLabel>
+            <text>小结</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#小结-10" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-385">
+        <navLabel>
+          <text>9.5 Collections工具类</text>
+        </navLabel>
+        <content src="text/ch011.xhtml#id_95-collections工具类" />
+        <navPoint id="navPoint-386">
+          <navLabel>
+            <text>01、排序操作</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_01排序操作" />
+        </navPoint>
+        <navPoint id="navPoint-387">
+          <navLabel>
+            <text>02、查找操作</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_02查找操作" />
+        </navPoint>
+        <navPoint id="navPoint-388">
+          <navLabel>
+            <text>03、同步控制</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_03同步控制" />
+        </navPoint>
+        <navPoint id="navPoint-389">
+          <navLabel>
+            <text>04、不可变集合</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_04不可变集合" />
+        </navPoint>
+        <navPoint id="navPoint-390">
+          <navLabel>
+            <text>05、其他</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_05其他" />
+        </navPoint>
+        <navPoint id="navPoint-391">
+          <navLabel>
+            <text>06、CollectionUtils：Spring 和 Apache 都有提供的集合工具类</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_06collectionutilsspring-和-apache-都有提供的集合工具类" />
+        </navPoint>
+        <navPoint id="navPoint-392">
+          <navLabel>
+            <text>07、小结</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_07小结-2" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-393">
+        <navLabel>
+          <text>9.6 Hutool工具类库</text>
+        </navLabel>
+        <content src="text/ch011.xhtml#id_96-hutool工具类库" />
+        <navPoint id="navPoint-394">
+          <navLabel>
+            <text>01、引入 Hutool</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_01引入-hutool" />
+        </navPoint>
+        <navPoint id="navPoint-395">
+          <navLabel>
+            <text>02、类型转换</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_02类型转换" />
+        </navPoint>
+        <navPoint id="navPoint-396">
+          <navLabel>
+            <text>03、日期时间</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_03日期时间" />
+        </navPoint>
+        <navPoint id="navPoint-397">
+          <navLabel>
+            <text>04、IO 流相关</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_04io-流相关" />
+        </navPoint>
+        <navPoint id="navPoint-398">
+          <navLabel>
+            <text>05、字符串工具</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_05字符串工具" />
+        </navPoint>
+        <navPoint id="navPoint-399">
+          <navLabel>
+            <text>06、反射工具</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_06反射工具" />
+        </navPoint>
+        <navPoint id="navPoint-400">
+          <navLabel>
+            <text>07、压缩工具</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_07压缩工具" />
+        </navPoint>
+        <navPoint id="navPoint-401">
+          <navLabel>
+            <text>08、身份证工具</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_08身份证工具" />
+        </navPoint>
+        <navPoint id="navPoint-402">
+          <navLabel>
+            <text>09、扩展 HashMap</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_09扩展-hashmap" />
+        </navPoint>
+        <navPoint id="navPoint-403">
+          <navLabel>
+            <text>10、控制台打印</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_10控制台打印" />
+        </navPoint>
+        <navPoint id="navPoint-404">
+          <navLabel>
+            <text>11、字段验证器</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_11字段验证器" />
+        </navPoint>
+        <navPoint id="navPoint-405">
+          <navLabel>
+            <text>12、双向查找 Map</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_12双向查找-map" />
+        </navPoint>
+        <navPoint id="navPoint-406">
+          <navLabel>
+            <text>13、图片工具</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_13图片工具" />
+        </navPoint>
+        <navPoint id="navPoint-407">
+          <navLabel>
+            <text>14、配置文件</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_14配置文件" />
+        </navPoint>
+        <navPoint id="navPoint-408">
+          <navLabel>
+            <text>15、日志工厂</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_15日志工厂" />
+        </navPoint>
+        <navPoint id="navPoint-409">
+          <navLabel>
+            <text>16、缓存工具</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_16缓存工具" />
+        </navPoint>
+        <navPoint id="navPoint-410">
+          <navLabel>
+            <text>17、加密解密</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_17加密解密" />
+        </navPoint>
+        <navPoint id="navPoint-411">
+          <navLabel>
+            <text>18、其他类库</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_18其他类库" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-412">
+        <navLabel>
+          <text>9.7 Guava工具库</text>
+        </navLabel>
+        <content src="text/ch011.xhtml#id_97-guava工具库" />
+        <navPoint id="navPoint-413">
+          <navLabel>
+            <text>01、前世今生</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_01前世今生" />
+        </navPoint>
+        <navPoint id="navPoint-414">
+          <navLabel>
+            <text>02、引入 Guava</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_02引入-guava" />
+        </navPoint>
+        <navPoint id="navPoint-415">
+          <navLabel>
+            <text>03、基本工具</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_03基本工具" />
+        </navPoint>
+        <navPoint id="navPoint-416">
+          <navLabel>
+            <text>04、集合</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_04集合" />
+        </navPoint>
+        <navPoint id="navPoint-417">
+          <navLabel>
+            <text>05、字符串处理</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_05字符串处理" />
+        </navPoint>
+        <navPoint id="navPoint-418">
+          <navLabel>
+            <text>06、缓存</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_06缓存" />
+        </navPoint>
+        <navPoint id="navPoint-419">
+          <navLabel>
+            <text>07、集合工具</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_07集合工具" />
+        </navPoint>
+        <navPoint id="navPoint-420">
+          <navLabel>
+            <text>08、尾声</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#id_08尾声" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-421">
+        <navLabel>
+          <text>9.8 其他常用工具类</text>
+        </navLabel>
+        <content src="text/ch011.xhtml#id_98-其他常用工具类" />
+        <navPoint id="navPoint-422">
+          <navLabel>
+            <text>IpUtil：获取本机 Ip</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#iputil获取本机-ip" />
+        </navPoint>
+        <navPoint id="navPoint-423">
+          <navLabel>
+            <text>MDC：一个线程安全的参数传递工具类</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#mdc一个线程安全的参数传递工具类" />
+        </navPoint>
+        <navPoint id="navPoint-424">
+          <navLabel>
+            <text>ClassUtils</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#classutils" />
+        </navPoint>
+        <navPoint id="navPoint-425">
+          <navLabel>
+            <text>BeanUtils</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#beanutils" />
+        </navPoint>
+        <navPoint id="navPoint-426">
+          <navLabel>
+            <text>ReflectionUtils</text>
+          </navLabel>
+          <content src="text/ch011.xhtml#reflectionutils" />
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-427">
+      <navLabel>
+        <text>第十章：Java新特性</text>
+      </navLabel>
+      <content src="text/ch012.xhtml" />
+      <navPoint id="navPoint-428">
+        <navLabel>
+          <text>10.1 掌握Stream流</text>
+        </navLabel>
+        <content src="text/ch012.xhtml#id_101-掌握stream流" />
+        <navPoint id="navPoint-429">
+          <navLabel>
+            <text>01、创建流</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_01创建流" />
+        </navPoint>
+        <navPoint id="navPoint-430">
+          <navLabel>
+            <text>02、操作流</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_02操作流" />
+        </navPoint>
+        <navPoint id="navPoint-431">
+          <navLabel>
+            <text>03、转换流</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_03转换流" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-432">
+        <navLabel>
+          <text>10.2 Optional最佳指南</text>
+        </navLabel>
+        <content src="text/ch012.xhtml#id_102-optional最佳指南" />
+        <navPoint id="navPoint-433">
+          <navLabel>
+            <text>01、没有 Optional 会有什么问题</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_01没有-optional-会有什么问题" />
+        </navPoint>
+        <navPoint id="navPoint-434">
+          <navLabel>
+            <text>02、Optional 是如何解决这个问题的</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_02optional-是如何解决这个问题的" />
+        </navPoint>
+        <navPoint id="navPoint-435">
+          <navLabel>
+            <text>03、创建 Optional 对象</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_03创建-optional-对象" />
+        </navPoint>
+        <navPoint id="navPoint-436">
+          <navLabel>
+            <text>04、判断值是否存在</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_04判断值是否存在" />
+        </navPoint>
+        <navPoint id="navPoint-437">
+          <navLabel>
+            <text>05、非空表达式</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_05非空表达式" />
+        </navPoint>
+        <navPoint id="navPoint-438">
+          <navLabel>
+            <text>06、设置（获取）默认值</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_06设置获取）默认值" />
+        </navPoint>
+        <navPoint id="navPoint-439">
+          <navLabel>
+            <text>07、获取值</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_07获取值" />
+        </navPoint>
+        <navPoint id="navPoint-440">
+          <navLabel>
+            <text>08、过滤值</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_08过滤值" />
+        </navPoint>
+        <navPoint id="navPoint-441">
+          <navLabel>
+            <text>09、转换值</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_09转换值" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-442">
+        <navLabel>
+          <text>10.3 深入浅出Lambda表达式</text>
+        </navLabel>
+        <content src="text/ch012.xhtml#id_103-深入浅出lambda表达式" />
+        <navPoint id="navPoint-443">
+          <navLabel>
+            <text>01、初识 Lambda</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_01初识-lambda" />
+        </navPoint>
+        <navPoint id="navPoint-444">
+          <navLabel>
+            <text>02、Lambda 语法</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_02lambda-语法" />
+        </navPoint>
+        <navPoint id="navPoint-445">
+          <navLabel>
+            <text>03、Lambda 和 this 关键字</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_03lambda-和-this-关键字" />
+        </navPoint>
+        <navPoint id="navPoint-446">
+          <navLabel>
+            <text>04、最后</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_04最后" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-447">
+        <navLabel>
+          <text>10.4 Java 14 新特性</text>
+        </navLabel>
+        <content src="text/ch012.xhtml#id_104-java-14-新特性" />
+        <navPoint id="navPoint-448">
+          <navLabel>
+            <text>01、下载 JDK 14</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_01下载-jdk-14" />
+        </navPoint>
+        <navPoint id="navPoint-449">
+          <navLabel>
+            <text>02、升级 IntelliJ IDEA</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_02升级-intellij-idea" />
+        </navPoint>
+        <navPoint id="navPoint-450">
+          <navLabel>
+            <text>01、instanceof</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_01instanceof" />
+        </navPoint>
+        <navPoint id="navPoint-451">
+          <navLabel>
+            <text>02、Records</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_02records" />
+        </navPoint>
+        <navPoint id="navPoint-452">
+          <navLabel>
+            <text>03、switch 表达式</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_03switch-表达式" />
+        </navPoint>
+        <navPoint id="navPoint-453">
+          <navLabel>
+            <text>04、Text Blocks</text>
+          </navLabel>
+          <content src="text/ch012.xhtml#id_04text-blocks" />
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-454">
+      <navLabel>
+        <text>第十一章：Java 网络编程</text>
+      </navLabel>
+      <content src="text/ch013.xhtml" />
+      <navPoint id="navPoint-455">
+        <navLabel>
+          <text>11.1 了解网络编程的基础知识</text>
+        </navLabel>
+        <content src="text/ch013.xhtml#id_111-了解网络编程的基础知识" />
+        <navPoint id="navPoint-456">
+          <navLabel>
+            <text>IP 地址</text>
+          </navLabel>
+          <content src="text/ch013.xhtml#ip-地址" />
+        </navPoint>
+        <navPoint id="navPoint-457">
+          <navLabel>
+            <text>域名</text>
+          </navLabel>
+          <content src="text/ch013.xhtml#域名" />
+        </navPoint>
+        <navPoint id="navPoint-458">
+          <navLabel>
+            <text>网络模型</text>
+          </navLabel>
+          <content src="text/ch013.xhtml#网络模型" />
+        </navPoint>
+        <navPoint id="navPoint-459">
+          <navLabel>
+            <text>常用协议</text>
+          </navLabel>
+          <content src="text/ch013.xhtml#常用协议" />
+        </navPoint>
+        <navPoint id="navPoint-460">
+          <navLabel>
+            <text>小结</text>
+          </navLabel>
+          <content src="text/ch013.xhtml#小结-11" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-461">
+        <navLabel>
+          <text>11.2 网络编程的核心套接字Socket</text>
+        </navLabel>
+        <content src="text/ch013.xhtml#id_112-网络编程的核心套接字socket" />
+        <navPoint id="navPoint-462">
+          <navLabel>
+            <text>01、ping 与 telnet</text>
+          </navLabel>
+          <content src="text/ch013.xhtml#id_01ping-与-telnet" />
+        </navPoint>
+        <navPoint id="navPoint-463">
+          <navLabel>
+            <text>02、Socket 实例</text>
+          </navLabel>
+          <content src="text/ch013.xhtml#id_02socket-实例" />
+        </navPoint>
+        <navPoint id="navPoint-464">
+          <navLabel>
+            <text>03、ServerSocket 实例</text>
+          </navLabel>
+          <content src="text/ch013.xhtml#id_03serversocket-实例" />
+        </navPoint>
+        <navPoint id="navPoint-465">
+          <navLabel>
+            <text>04、为多个客户端服务</text>
+          </navLabel>
+          <content src="text/ch013.xhtml#id_04为多个客户端服务" />
+        </navPoint>
+        <navPoint id="navPoint-466">
+          <navLabel>
+            <text>05、加入多线程</text>
+          </navLabel>
+          <content src="text/ch013.xhtml#id_05加入多线程" />
+        </navPoint>
+        <navPoint id="navPoint-467">
+          <navLabel>
+            <text>08、DatagramSocket 实例</text>
+          </navLabel>
+          <content src="text/ch013.xhtml#id_08datagramsocket-实例" />
+        </navPoint>
+        <navPoint id="navPoint-468">
+          <navLabel>
+            <text>07、最后</text>
+          </navLabel>
+          <content src="text/ch013.xhtml#id_07最后" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-469">
+        <navLabel>
+          <text>11.3 用Socket实现一个HTTP服务器</text>
+        </navLabel>
+        <content src="text/ch013.xhtml#id_113-用socket实现一个http服务器" />
+        <navPoint id="navPoint-470">
+          <navLabel>
+            <text>I. HTTP 服务器从 0 到 1</text>
+          </navLabel>
+          <content src="text/ch013.xhtml#i-http-服务器从-0-到-1" />
+        </navPoint>
+        <navPoint id="navPoint-471">
+          <navLabel>
+            <text>II. 其他</text>
+          </navLabel>
+          <content src="text/ch013.xhtml#ii-其他" />
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-472">
+      <navLabel>
+        <text>第十二章：Java NIO</text>
+      </navLabel>
+      <content src="text/ch014.xhtml" />
+      <navPoint id="navPoint-473">
+        <navLabel>
+          <text>12.1 NIO比IO强在哪？</text>
+        </navLabel>
+        <content src="text/ch014.xhtml#id_121-nio比io强在哪" />
+        <navPoint id="navPoint-474">
+          <navLabel>
+            <text>01、NIO 和传统 IO 在操作文件时的差异</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#id_01nio-和传统-io-在操作文件时的差异" />
+        </navPoint>
+        <navPoint id="navPoint-475">
+          <navLabel>
+            <text>02、NIO 和传统 IO 在网络传输中的差异</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#id_02nio-和传统-io-在网络传输中的差异" />
+        </navPoint>
+        <navPoint id="navPoint-476">
+          <navLabel>
+            <text>03、小结</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#id_03小结-3" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-477">
+        <navLabel>
+          <text>12.2 BIO、NIO 和 AIO 的区别</text>
+        </navLabel>
+        <content src="text/ch014.xhtml#id_122-bionio-和-aio-的区别" />
+        <navPoint id="navPoint-478">
+          <navLabel>
+            <text>Java IO 与 BIO、NIO</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#java-io-与-bionio" />
+        </navPoint>
+        <navPoint id="navPoint-479">
+          <navLabel>
+            <text>三种 IO 的区别</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#三种-io-的区别" />
+        </navPoint>
+        <navPoint id="navPoint-480">
+          <navLabel>
+            <text>小结</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#小结-12" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-481">
+        <navLabel>
+          <text>12.3 Buffer和Channel</text>
+        </navLabel>
+        <content src="text/ch014.xhtml#id_123-buffer和channel" />
+        <navPoint id="navPoint-482">
+          <navLabel>
+            <text>Buffer 缓冲区</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#buffer-缓冲区" />
+        </navPoint>
+        <navPoint id="navPoint-483">
+          <navLabel>
+            <text>Channel 通道</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#channel-通道" />
+        </navPoint>
+        <navPoint id="navPoint-484">
+          <navLabel>
+            <text>小结</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#小结-13" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-485">
+        <navLabel>
+          <text>12.4 Paths 和 Files</text>
+        </navLabel>
+        <content src="text/ch014.xhtml#id_124-paths-和-files" />
+        <navPoint id="navPoint-486">
+          <navLabel>
+            <text>Paths 类</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#paths-类" />
+        </navPoint>
+        <navPoint id="navPoint-487">
+          <navLabel>
+            <text>Files 类</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#files-类" />
+        </navPoint>
+        <navPoint id="navPoint-488">
+          <navLabel>
+            <text>小结</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#小结-14" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-489">
+        <navLabel>
+          <text>12.5 NIO 实现简易版聊天室</text>
+        </navLabel>
+        <content src="text/ch014.xhtml#id_125-nio-实现简易版聊天室" />
+        <navPoint id="navPoint-490">
+          <navLabel>
+            <text>SocketChannel 和 ServerSocketChannel</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#socketchannel-和-serversocketchannel" />
+        </navPoint>
+        <navPoint id="navPoint-491">
+          <navLabel>
+            <text>Scatter 和 Gather</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#scatter-和-gather" />
+        </navPoint>
+        <navPoint id="navPoint-492">
+          <navLabel>
+            <text>异步套接字通道 AsynchronousSocketChannel 和 AsynchronousServerSocketChannel</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#异步套接字通道-asynchronoussocketchannel-和-asynchronousserversocketchannel" />
+        </navPoint>
+        <navPoint id="navPoint-493">
+          <navLabel>
+            <text>简单的聊天室</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#简单的聊天室" />
+        </navPoint>
+        <navPoint id="navPoint-494">
+          <navLabel>
+            <text>小结</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#小结-15" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-495">
+        <navLabel>
+          <text>12.6 Java IO模型</text>
+        </navLabel>
+        <content src="text/ch014.xhtml#id_126-java-io模型" />
+        <navPoint id="navPoint-496">
+          <navLabel>
+            <text>阻塞 IO 和非阻塞 IO</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#阻塞-io-和非阻塞-io" />
+        </navPoint>
+        <navPoint id="navPoint-497">
+          <navLabel>
+            <text>内核空间和用户空间</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#内核空间和用户空间" />
+        </navPoint>
+        <navPoint id="navPoint-498">
+          <navLabel>
+            <text>多路复用、信号驱动、异步 IO</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#多路复用信号驱动异步-io" />
+        </navPoint>
+        <navPoint id="navPoint-499">
+          <navLabel>
+            <text>小结</text>
+          </navLabel>
+          <content src="text/ch014.xhtml#小结-16" />
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-500">
+      <navLabel>
+        <text>第十三章：Java 重要知识点</text>
+      </navLabel>
+      <content src="text/ch015.xhtml" />
+      <navPoint id="navPoint-501">
+        <navLabel>
+          <text>13.1 Java命名规范</text>
+        </navLabel>
+        <content src="text/ch015.xhtml#id_131-java命名规范" />
+        <navPoint id="navPoint-502">
+          <navLabel>
+            <text>01、包（package）</text>
+          </navLabel>
+          <content src="text/ch015.xhtml#id_01包package）" />
+        </navPoint>
+        <navPoint id="navPoint-503">
+          <navLabel>
+            <text>02、类（class）</text>
+          </navLabel>
+          <content src="text/ch015.xhtml#id_02类class）" />
+        </navPoint>
+        <navPoint id="navPoint-504">
+          <navLabel>
+            <text>03、接口（interface）</text>
+          </navLabel>
+          <content src="text/ch015.xhtml#id_03接口interface）" />
+        </navPoint>
+        <navPoint id="navPoint-505">
+          <navLabel>
+            <text>04、字段（field）和变量（variable）</text>
+          </navLabel>
+          <content src="text/ch015.xhtml#id_04字段field）和变量variable）" />
+        </navPoint>
+        <navPoint id="navPoint-506">
+          <navLabel>
+            <text>05、常量（constant）</text>
+          </navLabel>
+          <content src="text/ch015.xhtml#id_05常量constant）" />
+        </navPoint>
+        <navPoint id="navPoint-507">
+          <navLabel>
+            <text>06、方法（method）</text>
+          </navLabel>
+          <content src="text/ch015.xhtml#id_06方法method）" />
+        </navPoint>
+        <navPoint id="navPoint-508">
+          <navLabel>
+            <text>07、总结</text>
+          </navLabel>
+          <content src="text/ch015.xhtml#id_07总结" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-509">
+        <navLabel>
+          <text>13.2 中文乱码及字符编码全攻略</text>
+        </navLabel>
+        <content src="text/ch015.xhtml#id_132-中文乱码及字符编码全攻略" />
+        <navPoint id="navPoint-510">
+          <navLabel>
+            <text>什么是中文乱码</text>
+          </navLabel>
+          <content src="text/ch015.xhtml#什么是中文乱码" />
+        </navPoint>
+        <navPoint id="navPoint-511">
+          <navLabel>
+            <text>什么是字符编码</text>
+          </navLabel>
+          <content src="text/ch015.xhtml#什么是字符编码" />
+        </navPoint>
+        <navPoint id="navPoint-512">
+          <navLabel>
+            <text>中文乱码是如何出现的？</text>
+          </navLabel>
+          <content src="text/ch015.xhtml#中文乱码是如何出现的" />
+        </navPoint>
+        <navPoint id="navPoint-513">
+          <navLabel>
+            <text>如何解决中文乱码呢？</text>
+          </navLabel>
+          <content src="text/ch015.xhtml#如何解决中文乱码呢" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-514">
+        <navLabel>
+          <text>13.3 深入剖析Java中的拆箱和装箱</text>
+        </navLabel>
+        <content src="text/ch015.xhtml#id_133-深入剖析java中的拆箱和装箱" />
+      </navPoint>
+      <navPoint id="navPoint-515">
+        <navLabel>
+          <text>13.4 深入理解Java浅拷贝与深拷贝</text>
+        </navLabel>
+        <content src="text/ch015.xhtml#id_134-深入理解java浅拷贝与深拷贝" />
+      </navPoint>
+      <navPoint id="navPoint-516">
+        <navLabel>
+          <text>13.5 Java hashCode方法解析</text>
+        </navLabel>
+        <content src="text/ch015.xhtml#id_135-java-hashcode方法解析" />
+      </navPoint>
+      <navPoint id="navPoint-517">
+        <navLabel>
+          <text>13.6 Java是值传递还是引用传递？</text>
+        </navLabel>
+        <content src="text/ch015.xhtml#id_136-java是值传递还是引用传递" />
+      </navPoint>
+      <navPoint id="navPoint-518">
+        <navLabel>
+          <text>12.7 Java为什么无法实现真正的泛型</text>
+        </navLabel>
+        <content src="text/ch015.xhtml#id_127-java为什么无法实现真正的泛型" />
+      </navPoint>
+      <navPoint id="navPoint-519">
+        <navLabel>
+          <text>12.8 掌握 Java 反射</text>
+        </navLabel>
+        <content src="text/ch015.xhtml#id_128-掌握-java-反射" />
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-520">
+      <navLabel>
+        <text>第十四章：Java并发编程</text>
+      </navLabel>
+      <content src="text/ch016.xhtml" />
+      <navPoint id="navPoint-521">
+        <navLabel>
+          <text>一、为什么要学 Java 并发？</text>
+        </navLabel>
+        <content src="text/ch016.xhtml#一为什么要学-java-并发" />
+      </navPoint>
+      <navPoint id="navPoint-522">
+        <navLabel>
+          <text>二、Java 并发学习路线图</text>
+        </navLabel>
+        <content src="text/ch016.xhtml#二java-并发学习路线图" />
+      </navPoint>
+      <navPoint id="navPoint-523">
+        <navLabel>
+          <text>三、硬核 Java 并发学习资料</text>
+        </navLabel>
+        <content src="text/ch016.xhtml#三硬核-java-并发学习资料" />
+        <navPoint id="navPoint-524">
+          <navLabel>
+            <text>1）Java进阶之路</text>
+          </navLabel>
+          <content src="text/ch016.xhtml#id_1）java进阶之路-1" />
+        </navPoint>
+        <navPoint id="navPoint-525">
+          <navLabel>
+            <text>2）视频</text>
+          </navLabel>
+          <content src="text/ch016.xhtml#id_2）视频-1" />
+        </navPoint>
+        <navPoint id="navPoint-526">
+          <navLabel>
+            <text>3）书籍</text>
+          </navLabel>
+          <content src="text/ch016.xhtml#id_3）书籍-1" />
+        </navPoint>
+        <navPoint id="navPoint-527">
+          <navLabel>
+            <text>4）开源电子书</text>
+          </navLabel>
+          <content src="text/ch016.xhtml#id_4）开源电子书-1" />
+        </navPoint>
+        <navPoint id="navPoint-528">
+          <navLabel>
+            <text>5）付费专栏</text>
+          </navLabel>
+          <content src="text/ch016.xhtml#id_5）付费专栏-1" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-529">
+        <navLabel>
+          <text>四、优质八股文</text>
+        </navLabel>
+        <content src="text/ch016.xhtml#四优质八股文" />
+      </navPoint>
+      <navPoint id="navPoint-530">
+        <navLabel>
+          <text>五、Java 并发学习心得</text>
+        </navLabel>
+        <content src="text/ch016.xhtml#五java-并发学习心得" />
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-531">
+      <navLabel>
+        <text>第十五章：JVM（Java 虚拟机）</text>
+      </navLabel>
+      <content src="text/ch017.xhtml" />
+      <navPoint id="navPoint-532">
+        <navLabel>
+          <text>一、为什么要学习 JVM？</text>
+        </navLabel>
+        <content src="text/ch017.xhtml#一为什么要学习-jvm" />
+      </navPoint>
+      <navPoint id="navPoint-533">
+        <navLabel>
+          <text>二、JVM 学习路线图</text>
+        </navLabel>
+        <content src="text/ch017.xhtml#二jvm-学习路线图" />
+      </navPoint>
+      <navPoint id="navPoint-534">
+        <navLabel>
+          <text>三、硬核 JVM 学习资料</text>
+        </navLabel>
+        <content src="text/ch017.xhtml#三硬核-jvm-学习资料" />
+        <navPoint id="navPoint-535">
+          <navLabel>
+            <text>1）Java进阶之路</text>
+          </navLabel>
+          <content src="text/ch017.xhtml#id_1）java进阶之路-2" />
+        </navPoint>
+        <navPoint id="navPoint-536">
+          <navLabel>
+            <text>2）视频</text>
+          </navLabel>
+          <content src="text/ch017.xhtml#id_2）视频-2" />
+        </navPoint>
+        <navPoint id="navPoint-537">
+          <navLabel>
+            <text>3）书籍</text>
+          </navLabel>
+          <content src="text/ch017.xhtml#id_3）书籍-2" />
+        </navPoint>
+        <navPoint id="navPoint-538">
+          <navLabel>
+            <text>4）开源电子书</text>
+          </navLabel>
+          <content src="text/ch017.xhtml#id_4）开源电子书-2" />
+        </navPoint>
+        <navPoint id="navPoint-539">
+          <navLabel>
+            <text>5）付费专栏</text>
+          </navLabel>
+          <content src="text/ch017.xhtml#id_5）付费专栏-2" />
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-540">
+        <navLabel>
+          <text>四、JVM 八股文</text>
+        </navLabel>
+        <content src="text/ch017.xhtml#四jvm-八股文" />
+      </navPoint>
+      <navPoint id="navPoint-541">
+        <navLabel>
+          <text>五、学习 JVM 的一点小心得</text>
+        </navLabel>
+        <content src="text/ch017.xhtml#五学习-jvm-的一点小心得" />
+      </navPoint>
+    </navPoint>
+  </navMap>
+</ncx>

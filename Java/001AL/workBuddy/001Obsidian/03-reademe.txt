@@ -1,0 +1,21 @@
+1、根据路径下的 D:\Works\Interview\004-ObsidianCanvas\ObsidianP\Java\001AL\workBuddy  02-OB预习单生成规范.md  ,
+读取 D:\Works\Interview\004-ObsidianCanvas\ObsidianP\Java 下的 多线程并发.canvas Spring家族模块，读取该模块下所有的照片和文字 ，
+在 D:\Works\Interview\004-ObsidianCanvas\ObsidianP\Java\001AL\workBuddy下生预习文档  ，生成的文档命名规范是001开头序号+OB+模块名称+预习填空题/答案
+
+
+生成的这些预习单 最上边 标注好源资料 参考的是哪个路径下的哪个文件的哪个模块 这样以后看了也知道参考的源文件在哪 
+# 001OB · Spring家族 模块 · 预习填空题
+
+> 📂 **源资料**
+> - **所在路径**：`D:\Works\Interview\004-ObsidianCanvas\ObsidianP\Java`（项目内相对路径 `Java/`）
+> - **源文件**：`多线程并发.canvas`
+> - **参考模块**：画布顶层分组 `Spring家族`（含其下全部子分组、文本笔记、嵌入图片）
+
+> 📌 基于 ...（原有说明保留）
+
+
+重新核实一下预期单上是否包含了 源文件中的所有重要的信息
+
+
+
+文本资料都是：沉默王二 110(1)和ObsidianP 自己整理的

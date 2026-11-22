@@ -1,0 +1,963 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title>ch012.xhtml</title>
+  <style>
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" type="text/css" href="../styles/stylesheet1.css" />
+</head>
+<body epub:type="bodymatter">
+<section id="第十章java新特性" class="level1">
+<h1>第十章：Java新特性</h1>
+<p></p>
+<section id="id_101-掌握stream流" class="level2">
+<h2>10.1 掌握Stream流</h2>
+<p>两个星期以前，就有读者强烈要求我写一篇 Java Stream 流的文章，我说市面上不是已经有很多了吗，结果你猜他怎么说：“就想看你写的啊！”你看你看，多么苍白的喜欢啊。那就“勉为其难”写一篇吧，嘻嘻。</p>
+<p><img src="../media/file329.jpg" title="fig:" alt="" /></p>
+<p>单从“Stream”这个单词上来看，它似乎和 java.io 包下的 InputStream 和 OutputStream 有些关系。实际上呢，没毛关系。Java 8 新增的 Stream 是为了解放程序员操作集合（Collection）时的生产力，之所以能解放，很大一部分原因可以归功于同时出现的 Lambda 表达式——极大的提高了编程效率和程序可读性。</p>
+<p>Stream 究竟是什么呢？</p>
+<blockquote>
+<p>Stream 就好像一个高级的迭代器，但只能遍历一次，就好像一江春水向东流；在流的过程中，对流中的元素执行一些操作，比如“过滤掉长度大于 10 的字符串”、“获取每个字符串的首字母”等。</p>
+</blockquote>
+<p>要想操作流，首先需要有一个数据源，可以是数组或者集合。每次操作都会返回一个新的流对象，方便进行链式操作，但原有的流对象会保持不变。</p>
+<p>流的操作可以分为两种类型：</p>
+<p>1）中间操作，可以有多个，每次返回一个新的流，可进行链式操作。</p>
+<p>2）终端操作，只能有一个，每次执行完，这个流也就用光光了，无法执行下一个操作，因此只能放在最后。</p>
+<p>来举个例子。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">List</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> list <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;&gt;();</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;武汉加油&quot;</span><span class="op">);</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;中国加油&quot;</span><span class="op">);</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;世界加油&quot;</span><span class="op">);</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;世界加油&quot;</span><span class="op">);</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="dt">long</span> count <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">distinct</span><span class="op">().</span><span class="fu">count</span><span class="op">();</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>count<span class="op">);</span></span></code></pre></div>
+<p><code>distinct()</code> 方法是一个中间操作（去重），它会返回一个新的流（没有共同元素）。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Stream<span class="op">&lt;</span>T<span class="op">&gt;</span> <span class="fu">distinct</span><span class="op">();</span></span></code></pre></div>
+<p><code>count()</code> 方法是一个终端操作，返回流中的元素个数。</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">long</span> <span class="fu">count</span><span class="op">();</span></span></code></pre></div>
+<p>中间操作不会立即执行，只有等到终端操作的时候，流才开始真正地遍历，用于映射、过滤等。通俗点说，就是一次遍历执行多个操作，性能就大大提高了。</p>
+<p>理论部分就扯这么多，下面直接进入实战部分。</p>
+<section id="id_01创建流" class="level3">
+<h3>01、创建流</h3>
+<p>如果是数组的话，可以使用 <code>Arrays.stream()</code> 或者 <code>Stream.of()</code> 创建流；如果是集合的话，可以直接使用 <code>stream()</code> 方法创建流，因为该方法已经添加到 Collection 接口中。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> CreateStreamDemo <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span><span class="op">[]</span> arr <span class="op">=</span> <span class="kw">new</span> <span class="bu">String</span><span class="op">[]{</span><span class="st">&quot;武汉加油&quot;</span><span class="op">,</span> <span class="st">&quot;中国加油&quot;</span><span class="op">,</span> <span class="st">&quot;世界加油&quot;</span><span class="op">};</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        Stream<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> stream <span class="op">=</span> <span class="bu">Arrays</span><span class="op">.</span><span class="fu">stream</span><span class="op">(</span>arr<span class="op">);</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        stream <span class="op">=</span> Stream<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">&quot;武汉加油&quot;</span><span class="op">,</span> <span class="st">&quot;中国加油&quot;</span><span class="op">,</span> <span class="st">&quot;世界加油&quot;</span><span class="op">);</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">List</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> list <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;&gt;();</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;武汉加油&quot;</span><span class="op">);</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;中国加油&quot;</span><span class="op">);</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;世界加油&quot;</span><span class="op">);</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        stream <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">();</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>查看 Stream 源码的话，你会发现 <code>of()</code> 方法内部其实调用了 <code>Arrays.stream()</code> 方法。</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span><span class="op">&lt;</span>T<span class="op">&gt;</span> Stream<span class="op">&lt;</span>T<span class="op">&gt;</span> <span class="fu">of</span><span class="op">(</span>T<span class="kw">...</span> values<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">Arrays</span><span class="op">.</span><span class="fu">stream</span><span class="op">(</span>values<span class="op">);</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>另外，集合还可以调用 <code>parallelStream()</code> 方法创建并发流，默认使用的是 <code>ForkJoinPool.commonPool()</code>线程池。</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">List</span><span class="op">&lt;</span><span class="bu">Long</span><span class="op">&gt;</span> aList <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;&gt;();</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Stream<span class="op">&lt;</span><span class="bu">Long</span><span class="op">&gt;</span> parallelStream <span class="op">=</span> aList<span class="op">.</span><span class="fu">parallelStream</span><span class="op">();</span></span></code></pre></div>
+</section>
+<section id="id_02操作流" class="level3">
+<h3>02、操作流</h3>
+<p>Stream 类提供了很多有用的操作流的方法，我来挑一些常用的给你介绍一下。</p>
+<section id="id_1）过滤" class="level4">
+<h4>1）过滤</h4>
+<p>通过 <code>filter()</code> 方法可以从流中筛选出我们想要的元素。</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> FilterStreamDemo <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">List</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> list <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;&gt;();</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;周杰伦&quot;</span><span class="op">);</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;王力宏&quot;</span><span class="op">);</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;陶喆&quot;</span><span class="op">);</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;林俊杰&quot;</span><span class="op">);</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        Stream<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> stream <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">filter</span><span class="op">(</span>element <span class="op">-&gt;</span> element<span class="op">.</span><span class="fu">contains</span><span class="op">(</span><span class="st">&quot;王&quot;</span><span class="op">));</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        stream<span class="op">.</span><span class="fu">forEach</span><span class="op">(</span><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">::</span>println<span class="op">);</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>filter()</code> 方法接收的是一个 Predicate（Java 8 新增的一个函数式接口，接受一个输入参数返回一个布尔值结果）类型的参数，因此，我们可以直接将一个 Lambda 表达式传递给该方法，比如说 <code>element -&gt; element.contains("王")</code> 就是筛选出带有“王”的字符串。</p>
+<p><code>forEach()</code> 方法接收的是一个 Consumer（Java 8 新增的一个函数式接口，接受一个输入参数并且无返回的操作）类型的参数，<code>类名 :: 方法名</code>是 Java 8 引入的新语法，<code>System.out</code> 返回 PrintStream 类，println 方法你应该知道是打印的。</p>
+<p><code>stream.forEach(System.out::println);</code> 相当于在 for 循环中打印，类似于下面的代码：</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="bu">String</span> s <span class="op">:</span> strs<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>s<span class="op">);</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>很明显，一行代码看起来更简洁一些。来看一下程序的输出结果：</p>
+<pre><code>王力宏</code></pre>
+</section>
+<section id="id_2）映射" class="level4">
+<h4>2）映射 </h4>
+<p>如果想通过某种操作把一个流中的元素转化成新的流中的元素，可以使用 <code>map()</code> 方法。</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> MapStreamDemo <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">List</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> list <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;&gt;();</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;周杰伦&quot;</span><span class="op">);</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;王力宏&quot;</span><span class="op">);</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;陶喆&quot;</span><span class="op">);</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;林俊杰&quot;</span><span class="op">);</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        Stream<span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> stream <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">map</span><span class="op">(</span><span class="bu">String</span><span class="op">::</span>length<span class="op">);</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        stream<span class="op">.</span><span class="fu">forEach</span><span class="op">(</span><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">::</span>println<span class="op">);</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>map()</code> 方法接收的是一个 Function（Java 8 新增的一个函数式接口，接受一个输入参数 T，返回一个结果 R）类型的参数，此时参数 为 String 类的 length 方法，也就是把 <code>Stream&lt;String&gt;</code> 的流转成一个 <code>Stream&lt;Integer&gt;</code> 的流。</p>
+<p>程序输出的结果如下所示：</p>
+<pre><code>3
+3
+2
+3</code></pre>
+</section>
+<section id="id_3）匹配" class="level4">
+<h4>3）匹配</h4>
+<p>Stream 类提供了三个方法可供进行元素匹配，它们分别是：</p>
+<ul>
+<li><p><code>anyMatch()</code>，只要有一个元素匹配传入的条件，就返回 true。</p></li>
+<li><p><code>allMatch()</code>，只有有一个元素不匹配传入的条件，就返回 false；如果全部匹配，则返回 true。</p></li>
+<li><p><code>noneMatch()</code>，只要有一个元素匹配传入的条件，就返回 false；如果全部不匹配，则返回 true。</p></li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> MatchStreamDemo <span class="op">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">List</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> list <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;&gt;();</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;周杰伦&quot;</span><span class="op">);</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;王力宏&quot;</span><span class="op">);</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;陶喆&quot;</span><span class="op">);</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;林俊杰&quot;</span><span class="op">);</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">boolean</span>  anyMatchFlag <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">anyMatch</span><span class="op">(</span>element <span class="op">-&gt;</span> element<span class="op">.</span><span class="fu">contains</span><span class="op">(</span><span class="st">&quot;王&quot;</span><span class="op">));</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">boolean</span>  allMatchFlag <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">allMatch</span><span class="op">(</span>element <span class="op">-&gt;</span> element<span class="op">.</span><span class="fu">length</span><span class="op">()</span> <span class="op">&gt;</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">boolean</span>  noneMatchFlag <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">noneMatch</span><span class="op">(</span>element <span class="op">-&gt;</span> element<span class="op">.</span><span class="fu">endsWith</span><span class="op">(</span><span class="st">&quot;沉&quot;</span><span class="op">));</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>anyMatchFlag<span class="op">);</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>allMatchFlag<span class="op">);</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>noneMatchFlag<span class="op">);</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>因为“王力宏”以“王”字开头，所以 anyMatchFlag 应该为 true；因为“周杰伦”、“王力宏”、“陶喆”、“林俊杰”的字符串长度都大于 1，所以 allMatchFlag 为 true；因为 4 个字符串结尾都不是“沉”，所以 noneMatchFlag 为 true。</p>
+<p>程序输出的结果如下所示：</p>
+<pre><code>true
+true
+true</code></pre>
+</section>
+<section id="id_4）组合-2" class="level4">
+<h4>4）组合</h4>
+<p><code>reduce()</code> 方法的主要作用是把 Stream 中的元素组合起来，它有两种用法：</p>
+<ul>
+<li><p><code>Optional&lt;T&gt; reduce(BinaryOperator&lt;T&gt; accumulator)</code></p></li>
+</ul>
+<p>没有起始值，只有一个参数，就是运算规则，此时返回 <a href="https://mp.weixin.qq.com/s/PqK0KNVHyoEtZDtp5odocA">Optional</a>。</p>
+<ul>
+<li><p><code>T reduce(T identity, BinaryOperator&lt;T&gt; accumulator)</code></p></li>
+</ul>
+<p>有起始值，有运算规则，两个参数，此时返回的类型和起始值类型一致。</p>
+<p>来看下面这个例子。</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> ReduceStreamDemo <span class="op">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Integer</span><span class="op">[]</span> ints <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">};</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">List</span><span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> list <span class="op">=</span> <span class="bu">Arrays</span><span class="op">.</span><span class="fu">asList</span><span class="op">(</span>ints<span class="op">);</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        Optional<span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> optional <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">reduce</span><span class="op">((</span>a<span class="op">,</span> b<span class="op">)</span> <span class="op">-&gt;</span> a <span class="op">+</span> b<span class="op">);</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        Optional<span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> optional1 <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">reduce</span><span class="op">(</span><span class="bu">Integer</span><span class="op">::</span>sum<span class="op">);</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>optional<span class="op">.</span><span class="fu">orElse</span><span class="op">(</span><span class="dv">0</span><span class="op">));</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>optional1<span class="op">.</span><span class="fu">orElse</span><span class="op">(</span><span class="dv">0</span><span class="op">));</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> reduce <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">reduce</span><span class="op">(</span><span class="dv">6</span><span class="op">,</span> <span class="op">(</span>a<span class="op">,</span> b<span class="op">)</span> <span class="op">-&gt;</span> a <span class="op">+</span> b<span class="op">);</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>reduce<span class="op">);</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> reduce1 <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">reduce</span><span class="op">(</span><span class="dv">6</span><span class="op">,</span> <span class="bu">Integer</span><span class="op">::</span>sum<span class="op">);</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>reduce1<span class="op">);</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>运算规则可以是 <a href="https://mp.weixin.qq.com/s/ozr0jYHIc12WSTmmd_vEjw">Lambda 表达式</a>（比如 <code>(a, b) -&gt; a + b</code>），也可以是类名::方法名（比如 <code>Integer::sum</code>）。</p>
+<p>程序运行的结果如下所示：</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="dv">12</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="dv">12</span></span></code></pre></div>
+<p>0、1、2、3 在没有起始值相加的时候结果为 6；有起始值 6 的时候结果为 12。</p>
+</section>
+</section>
+<section id="id_03转换流" class="level3">
+<h3>03、转换流</h3>
+<p>既然可以把集合或者数组转成流，那么也应该有对应的方法，将流转换回去——<code>collect()</code> 方法就满足了这种需求。</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> CollectStreamDemo <span class="op">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">List</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> list <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;&gt;();</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;周杰伦&quot;</span><span class="op">);</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;王力宏&quot;</span><span class="op">);</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;陶喆&quot;</span><span class="op">);</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="st">&quot;林俊杰&quot;</span><span class="op">);</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span><span class="op">[]</span> strArray <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">toArray</span><span class="op">(</span><span class="bu">String</span><span class="op">[]::</span><span class="kw">new</span><span class="op">);</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="bu">Arrays</span><span class="op">.</span><span class="fu">toString</span><span class="op">(</span>strArray<span class="op">));</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">List</span><span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> list1 <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">map</span><span class="op">(</span><span class="bu">String</span><span class="op">::</span>length<span class="op">).</span><span class="fu">collect</span><span class="op">(</span>Collectors<span class="op">.</span><span class="fu">toList</span><span class="op">());</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">List</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> list2 <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">collect</span><span class="op">(</span>Collectors<span class="op">.</span><span class="fu">toCollection</span><span class="op">(</span><span class="bu">ArrayList</span><span class="op">::</span><span class="kw">new</span><span class="op">));</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>list1<span class="op">);</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>list2<span class="op">);</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> str <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">collect</span><span class="op">(</span>Collectors<span class="op">.</span><span class="fu">joining</span><span class="op">(</span><span class="st">&quot;, &quot;</span><span class="op">)).</span><span class="fu">toString</span><span class="op">();</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>str<span class="op">);</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>toArray()</code> 方法可以将流转换成数组，你可能比较好奇的是 <code>String[]::new</code>，它是什么东东呢？来看一下 <code>toArray()</code> 方法的源码。</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>A<span class="op">&gt;</span> A<span class="op">[]</span> <span class="fu">toArray</span><span class="op">(</span>IntFunction<span class="op">&lt;</span>A<span class="op">[]&gt;</span> generator<span class="op">);</span></span></code></pre></div>
+<p>也就是说 <code>String[]::new</code> 是一个 IntFunction，一个可以产生所需的新数组的函数，可以通过反编译字节码看看它到底是什么：</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span><span class="op">[]</span> strArray <span class="op">=</span> <span class="op">(</span><span class="bu">String</span><span class="op">[])</span>list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">toArray</span><span class="op">((</span>x$<span class="dv">0</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="op">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">new</span> <span class="bu">String</span><span class="op">[</span>x$<span class="dv">0</span><span class="op">];</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="op">});</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="bu">Arrays</span><span class="op">.</span><span class="fu">toString</span><span class="op">(</span>strArray<span class="op">));</span></span></code></pre></div>
+<p>也就是相当于返回了一个指定长度的字符串数组。</p>
+<p>当我们需要把一个集合按照某种规则转成另外一个集合的时候，就可以配套使用 <code>map()</code> 方法和 <code>collect()</code> 方法。</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">List</span><span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> list1 <span class="op">=</span> list<span class="op">.</span><span class="fu">stream</span><span class="op">().</span><span class="fu">map</span><span class="op">(</span><span class="bu">String</span><span class="op">::</span>length<span class="op">).</span><span class="fu">collect</span><span class="op">(</span>Collectors<span class="op">.</span><span class="fu">toList</span><span class="op">());</span></span></code></pre></div>
+<p>通过 <code>stream()</code> 方法创建集合的流后，再通过 <code>map(String:length)</code> 将其映射为字符串长度的一个新流，最后通过 <code>collect()</code> 方法将其转换成新的集合。</p>
+<p>Collectors 是一个收集器的工具类，内置了一系列收集器实现，比如说 <code>toList()</code> 方法将元素收集到一个新的 <code>java.util.List</code> 中；比如说 <code>toCollection()</code> 方法将元素收集到一个新的 <code>java.util.ArrayList</code> 中；比如说 <code>joining()</code> 方法将元素收集到一个可以用分隔符指定的字符串中。</p>
+<p>来看一下程序的输出结果：</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>周杰伦<span class="op">,</span> 王力宏<span class="op">,</span> 陶喆<span class="op">,</span> 林俊杰<span class="op">]</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="op">[</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">]</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>周杰伦<span class="op">,</span> 王力宏<span class="op">,</span> 陶喆<span class="op">,</span> 林俊杰<span class="op">]</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>周杰伦<span class="op">,</span> 王力宏<span class="op">,</span> 陶喆<span class="op">,</span> 林俊杰</span></code></pre></div>
+<p><img src="../media/file330.jpg" title="fig:" alt="" /></p>
+<hr />
+<p>GitHub 上标星 7600+ 的开源知识库《二哥的 Java 进阶之路》第一版 PDF 终于来了！包括Java基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM等等，共计 32 万余字，可以说是通俗易懂、风趣幽默……详情戳：<a href="https://tobebetterjavaer.com/overview/">太赞了，GitHub 上标星 7600+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img src="../media/file4.jpg" title="fig:" alt="" /></p>
+</section>
+</section>
+<section id="id_102-optional最佳指南" class="level2">
+<h2>10.2 Optional最佳指南</h2>
+<p>想学习，永远都不晚，尤其是针对 Java 8 里面的好东西，Optional 就是其中之一，该类提供了一种用于表示可选值而非空引用的类级别解决方案。作为一名 Java 程序员，我真的是烦透了 <a href="https://tobebetterjavaer.com/exception/npe.html">NullPointerException（NPE）</a>，尽管和它熟得就像一位老朋友，知道它也是迫不得已——程序正在使用一个对象却发现这个对象的值为 null，于是 Java 虚拟机就怒发冲冠地把它抛了出来当做替罪羊。</p>
+<p>当然了，我们程序员是富有责任心的，不会坐视不管，于是就有了大量的 null 值检查。尽管有时候这种检查完全没有必要，但我们已经习惯了例行公事。终于，Java 8 看不下去了，就引入了 Optional，以便我们编写的代码不再那么刻薄呆板。</p>
+<p><img src="../media/file320.png" title="fig:" alt="" /></p>
+<section id="id_01没有-optional-会有什么问题" class="level3">
+<h3>01、没有 Optional 会有什么问题</h3>
+<p>我们来模拟一个实际的应用场景。小王第一天上班，领导老马就给他安排了一个任务，要他从数据库中根据会员 ID 拉取一个会员的姓名，然后将姓名打印到控制台。虽然是新来的，但这个任务难不倒小王，于是他花了 10 分钟写下了这段代码：</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> WithoutOptionalDemo <span class="op">{</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">class</span> <span class="bu">Member</span> <span class="op">{</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">private</span> <span class="bu">String</span> name<span class="op">;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getName</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> name<span class="op">;</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setName</span><span class="op">(</span><span class="bu">String</span> name<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>            <span class="kw">this</span><span class="op">.</span><span class="fu">name</span> <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Member</span> mem <span class="op">=</span> <span class="fu">getMemberByIdFromDB</span><span class="op">();</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>mem <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>mem<span class="op">.</span><span class="fu">getName</span><span class="op">());</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="bu">Member</span> <span class="fu">getMemberByIdFromDB</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 当前 ID 的会员不存在</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>由于当前 ID 的会员不存在，所以 <code>getMemberByIdFromDB()</code> 方法返回了 null 来作为没有获取到该会员的结果，那就意味着在打印会员姓名的时候要先对 mem 判空，否则就会抛出 NPE 异常，不信？让小王把 <code>if (mem != null)</code> 去掉试试，控制台立马打印错误堆栈给你颜色看看。</p>
+<pre><code>Exception in thread &quot;main&quot; java.lang.NullPointerException
+	at com.cmower.dzone.optional.WithoutOptionalDemo.main(WithoutOptionalDemo.java:24)</code></pre>
+</section>
+<section id="id_02optional-是如何解决这个问题的" class="level3">
+<h3>02、Optional 是如何解决这个问题的</h3>
+<p>小王把代码提交后，就兴高采烈地去找老马要新的任务了。本着虚心学习的态度，小王请求老马看一下自己的代码，于是老王就告诉他应该尝试一下 Optional，可以避免没有必要的 null 值检查。现在，让我们来看看小王是如何通过 Optional 来解决上述问题的。</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> OptionalDemo <span class="op">{</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        Optional<span class="op">&lt;</span><span class="bu">Member</span><span class="op">&gt;</span> optional <span class="op">=</span> <span class="fu">getMemberByIdFromDB</span><span class="op">();</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        optional<span class="op">.</span><span class="fu">ifPresent</span><span class="op">(</span>mem <span class="op">-&gt;</span> <span class="op">{</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;会员姓名是：&quot;</span> <span class="op">+</span> mem<span class="op">.</span><span class="fu">getName</span><span class="op">());</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">});</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> Optional<span class="op">&lt;</span><span class="bu">Member</span><span class="op">&gt;</span> <span class="fu">getMemberByIdFromDB</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">boolean</span> hasName <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>hasName<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> Optional<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="kw">new</span> <span class="bu">Member</span><span class="op">(</span><span class="st">&quot;沉默王二&quot;</span><span class="op">));</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Optional<span class="op">.</span><span class="fu">empty</span><span class="op">();</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="bu">Member</span> <span class="op">{</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> name<span class="op">;</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getName</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> name<span class="op">;</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">// getter / setter</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>getMemberByIdFromDB()</code> 方法返回了 <code>Optional&lt;Member&gt;</code> 作为结果，这样就表明 Member 可能存在，也可能不存在，这时候就可以在 Optional 的 <code>ifPresent()</code> 方法中使用 Lambda 表达式来直接打印结果。</p>
+<p>Optional 之所以可以解决 NPE 的问题，是因为它明确的告诉我们，不需要对它进行判空。它就好像十字路口的路标，明确地告诉你该往哪走。</p>
+</section>
+<section id="id_03创建-optional-对象" class="level3">
+<h3>03、创建 Optional 对象</h3>
+<p>1）可以使用静态方法 <code>empty()</code> 创建一个空的 Optional 对象</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Optional<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> empty <span class="op">=</span> Optional<span class="op">.</span><span class="fu">empty</span><span class="op">();</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>empty<span class="op">);</span> <span class="co">// 输出：Optional.empty</span></span></code></pre></div>
+<p>2）可以使用静态方法 <code>of()</code> 创建一个非空的 Optional 对象</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>Optional<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> opt <span class="op">=</span> Optional<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">&quot;沉默王二&quot;</span><span class="op">);</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>opt<span class="op">);</span> <span class="co">// 输出：Optional[沉默王二]</span></span></code></pre></div>
+<p>当然了，传递给 <code>of()</code> 方法的参数必须是非空的，也就是说不能为 null，否则仍然会抛出 NullPointerException。</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> name <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>Optional<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> optnull <span class="op">=</span> Optional<span class="op">.</span><span class="fu">of</span><span class="op">(</span>name<span class="op">);</span></span></code></pre></div>
+<p>3）可以使用静态方法 <code>ofNullable()</code> 创建一个即可空又可非空的 Optional 对象</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> name <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>Optional<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> optOrNull <span class="op">=</span> Optional<span class="op">.</span><span class="fu">ofNullable</span><span class="op">(</span>name<span class="op">);</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>optOrNull<span class="op">);</span> <span class="co">// 输出：Optional.empty</span></span></code></pre></div>
+<p><code>ofNullable()</code> 方法内部有一个三元表达式，如果为参数为 null，则返回私有常量 EMPTY；否则使用 new 关键字创建了一个新的 Optional 对象——不会再抛出 NPE 异常了。</p>
+</section>
+<section id="id_04判断值是否存在" class="level3">
+<h3>04、判断值是否存在</h3>
+<p>可以通过方法 <code>isPresent()</code> 判断一个 Optional 对象是否存在，如果存在，该方法返回 true，否则返回 false——取代了 <code>obj != null</code> 的判断。</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>Optional<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> opt <span class="op">=</span> Optional<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">&quot;沉默王二&quot;</span><span class="op">);</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>opt<span class="op">.</span><span class="fu">isPresent</span><span class="op">());</span> <span class="co">// 输出：true</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>Optional<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> optOrNull <span class="op">=</span> Optional<span class="op">.</span><span class="fu">ofNullable</span><span class="op">(</span><span class="kw">null</span><span class="op">);</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>opt<span class="op">.</span><span class="fu">isPresent</span><span class="op">());</span> <span class="co">// 输出：false</span></span></code></pre></div>
+<p>Java 11 后还可以通过方法 <code>isEmpty()</code> 判断与 <code>isPresent()</code> 相反的结果。</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>Optional<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> opt <span class="op">=</span> Optional<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">&quot;沉默王二&quot;</span><span class="op">);</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>opt<span class="op">.</span><span class="fu">isPresent</span><span class="op">());</span> <span class="co">// 输出：false</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>Optional<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> optOrNull <span class="op">=</span> Optional<span class="op">.</span><span class="fu">ofNullable</span><span class="op">(</span><span class="kw">null</span><span class="op">);</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>opt<span class="op">.</span><span class="fu">isPresent</span><span class="op">());</span> <span class="co">// 输出：true</span></span></code></pre></div>
+</section>
+<section id="id_05非空表达式" class="level3">
+<h3>05、非空表达式</h3>
+<p>Optional 类有一个非常现代化的方法——<code>ifPresent()</code>，允许我们使用函数式编程的方式执行一些代码，因此，我把它称为非空表达式。如果没有该方法的话，我们通常需要先通过 <code>isPresent()</code> 方法对 Optional 对象进行判空后再执行相应的代码：</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>Optional<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> optOrNull <span class="op">=</span> Optional<span class="op">.</span><span class="fu">ofNullable</span><span class="op">(</span><span class="kw">null</span><span class="op">);</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>optOrNull<span class="op">.</span><span class="fu">isPresent</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>optOrNull<span class="op">.</span><span class="fu">get</span><span class="op">().</span><span class="fu">length</span><span class="op">());</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>有了 <code>ifPresent()</code> 之后，情况就完全不同了，可以直接将 Lambda 表达式传递给该方法，代码更加简洁，更加直观。</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>Optional<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> opt <span class="op">=</span> Optional<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">&quot;沉默王二&quot;</span><span class="op">);</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>opt<span class="op">.</span><span class="fu">ifPresent</span><span class="op">(</span>str <span class="op">-&gt;</span> <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>str<span class="op">.</span><span class="fu">length</span><span class="op">()));</span></span></code></pre></div>
+<p>Java 9 后还可以通过方法 <code>ifPresentOrElse(action, emptyAction)</code> 执行两种结果，非空时执行 action，空时执行 emptyAction。</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>Optional<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> opt <span class="op">=</span> Optional<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="st">&quot;沉默王二&quot;</span><span class="op">);</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>opt<span class="op">.</span><span class="fu">ifPresentOrElse</span><span class="op">(</span>str <span class="op">-&gt;</span> <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>str<span class="op">.</span><span class="fu">length</span><span class="op">()),</span> <span class="op">()</span> <span class="op">-&gt;</span> <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;为空&quot;</span><span class="op">));</span></span></code></pre></div>
+</section>
+<section id="id_06设置获取）默认值" class="level3">
+<h3>06、设置（获取）默认值</h3>
+<p>有时候，我们在创建（获取） Optional 对象的时候，需要一个默认值，<code>orElse()</code> 和 <code>orElseGet()</code> 方法就派上用场了。</p>
+<p><code>orElse()</code> 方法用于返回包裹在 Optional 对象中的值，如果该值不为 null，则返回；否则返回默认值。该方法的参数类型和值得类型一致。</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> nullName <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> name <span class="op">=</span> Optional<span class="op">.</span><span class="fu">ofNullable</span><span class="op">(</span>nullName<span class="op">).</span><span class="fu">orElse</span><span class="op">(</span><span class="st">&quot;沉默王二&quot;</span><span class="op">);</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>name<span class="op">);</span> <span class="co">// 输出：沉默王二</span></span></code></pre></div>
+<p><code>orElseGet()</code> 方法与 <code>orElse()</code> 方法类似，但参数类型不同。如果 Optional 对象中的值为 null，则执行参数中的函数。</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> nullName <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> name <span class="op">=</span> Optional<span class="op">.</span><span class="fu">ofNullable</span><span class="op">(</span>nullName<span class="op">).</span><span class="fu">orElseGet</span><span class="op">(()-&gt;</span><span class="st">&quot;沉默王二&quot;</span><span class="op">);</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>name<span class="op">);</span> <span class="co">// 输出：沉默王二</span></span></code></pre></div>
+<p>从输出结果以及代码的形式上来看，这两个方法极其相似，这不免引起我们的怀疑，Java 类库的设计者有必要这样做吗？</p>
+<p>假设现在有这样一个获取默认值的方法，很传统的方式。</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="bu">String</span> <span class="fu">getDefaultValue</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;getDefaultValue&quot;</span><span class="op">);</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">&quot;沉默王二&quot;</span><span class="op">;</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>然后，通过 <code>orElse()</code> 方法和 <code>orElseGet()</code> 方法分别调用 <code>getDefaultValue()</code> 方法返回默认值。</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> name <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;orElse&quot;</span><span class="op">);</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> name2 <span class="op">=</span> Optional<span class="op">.</span><span class="fu">ofNullable</span><span class="op">(</span>name<span class="op">).</span><span class="fu">orElse</span><span class="op">(</span><span class="fu">getDefaultValue</span><span class="op">());</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;orElseGet&quot;</span><span class="op">);</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> name3 <span class="op">=</span> Optional<span class="op">.</span><span class="fu">ofNullable</span><span class="op">(</span>name<span class="op">).</span><span class="fu">orElseGet</span><span class="op">(</span>OrElseOptionalDemo<span class="op">::</span>getDefaultValue<span class="op">);</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>注：<code>类名 :: 方法名</code>是 Java 8 引入的语法，方法名后面是没有 <code>()</code> 的，表明该方法并不一定会被调用。</p>
+<p>输出结果如下所示：</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>orElse</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>getDefaultValue</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>orElseGet</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>getDefaultValue</span></code></pre></div>
+<p>输出结果是相似的，没什么太大的不同，这是在 Optional 对象的值为 null 的情况下。假如 Optional 对象的值不为 null 呢？</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> name <span class="op">=</span> <span class="st">&quot;沉默王三&quot;</span><span class="op">;</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;orElse&quot;</span><span class="op">);</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> name2 <span class="op">=</span> Optional<span class="op">.</span><span class="fu">ofNullable</span><span class="op">(</span>name<span class="op">).</span><span class="fu">orElse</span><span class="op">(</span><span class="fu">getDefaultValue</span><span class="op">());</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;orElseGet&quot;</span><span class="op">);</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> name3 <span class="op">=</span> Optional<span class="op">.</span><span class="fu">ofNullable</span><span class="op">(</span>name<span class="op">).</span><span class="fu">orElseGet</span><span class="op">(</span>OrElseOptionalDemo<span class="op">::</span>getDefaultValue<span class="op">);</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>输出结果如下所示：</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>orElse</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>getDefaultValue</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>orElseGet</span></code></pre></div>
+<p>咦，<code>orElseGet()</code> 没有去调用 <code>getDefaultValue()</code>。哪个方法的性能更佳，你明白了吧？</p>
+</section>
+<section id="id_07获取值" class="level3">
+<h3>07、获取值</h3>
+<p>直观从语义上来看，<code>get()</code> 方法才是最正宗的获取 Optional 对象值的方法，但很遗憾，该方法是有缺陷的，因为假如 Optional 对象的值为 null，该方法会抛出 NoSuchElementException 异常。这完全与我们使用 Optional 类的初衷相悖。</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> GetOptionalDemo <span class="op">{</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> name <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>        Optional<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> optOrNull <span class="op">=</span> Optional<span class="op">.</span><span class="fu">ofNullable</span><span class="op">(</span>name<span class="op">);</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>optOrNull<span class="op">.</span><span class="fu">get</span><span class="op">());</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>这段程序在运行时会抛出异常：</p>
+<pre><code>Exception in thread &quot;main&quot; java.util.NoSuchElementException: No value present
+	at java.base/java.util.Optional.get(Optional.java:141)
+	at com.cmower.dzone.optional.GetOptionalDemo.main(GetOptionalDemo.java:9)</code></pre>
+<p>尽管抛出的异常是 NoSuchElementException 而不是 NPE，但在我们看来，显然是在“五十步笑百步”。建议 <code>orElseGet()</code> 方法获取 Optional 对象的值。</p>
+</section>
+<section id="id_08过滤值" class="level3">
+<h3>08、过滤值</h3>
+<p>小王通过 Optional 类对之前的代码进行了升级，完成后又兴高采烈地跑去找老马要任务了。老马觉得这小伙子不错，头脑灵活，又干活积极，很值得培养，就又交给了小王一个新的任务：用户注册时对密码的长度进行检查。</p>
+<p>小王拿到任务后，乐开了花，因为他刚要学习 Optional 类的 <code>filter()</code> 方法，这就派上了用场。</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> FilterOptionalDemo <span class="op">{</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> password <span class="op">=</span> <span class="st">&quot;12345&quot;</span><span class="op">;</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>        Optional<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> opt <span class="op">=</span> Optional<span class="op">.</span><span class="fu">ofNullable</span><span class="op">(</span>password<span class="op">);</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>opt<span class="op">.</span><span class="fu">filter</span><span class="op">(</span>pwd <span class="op">-&gt;</span> pwd<span class="op">.</span><span class="fu">length</span><span class="op">()</span> <span class="op">&gt;</span> <span class="dv">6</span><span class="op">).</span><span class="fu">isPresent</span><span class="op">());</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>filter()</code> 方法的参数类型为 Predicate（Java 8 新增的一个函数式接口），也就是说可以将一个 Lambda 表达式传递给该方法作为条件，如果表达式的结果为 false，则返回一个 EMPTY 的 Optional 对象，否则返回过滤后的 Optional 对象。</p>
+<p>在上例中，由于 password 的长度为 5 ，所以程序输出的结果为 false。假设密码的长度要求在 6 到 10 位之间，那么还可以再追加一个条件。来看小王增加难度后的代码。</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Predicate</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> len6 <span class="op">=</span> pwd <span class="op">-&gt;</span> pwd<span class="op">.</span><span class="fu">length</span><span class="op">()</span> <span class="op">&gt;</span> <span class="dv">6</span><span class="op">;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Predicate</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> len10 <span class="op">=</span> pwd <span class="op">-&gt;</span> pwd<span class="op">.</span><span class="fu">length</span><span class="op">()</span> <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>password <span class="op">=</span> <span class="st">&quot;1234567&quot;</span><span class="op">;</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> Optional<span class="op">.</span><span class="fu">ofNullable</span><span class="op">(</span>password<span class="op">);</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> result <span class="op">=</span> opt<span class="op">.</span><span class="fu">filter</span><span class="op">(</span>len6<span class="op">.</span><span class="fu">and</span><span class="op">(</span>len10<span class="op">)).</span><span class="fu">isPresent</span><span class="op">();</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>result<span class="op">);</span></span></code></pre></div>
+<p>这次程序输出的结果为 true，因为密码变成了 7 位，在 6 到 10 位之间。想象一下，假如小王使用 if-else 来完成这个任务，代码该有多冗长。</p>
+</section>
+<section id="id_09转换值" class="level3">
+<h3>09、转换值</h3>
+<p>小王检查完了密码的长度，仍然觉得不够尽兴，觉得要对密码的强度也进行检查，比如说密码不能是“password”，这样的密码太弱了。于是他又开始研究起了 <code>map()</code> 方法，该方法可以按照一定的规则将原有 Optional 对象转换为一个新的 Optional 对象，原有的 Optional 对象不会更改。</p>
+<p>先来看小王写的一个简单的例子：</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> OptionalMapDemo <span class="op">{</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> name <span class="op">=</span> <span class="st">&quot;沉默王二&quot;</span><span class="op">;</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>        Optional<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> nameOptional <span class="op">=</span> Optional<span class="op">.</span><span class="fu">of</span><span class="op">(</span>name<span class="op">);</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>        Optional<span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> intOpt <span class="op">=</span> nameOptional</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span><span class="fu">map</span><span class="op">(</span><span class="bu">String</span><span class="op">::</span>length<span class="op">);</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span> intOpt<span class="op">.</span><span class="fu">orElse</span><span class="op">(</span><span class="dv">0</span><span class="op">));</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>在上面这个例子中，<code>map()</code> 方法的参数 <code>String::length</code>，意味着要 将原有的字符串类型的 Optional 按照字符串长度重新生成一个新的 Optional 对象，类型为 Integer。</p>
+<p>搞清楚了 <code>map()</code> 方法的基本用法后，小王决定把 <code>map()</code> 方法与 <code>filter()</code> 方法结合起来用，前者用于将密码转化为小写，后者用于判断长度以及是否是“password”。</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> OptionalMapFilterDemo <span class="op">{</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> password <span class="op">=</span> <span class="st">&quot;password&quot;</span><span class="op">;</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>        Optional<span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span>  opt <span class="op">=</span> Optional<span class="op">.</span><span class="fu">ofNullable</span><span class="op">(</span>password<span class="op">);</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Predicate</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> len6 <span class="op">=</span> pwd <span class="op">-&gt;</span> pwd<span class="op">.</span><span class="fu">length</span><span class="op">()</span> <span class="op">&gt;</span> <span class="dv">6</span><span class="op">;</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Predicate</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> len10 <span class="op">=</span> pwd <span class="op">-&gt;</span> pwd<span class="op">.</span><span class="fu">length</span><span class="op">()</span> <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Predicate</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">&gt;</span> eq <span class="op">=</span> pwd <span class="op">-&gt;</span> pwd<span class="op">.</span><span class="fu">equals</span><span class="op">(</span><span class="st">&quot;password&quot;</span><span class="op">);</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">boolean</span> result <span class="op">=</span> opt<span class="op">.</span><span class="fu">map</span><span class="op">(</span><span class="bu">String</span><span class="op">::</span>toLowerCase<span class="op">).</span><span class="fu">filter</span><span class="op">(</span>len6<span class="op">.</span><span class="fu">and</span><span class="op">(</span>len10 <span class="op">).</span><span class="fu">and</span><span class="op">(</span>eq<span class="op">)).</span><span class="fu">isPresent</span><span class="op">();</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>result<span class="op">);</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><img src="../media/file331.jpg" title="fig:" alt="" /></p>
+<p>好了，我亲爱的读者朋友，以上就是本文的全部内容了——可以说是史上最佳 Optional 指南了，能看到这里的都是最优秀的程序员，二哥必须要伸出大拇指为你点个赞。</p>
+<hr />
+<p>GitHub 上标星 7600+ 的开源知识库《二哥的 Java 进阶之路》第一版 PDF 终于来了！包括Java基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM等等，共计 32 万余字，可以说是通俗易懂、风趣幽默……详情戳：<a href="https://tobebetterjavaer.com/overview/">太赞了，GitHub 上标星 7600+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img src="../media/file4.jpg" title="fig:" alt="" /></p>
+</section>
+</section>
+<section id="id_103-深入浅出lambda表达式" class="level2">
+<h2>10.3 深入浅出Lambda表达式</h2>
+<p>今天分享的主题是《Lambda 表达式入门》，这也是之前一些读者留言强烈要求我写一写的，不好意思，让你们久等了，现在来满足你们，为时不晚吧？</p>
+<p><img src="../media/file332.jpg" title="fig:" alt="" /></p>
+<section id="id_01初识-lambda" class="level3">
+<h3>01、初识 Lambda</h3>
+<p>Lambda 表达式描述了一个代码块（或者叫匿名方法），可以将其作为参数传递给构造方法或者普通方法以便后续执行。考虑下面这段代码：</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="op">()</span> <span class="op">-&gt;</span> <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;沉默王二&quot;</span><span class="op">)</span></span></code></pre></div>
+<p>来从左到右解释一下，<code>()</code> 为 Lambda 表达式的参数列表（本例中没有参数），<code>-&gt;</code> 标识这串代码为 Lambda 表达式（也就是说，看到 <code>-&gt;</code> 就知道这是 Lambda），<code>System.out.println("沉默王二")</code> 为要执行的代码，即将“沉默王二”打印到标准输出流。</p>
+<p>有点 Java 基础的同学应该不会对 Runnable 接口感到陌生，这是多线程的一个基础接口，它的定义如下：</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="at">@FunctionalInterface</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">interface</span> <span class="bu">Runnable</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>   <span class="kw">public</span> <span class="kw">abstract</span> <span class="dt">void</span> <span class="fu">run</span><span class="op">();</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Runnable 接口非常简单，仅有一个抽象方法 <code>run()</code>；细心的同学会发现一个陌生的注解 <code>@FunctionalInterface</code>，这个注解是什么意思呢？</p>
+<p>我看了它的源码，里面有这样一段注释：</p>
+<blockquote>
+<p>Note that instances of functional interfaces can be created with lambda expressions, method references, or constructor references.</p>
+</blockquote>
+<p>大致的意思就是说，通过 <code>@FunctionalInterface</code> 标记的接口可以通过 Lambda 表达式创建实例。具体怎么表现呢？</p>
+<p>原来我们创建一个线程并启动它是这样的：</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> LamadaTest <span class="op">{</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="bu">Thread</span><span class="op">(</span><span class="kw">new</span> <span class="bu">Runnable</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">@Override</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>            <span class="kw">public</span> <span class="dt">void</span> <span class="fu">run</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>                <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;沉默王二&quot;</span><span class="op">);</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">}).</span><span class="fu">start</span><span class="op">();</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>通过 Lambda 表达式呢？只需要下面这样：</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> LamadaTest <span class="op">{</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="bu">Thread</span><span class="op">(()</span> <span class="op">-&gt;</span> <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;沉默王二&quot;</span><span class="op">)).</span><span class="fu">start</span><span class="op">();</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>是不是很妙！比起匿名内部类，Lambda 表达式不仅易于理解，更大大简化了必须编写的代码数量。</p>
+<p><img src="../media/file333.jpg" title="fig:" alt="" /></p>
+</section>
+<section id="id_02lambda-语法" class="level3">
+<h3>02、Lambda 语法</h3>
+<p>每个 Lambda 表达式都遵循以下法则：</p>
+<pre><code>( parameter-list ) -&gt; { expression-or-statements }</code></pre>
+<p><code>()</code> 中的 <code>parameter-list</code> 是以逗号分隔的参数。你可以指定参数的类型，也可以不指定（编译器会根据上下文进行推断）。Java 11 后，还可以使用 <code>var</code> 关键字作为参数类型，有点 JavaScript 的味道。</p>
+<p><code>-&gt;</code> 相当于 Lambda 的标识符，就好像见到圣旨就见到了皇上。</p>
+<p><code>{}</code> 中的 <code>expression-or-statements</code> 为 Lambda 的主体，可以是一行语句，也可以多行。</p>
+<p>可以通过 Lambda 表达式干很多事情，比如说</p>
+<p>1）为变量赋值，示例如下：</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Runnable</span> r <span class="op">=</span> <span class="op">()</span> <span class="op">-&gt;</span> <span class="op">{</span> <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;沉默王二&quot;</span><span class="op">);</span> <span class="op">};</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>r<span class="op">.</span><span class="fu">run</span><span class="op">();</span></span></code></pre></div>
+<p>2）作为 return 结果，示例如下：</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="bu">FileFilter</span> <span class="fu">getFilter</span><span class="op">(</span><span class="bu">String</span> ext<span class="op">)</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">(</span>pathname<span class="op">)</span> <span class="op">-&gt;</span> pathname<span class="op">.</span><span class="fu">toString</span><span class="op">().</span><span class="fu">endsWith</span><span class="op">(</span>ext<span class="op">);</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>3）作为数组元素，示例如下：</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="dt">final</span> PathMatcher matchers<span class="op">[]</span> <span class="op">=</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>        <span class="op">(</span>path<span class="op">)</span> <span class="op">-&gt;</span> path<span class="op">.</span><span class="fu">toString</span><span class="op">().</span><span class="fu">endsWith</span><span class="op">(</span><span class="st">&quot;txt&quot;</span><span class="op">),</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>        <span class="op">(</span>path<span class="op">)</span> <span class="op">-&gt;</span> path<span class="op">.</span><span class="fu">toString</span><span class="op">().</span><span class="fu">endsWith</span><span class="op">(</span><span class="st">&quot;java&quot;</span><span class="op">)</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<p>4）作为普通方法或者构造方法的参数，示例如下：</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">new</span> <span class="bu">Thread</span><span class="op">(()</span> <span class="op">-&gt;</span> <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;沉默王二&quot;</span><span class="op">)).</span><span class="fu">start</span><span class="op">();</span></span></code></pre></div>
+<p>需要注意 Lambda 表达式的作用域范围。</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> limit <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Runnable</span> r <span class="op">=</span> <span class="op">()</span> <span class="op">-&gt;</span> <span class="op">{</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> limit <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> limit<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>上面这段代码在编译的时候会提示错误：变量 limit 已经定义过了。</p>
+<p>和匿名内部类一样，不要在 Lambda 表达式主体内对方法内的局部变量进行修改，否则编译也不会通过：Lambda 表达式中使用的变量必须是 final 的。</p>
+<p><img src="../media/file334.jpg" title="fig:" alt="" /></p>
+<p>这个问题发生的原因是因为 Java 规范中是这样规定的：</p>
+<blockquote>
+<p>Any local variable, formal parameter, or exception parameter used but not declared in a lambda expression<br />
+must either be declared final or be effectively final <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.12.4">(§4.12.4)</a>,<br />
+or a compile-time error occurs where the use is attempted.</p>
+</blockquote>
+<p>大致的意思就是说，Lambda 表达式中要用到的，但又未在 Lambda 表达式中声明的变量，必须声明为 final 或者是 effectively final，否则就会出现编译错误。</p>
+<p>关于 final 和 effectively final 的区别，可能有些小伙伴不太清楚，这里多说两句。</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="dt">final</span> <span class="dt">int</span> a<span class="op">;</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="co">// a = 2;</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="co">// 由于 a 是 final 的，所以不能被重新赋值</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> b<span class="op">;</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a><span class="co">// b 此后再未更改</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a><span class="co">// b 就是 effectively final</span></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> c<span class="op">;</span></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a><span class="co">// c 先被赋值为 1，随后又被重新赋值为 2</span></span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a><span class="co">// c 就不是 effectively final</span></span></code></pre></div>
+<p>明白了 final 和 effectively final 的区别后，我们了解到，如果把 limit 定义为 final，那就无法在 Lambda 表达式中修改变量的值。那有什么好的解决办法呢？既能让编译器不发出警告，又能修改变量的值。</p>
+<p>思前想后，试来试去，我终于找到了 3 个可行的解决方案：</p>
+<p>1）把 limit 变量声明为 static。</p>
+<p>2）把 limit 变量声明为 AtomicInteger。</p>
+<p>3）使用数组。</p>
+<p>下面我们来详细地一一介绍下。</p>
+<section id="id_01）把-limit-变量声明为-static" class="level4">
+<h4>01）把 limit 变量声明为 static</h4>
+<p>要想把 limit 变量声明为 static，就必须将 limit 变量放在 <code>main()</code> 方法外部，因为 <code>main()</code> 方法本身是 static 的。完整的代码示例如下所示。</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> ModifyVariable2StaticInsideLambda <span class="op">{</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">static</span> <span class="dt">int</span> limit <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Runnable</span> r <span class="op">=</span> <span class="op">()</span> <span class="op">-&gt;</span> <span class="op">{</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>            limit <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> limit<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>                <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">};</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="bu">Thread</span><span class="op">(</span>r<span class="op">).</span><span class="fu">start</span><span class="op">();</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>来看一下程序输出的结果：</p>
+<pre><code>0
+1
+2
+3
+4</code></pre>
+<p>OK，该方案是可行的。</p>
+</section>
+<section id="id_02）把-limit-变量声明为-atomicinteger" class="level4">
+<h4>02）把 limit 变量声明为 AtomicInteger</h4>
+<p>AtomicInteger 可以确保 int 值的修改是原子性的，可以使用 <code>set()</code> 方法设置一个新的 int 值，<code>get()</code> 方法获取当前的 int 值。</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> ModifyVariable2AtomicInsideLambda <span class="op">{</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">final</span> <span class="bu">AtomicInteger</span> limit <span class="op">=</span> <span class="kw">new</span> <span class="bu">AtomicInteger</span><span class="op">(</span><span class="dv">10</span><span class="op">);</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Runnable</span> r <span class="op">=</span> <span class="op">()</span> <span class="op">-&gt;</span> <span class="op">{</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>            limit<span class="op">.</span><span class="fu">set</span><span class="op">(</span><span class="dv">5</span><span class="op">);</span></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> limit<span class="op">.</span><span class="fu">get</span><span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>                <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">};</span></span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="bu">Thread</span><span class="op">(</span>r<span class="op">).</span><span class="fu">start</span><span class="op">();</span></span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>来看一下程序输出的结果：</p>
+<pre><code>0
+1
+2
+3
+4</code></pre>
+<p>OK，该方案也是可行的。</p>
+</section>
+<section id="id_03）使用数组" class="level4">
+<h4>03）使用数组</h4>
+<p>使用数组的方式略带一些欺骗的性质，在声明数组的时候设置为 final，但更改 int 的值时却修改的是数组的一个元素。</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> ModifyVariable2ArrayInsideLambda <span class="op">{</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">final</span> <span class="dt">int</span> <span class="op">[]</span> limits <span class="op">=</span> <span class="op">{</span><span class="dv">10</span><span class="op">};</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Runnable</span> r <span class="op">=</span> <span class="op">()</span> <span class="op">-&gt;</span> <span class="op">{</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>            limits<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> limits<span class="op">[</span><span class="dv">0</span><span class="op">];</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>                <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">};</span></span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="bu">Thread</span><span class="op">(</span>r<span class="op">).</span><span class="fu">start</span><span class="op">();</span></span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>来看一下程序输出的结果：</p>
+<pre><code>0
+1
+2
+3
+4</code></pre>
+<p>OK，该方案也是可行的。</p>
+</section>
+</section>
+<section id="id_03lambda-和-this-关键字" class="level3">
+<h3>03、Lambda 和 this 关键字</h3>
+<p>Lambda 表达式并不会引入新的作用域，这一点和匿名内部类是不同的。也就是说，Lambda 表达式主体内使用的 this 关键字和其所在的类实例相同。</p>
+<p>来看下面这个示例。</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> LamadaTest <span class="op">{</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="fu">LamadaTest</span><span class="op">().</span><span class="fu">work</span><span class="op">();</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">work</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">printf</span><span class="op">(</span><span class="st">&quot;this = </span><span class="sc">%s%n</span><span class="st">&quot;</span><span class="op">,</span> <span class="kw">this</span><span class="op">);</span></span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Runnable</span> r <span class="op">=</span> <span class="kw">new</span> <span class="bu">Runnable</span><span class="op">()</span></span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">@Override</span></span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>            <span class="kw">public</span> <span class="dt">void</span> <span class="fu">run</span><span class="op">()</span></span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>            <span class="op">{</span></span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>                <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">printf</span><span class="op">(</span><span class="st">&quot;this = </span><span class="sc">%s%n</span><span class="st">&quot;</span><span class="op">,</span> <span class="kw">this</span><span class="op">);</span></span>
+<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">};</span></span>
+<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="bu">Thread</span><span class="op">(</span>r<span class="op">).</span><span class="fu">start</span><span class="op">();</span></span>
+<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a>        <span class="kw">new</span> <span class="bu">Thread</span><span class="op">(()</span> <span class="op">-&gt;</span> <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">printf</span><span class="op">(</span><span class="st">&quot;this = </span><span class="sc">%s%n</span><span class="st">&quot;</span><span class="op">,</span> <span class="kw">this</span><span class="op">)).</span><span class="fu">start</span><span class="op">();</span></span>
+<span id="cb63-19"><a href="#cb63-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb63-20"><a href="#cb63-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Tips：<code>%s</code> 代表当前位置输出字符串，<code>%n</code> 代表换行符，也可以使用 <code>\n</code> 代替，但 <code>%n</code> 是跨平台的。</p>
+<p><code>work()</code> 方法中的代码可以分为 3 个部分：</p>
+<p>1）单独的 this 关键字</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">printf</span><span class="op">(</span><span class="st">&quot;this = </span><span class="sc">%s%n</span><span class="st">&quot;</span><span class="op">,</span> <span class="kw">this</span><span class="op">);</span></span></code></pre></div>
+<p>其中 this 为 <code>main()</code> 方法中通过 new 关键字创建的 LamadaTest 对象——<code>new LamadaTest()</code>。</p>
+<p>2）匿名内部类中的 this 关键字</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Runnable</span> r <span class="op">=</span> <span class="kw">new</span> <span class="bu">Runnable</span><span class="op">()</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">run</span><span class="op">()</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">printf</span><span class="op">(</span><span class="st">&quot;this = </span><span class="sc">%s%n</span><span class="st">&quot;</span><span class="op">,</span> <span class="kw">this</span><span class="op">);</span></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<p>其中 this 为 <code>work()</code> 方法中通过 new 关键字创建的 Runnable 对象——<code>new Runnable(){...}</code>。</p>
+<p>3）Lambda 表达式中的 this 关键字</p>
+<p>其中 this 关键字和 1）中的相同。</p>
+<p>我们来看一下程序的输出结果：</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span> <span class="op">=</span> com<span class="op">.</span><span class="fu">cmower</span><span class="op">.</span><span class="fu">java_demo</span><span class="op">.</span><span class="fu">journal</span><span class="op">.</span><span class="fu">LamadaTest</span><span class="at">@</span><span class="dv">3</span>feba861</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span> <span class="op">=</span> com<span class="op">.</span><span class="fu">cmower</span><span class="op">.</span><span class="fu">java_demo</span><span class="op">.</span><span class="fu">journal</span><span class="op">.</span><span class="fu">LamadaTest</span>$<span class="dv">1</span><span class="at">@</span><span class="er">64</span>f033cb</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span> <span class="op">=</span> com<span class="op">.</span><span class="fu">cmower</span><span class="op">.</span><span class="fu">java_demo</span><span class="op">.</span><span class="fu">journal</span><span class="op">.</span><span class="fu">LamadaTest</span><span class="at">@</span><span class="dv">3</span>feba861</span></code></pre></div>
+<p>符合我们分析的预期。</p>
+<p><img src="../media/file335.jpg" title="fig:" alt="" /></p>
+</section>
+<section id="id_04最后" class="level3">
+<h3>04、最后</h3>
+<p>尽管 Lambda 表达式在简化 Java 编程方面做了很多令人惊讶的努力，但在某些情况下，不当的使用仍然会导致不必要的混乱，大家伙慎用。</p>
+<p>好了，我亲爱的读者朋友们，以上就是本文的全部内容了。能在疫情期间坚持看技术文，二哥必须要伸出大拇指为你点个赞👍。原创不易，如果觉得有点用的话，请不要吝啬你手中<strong>点赞</strong>的权力——因为这将是我写作的最强动力。</p>
+<hr />
+<p>GitHub 上标星 7600+ 的开源知识库《二哥的 Java 进阶之路》第一版 PDF 终于来了！包括Java基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM等等，共计 32 万余字，可以说是通俗易懂、风趣幽默……详情戳：<a href="https://tobebetterjavaer.com/overview/">太赞了，GitHub 上标星 7600+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img src="../media/file4.jpg" title="fig:" alt="" /></p>
+</section>
+</section>
+<section id="id_104-java-14-新特性" class="level2">
+<h2>10.4 Java 14 新特性</h2>
+<p>Java 14 的时候，新增了记录 Record、模式匹配 instanceof 等新特性，转正了 Java 12 时的 switch 表达式，我们一起来过一遍。</p>
+<p><img src="../media/file336.png" title="fig:" alt="" /></p>
+<section id="id_01下载-jdk-14" class="level3">
+<h3>01、下载 JDK 14</h3>
+<blockquote>
+<p>截止到2023年03月30日，Java 20 已经发布了，不过不是 LTS（长期支持）版本，Java 17、11、8 是目前提供支持的 LTS 版本。</p>
+</blockquote>
+<p>要想开箱，得先下载 JDK 14（如果你有更高版本，当然也可以），不然拿什么开箱呢，对吧？有 2 处地方可供下载，Oracle 上可以下载商用版， <a href="https://jdk.java.net/14/">jdk.java.net</a> 上可以下载开源版。我们就选择后者吧。</p>
+<p><img src="../media/file337.png" title="fig:" alt="" /></p>
+<p>我目前用的是 Windows 操作系统，所以就选择 Windows 版的 zip 包进行下载，完成后记得解压。</p>
+</section>
+<section id="id_02升级-intellij-idea" class="level3">
+<h3>02、升级 IntelliJ IDEA</h3>
+<blockquote>
+<p>截止到 2023年03月30日，Intellij IDEA 的最新版本是 2023.1。 </p>
+</blockquote>
+<p>需要把 IDEA 升级到抢先体验版 2020.1 EAP（如果你当前使用的版本大于此，当然也可以），否则无法支持 Java 14 的新特性。</p>
+<p><img src="../media/file338.png" title="fig:" alt="" /></p>
+<p>社区版的下载地址如下所示：</p>
+<pre><code>[https://www.jetbrains.com/idea/nextversion/#section=windows](https://www.jetbrains.com/idea/nextversion/#section=windows)</code></pre>
+<p>安装的时候可以把之前的版本卸载，也可以选择保留。完成后，我们来新建一个 Java 14 的项目。</p>
+<p><img src="../media/file339.png" title="fig:" alt="" /></p>
+</section>
+<section id="id_01instanceof" class="level3">
+<h3>01、instanceof</h3>
+<p>按照新特性的顺序，我们就先从 instanceof 说起吧。旧式的 instanceof 的用法如下所示：</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> OldInstanceOf <span class="op">{</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Object</span> str <span class="op">=</span> <span class="st">&quot;Java 14，真香&quot;</span><span class="op">;</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>str <span class="kw">instanceof</span> <span class="bu">String</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>            <span class="bu">String</span> s <span class="op">=</span> <span class="op">(</span><span class="bu">String</span><span class="op">)</span>str<span class="op">;</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>s<span class="op">.</span><span class="fu">length</span><span class="op">());</span></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>需要先使用 instanceof 在 if 条件中判断 str 的类型是否为 String（第一步），再在 if 语句中将 str 强转为字符串类型（第二步），并且要重新声明一个变量用于强转后的赋值（第三步）。</p>
+<p>三个步骤也不算多，但总觉得应该还有更好的语法，这不，Java 14 就想到了这一层。</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> NewInstanceOf <span class="op">{</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Object</span> str <span class="op">=</span> <span class="st">&quot;Java 14，真香&quot;</span><span class="op">;</span></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>str <span class="kw">instanceof</span> <span class="bu">String</span> s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>s<span class="op">.</span><span class="fu">length</span><span class="op">());</span></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>可以直接在 if 条件判断类型的时候添加一个变量，就不需要再强转和声明新的变量了。是不是特别简洁？但模式匹配的 instanceof 在 Java 14 中是预览版的，默认是不启用的，所以这段代码会有一个奇怪的编译错误（Java 14 中不支持模式匹配的 instanceof）。</p>
+<p><img src="../media/file340.png" title="fig:" alt="" /></p>
+<p>那怎么解决这个问题呢？需要在项目配置中手动设置一下语言的版本。</p>
+<p><img src="../media/file341.png" title="fig:" alt="" /></p>
+<p>设置完成后，编译错误就随风飘走了。程序输出的结果如下所示：</p>
+<pre><code>10</code></pre>
+<p>不错不错，真香。想知道 Java 编译器在背后帮我们做了什么吗？看一下反编译后的字节码就明白了。</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> NewInstanceOf <span class="op">{</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">NewInstanceOf</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Object</span> str <span class="op">=</span> <span class="st">&quot;Java 14，真香&quot;</span><span class="op">;</span></span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> s<span class="op">;</span></span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>str <span class="kw">instanceof</span> <span class="bu">String</span> <span class="op">&amp;&amp;</span> <span class="op">(</span>s <span class="op">=</span> <span class="op">(</span><span class="bu">String</span><span class="op">)</span>str<span class="op">)</span> <span class="op">==</span> <span class="op">(</span><span class="bu">String</span><span class="op">)</span>str<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>s<span class="op">.</span><span class="fu">length</span><span class="op">());</span></span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>在 if 条件判断前，先声明了变量 s，然后在 if 条件中进行了强转 <code>s = (String)str)</code>，并且判断了 s 和 str 是否相等。确实是一个解放开放者生产力的好特性，强烈希望这个特性在下个版本中转正。</p>
+</section>
+<section id="id_02records" class="level3">
+<h3>02、Records</h3>
+<p>在之前的一篇文章中，我谈到了<a href="https://tobebetterjavaer.com/basic-extra-meal/immutable.html">类的不可变性</a>，它是这样定义的：</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> <span class="bu">Writer</span> <span class="op">{</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">final</span> <span class="bu">String</span> name<span class="op">;</span></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">final</span> <span class="dt">int</span> age<span class="op">;</span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">Writer</span><span class="op">(</span><span class="bu">String</span> name<span class="op">,</span> <span class="dt">int</span> age<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">name</span> <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">age</span> <span class="op">=</span> age<span class="op">;</span></span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">getAge</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb72-11"><a href="#cb72-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> age<span class="op">;</span></span>
+<span id="cb72-12"><a href="#cb72-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb72-13"><a href="#cb72-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-14"><a href="#cb72-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getName</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb72-15"><a href="#cb72-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> name<span class="op">;</span></span>
+<span id="cb72-16"><a href="#cb72-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb72-17"><a href="#cb72-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>那么，对于 Records 来说，一条 Record 就代表一个不变的状态。尽管它会提供诸如 <code>equals()</code>、<code>hashCode()</code>、<code>toString()</code>、构造方法，以及字段的 getter，但它无意替代可变对象的类（没有 setter），以及 Lombok 提供的功能。</p>
+<p>来用 Records 替代一下上面这个 Writer 类：</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> record <span class="bu">Writer</span><span class="op">(</span><span class="bu">String</span> name<span class="op">,</span> <span class="dt">int</span> age<span class="op">)</span> <span class="op">{</span> <span class="op">}</span></span></code></pre></div>
+<p>你看，一行代码就搞定。关键是比之前的代码功能更丰富，来看一下反编译后的字节码：</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> <span class="bu">Writer</span> <span class="kw">extends</span> java<span class="op">.</span><span class="fu">lang</span><span class="op">.</span><span class="fu">Record</span> <span class="op">{</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">final</span> java<span class="op">.</span><span class="fu">lang</span><span class="op">.</span><span class="fu">String</span> name<span class="op">;</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">final</span> <span class="dt">int</span> age<span class="op">;</span></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">Writer</span><span class="op">(</span>java<span class="op">.</span><span class="fu">lang</span><span class="op">.</span><span class="fu">String</span> name<span class="op">,</span> <span class="dt">int</span> age<span class="op">)</span> <span class="op">{</span> <span class="co">/* compiled code */</span> <span class="op">}</span></span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> java<span class="op">.</span><span class="fu">lang</span><span class="op">.</span><span class="fu">String</span> <span class="fu">toString</span><span class="op">()</span> <span class="op">{</span> <span class="co">/* compiled code */</span> <span class="op">}</span></span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">final</span> <span class="dt">int</span> <span class="fu">hashCode</span><span class="op">()</span> <span class="op">{</span> <span class="co">/* compiled code */</span> <span class="op">}</span></span>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">final</span> <span class="dt">boolean</span> <span class="fu">equals</span><span class="op">(</span>java<span class="op">.</span><span class="fu">lang</span><span class="op">.</span><span class="fu">Object</span> o<span class="op">)</span> <span class="op">{</span> <span class="co">/* compiled code */</span> <span class="op">}</span></span>
+<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> java<span class="op">.</span><span class="fu">lang</span><span class="op">.</span><span class="fu">String</span> <span class="fu">name</span><span class="op">()</span> <span class="op">{</span> <span class="co">/* compiled code */</span> <span class="op">}</span></span>
+<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-15"><a href="#cb74-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">age</span><span class="op">()</span> <span class="op">{</span> <span class="co">/* compiled code */</span> <span class="op">}</span></span>
+<span id="cb74-16"><a href="#cb74-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>类是 final 的，字段是 private final 的，构造方法有两个参数，<code>toString()</code>、<code>hashCode()</code>、<code>equals()</code> 方法也有了，getter 方法也有了，只不过没有 get 前缀。但是没有 setter 方法，也就是说 Records 确实针对的是不可变对象——鉴定完毕。那怎么使用 Records 呢？</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> WriterDemo <span class="op">{</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Writer</span> writer <span class="op">=</span> <span class="kw">new</span> <span class="bu">Writer</span><span class="op">(</span><span class="st">&quot;沉默王二&quot;</span><span class="op">,</span><span class="dv">18</span><span class="op">);</span></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;toString：&quot;</span> <span class="op">+</span> writer<span class="op">);</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;hashCode：&quot;</span> <span class="op">+</span> writer<span class="op">.</span><span class="fu">hashCode</span><span class="op">());</span></span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;name：&quot;</span> <span class="op">+</span> writer<span class="op">.</span><span class="fu">name</span><span class="op">());</span></span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;age：&quot;</span> <span class="op">+</span> writer<span class="op">.</span><span class="fu">age</span><span class="op">());</span></span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Writer</span> writer1 <span class="op">=</span> <span class="kw">new</span> <span class="bu">Writer</span><span class="op">(</span><span class="st">&quot;沉默王二&quot;</span><span class="op">,</span> <span class="dv">18</span><span class="op">);</span></span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;equals：&quot;</span> <span class="op">+</span> <span class="op">(</span>writer<span class="op">.</span><span class="fu">equals</span><span class="op">(</span>writer1<span class="op">)));</span></span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>程序输出的结果如下所示：</p>
+<pre><code>toString：Writer[name=沉默王二, age=18]
+hashCode：1130697218
+name：沉默王二
+age：18
+equals：true</code></pre>
+<p>不错不错，真香，以后定义不可变类时就简单了，强烈希望这个特性在下个版本中转正。</p>
+</section>
+<section id="id_03switch-表达式" class="level3">
+<h3>03、switch 表达式</h3>
+<p>关于 switch 表达式，我在之前的一篇文章中已经详细说明了，点击<a href="https://mp.weixin.qq.com/s/1BDDLDSKDGwQAfIFMyySdg">传送门</a>可以跳转过去看看。两周时间过去了，switch 表达式终于“媳妇熬成婆”，转正了，恭喜恭喜。</p>
+<p>记得这篇文章发表到掘金的时候，被喷子各种无脑 diss，说：“还以为你有什么技巧，没想到用的是 Java 13，可我们还停留在 Java 8 啊！”这显然是一种固步自封的心态，非常不可取，程序员不应该这样。一个最简单的道理就是，Java 6 当年也很经典，不是被 Java 8 取代了吗？随着时间的推移，Java 8 早晚会被更划时代的新版本取代——总要进步嘛。</p>
+<p>关于 switch 表达式，这里就简单地搬个例子给你瞧瞧：</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> SwitchDemo <span class="op">{</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">enum</span> PlayerTypes <span class="op">{</span></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>        TENNIS<span class="op">,</span></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>        FOOTBALL<span class="op">,</span></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>        BASKETBALL<span class="op">,</span></span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>        PINGPANG<span class="op">,</span></span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">UNKNOWN</span></span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb77-11"><a href="#cb77-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="fu">createPlayer</span><span class="op">(</span>PlayerTypes<span class="op">.</span><span class="fu">BASKETBALL</span><span class="op">));</span></span>
+<span id="cb77-12"><a href="#cb77-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb77-13"><a href="#cb77-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-14"><a href="#cb77-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">static</span> <span class="bu">String</span> <span class="fu">createPlayer</span><span class="op">(</span>PlayerTypes playerType<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb77-15"><a href="#cb77-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="cf">switch</span> <span class="op">(</span>playerType<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb77-16"><a href="#cb77-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> TENNIS <span class="op">-&gt;</span> <span class="st">&quot;网球运动员费德勒&quot;</span><span class="op">;</span></span>
+<span id="cb77-17"><a href="#cb77-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> FOOTBALL <span class="op">-&gt;</span> <span class="st">&quot;足球运动员C罗&quot;</span><span class="op">;</span></span>
+<span id="cb77-18"><a href="#cb77-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> BASKETBALL <span class="op">-&gt;</span> <span class="st">&quot;篮球运动员詹姆斯&quot;</span><span class="op">;</span></span>
+<span id="cb77-19"><a href="#cb77-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> PINGPANG <span class="op">-&gt;</span> <span class="st">&quot;乒乓球运动员马龙&quot;</span><span class="op">;</span></span>
+<span id="cb77-20"><a href="#cb77-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="bu">UNKNOWN</span> <span class="op">-&gt;</span> <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">IllegalArgumentException</span><span class="op">(</span><span class="st">&quot;未知&quot;</span><span class="op">);</span></span>
+<span id="cb77-21"><a href="#cb77-21" aria-hidden="true" tabindex="-1"></a>        <span class="op">};</span></span>
+<span id="cb77-22"><a href="#cb77-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb77-23"><a href="#cb77-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>除了可以使用 <code>-&gt;</code> 的新式语法，还可以作为 return 结果，真香。</p>
+</section>
+<section id="id_04text-blocks" class="level3">
+<h3>04、Text Blocks</h3>
+<p>在文本块（Text Blocks）出现之前，如果我们需要拼接多行的字符串，就需要很多英文双引号和加号，看起来就好像老太婆的裹脚布，非常不雅。如果恰好要拼接一些 HTML 格式的文本（原生 SQL 也是如此）的话，还要通过空格进行排版，通过换行转义符 <code>\n</code> 进行换行，这些繁琐的工作对于一名开发人员来说，简直就是灾难。</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> OldTextBlock <span class="op">{</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> html <span class="op">=</span> <span class="st">&quot;&lt;html&gt;</span><span class="sc">\n</span><span class="st">&quot;</span> <span class="op">+</span></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;    &lt;body&gt;</span><span class="sc">\n</span><span class="st">&quot;</span> <span class="op">+</span></span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;        &lt;p&gt;Hello, world&lt;/p&gt;</span><span class="sc">\n</span><span class="st">&quot;</span> <span class="op">+</span></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;    &lt;/body&gt;</span><span class="sc">\n</span><span class="st">&quot;</span> <span class="op">+</span></span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;&lt;/html&gt;</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">;</span></span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>html<span class="op">);</span></span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Java 14 就完全不同了：</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> NewTextBlock <span class="op">{</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> html <span class="op">=</span> <span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>              <span class="op">&lt;</span>html<span class="op">&gt;</span></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>                  <span class="op">&lt;</span>body<span class="op">&gt;</span></span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>                      <span class="op">&lt;</span>p<span class="op">&gt;</span>Hello<span class="op">,</span> world<span class="op">&lt;/</span>p<span class="op">&gt;</span></span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>                  <span class="op">&lt;/</span>body<span class="op">&gt;</span></span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>              <span class="op">&lt;/</span>html<span class="op">&gt;</span></span>
+<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;&quot;&quot;;</span></span>
+<span id="cb79-10"><a href="#cb79-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>html<span class="op">);</span></span>
+<span id="cb79-11"><a href="#cb79-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb79-12"><a href="#cb79-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>多余的英文双引号、加号、换行转义符，统统不见了。仅仅是通过前后三个英文双引号就实现了。我只能说，香，它真的香！</p>
+<p><img src="../media/file342.gif" title="fig:" alt="" /></p>
+<hr />
+<p>GitHub 上标星 7600+ 的开源知识库《二哥的 Java 进阶之路》第一版 PDF 终于来了！包括Java基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM等等，共计 32 万余字，可以说是通俗易懂、风趣幽默……详情戳：<a href="https://tobebetterjavaer.com/overview/">太赞了，GitHub 上标星 7600+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img src="../media/file4.jpg" title="fig:" alt="" /></p>
+<p></p>
+</section>
+</section>
+</section>
+</body>
+</html>

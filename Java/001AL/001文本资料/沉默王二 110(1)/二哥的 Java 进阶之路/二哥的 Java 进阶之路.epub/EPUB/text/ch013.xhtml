@@ -1,0 +1,969 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title>ch013.xhtml</title>
+  <style>
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" type="text/css" href="../styles/stylesheet1.css" />
+</head>
+<body epub:type="bodymatter">
+<section id="第十一章java-网络编程" class="level1">
+<h1>第十一章：Java 网络编程</h1>
+<section id="id_111-了解网络编程的基础知识" class="level2">
+<h2>11.1 了解网络编程的基础知识</h2>
+<p>在学习 Java 网络编程之前，我们先来了解什么是计算机网络。</p>
+<p>计算机网络是指两台或更多的计算机组成的网络，在同一个网络中，任意两台计算机都可以直接通信，因为所有计算机都需要遵循同一种网络协议。</p>
+<p>下面是一张简化的网络拓扑图。</p>
+<p><img src="../media/file343.png" title="fig:" alt="" /></p>
+<ul>
+<li><p>用户设备：Laptop，用于访问网络资源。</p></li>
+<li><p>网络交换机：Switch，用于连接局域网内的设备，例如 Laptop 和 Router。</p></li>
+<li><p>路由器：Router，用于连接不同网络，将局域网与互联网相连。</p></li>
+<li><p>防火墙：Firewall，用于保护网络内部资源，阻止未经授权的访问。</p></li>
+<li><p>互联网：Internet，提供连接到其他网络和全球信息资源。</p></li>
+<li><p>服务器：Server，用于托管网络应用程序和数据。</p></li>
+</ul>
+<p>那什么是互联网呢？互联网是网络的网络（Internet），即把很多计算机网络连接起来，形成一个全球统一的互联网。</p>
+<p>对某个特定的计算机网络来说，它可能使用网络协议 ABC，而另一个计算机网络可能使用网络协议 XYZ。如果计算机网络各自的通讯协议不统一，就没法把不同的网络连接起来形成互联网。因此，为了把计算机网络接入互联网，就必须使用 TCP/IP 协议。</p>
+<p>TCP/IP 协议泛指互联网协议，其中最重要的两个协议是 TCP 协议和 IP 协议。只有使用 TCP/IP 协议的计算机才能够联入互联网，使用其他网络协议（例如 NetBIOS、AppleTalk 协议等）是无法联入互联网的。</p>
+<section id="ip-地址" class="level3">
+<h3>IP 地址</h3>
+<p>在互联网中，一个 IP 地址用于唯一标识一个网络接口（Network Interface）。一台联入互联网的计算机肯定有一个 IP 地址，但也可能有多个 IP 地址。</p>
+<p>IP 地址分为 IPv4 和 IPv6 两种。IPv4 采用 32 位地址，类似<code>101.202.99.12</code>，而 IPv6 采用 128 位地址，类似<code>2001:0DA8:100A:0000:0000:1020:F2F3:1428</code>。IPv4 地址总共有 232 个（大约 42 亿），而 IPv6 地址则总共有 2128 个（大约 340 万亿亿亿亿），IPv4 的地址目前已耗尽，而 IPv6 的地址是根本用不完的。</p>
+<p>IP 地址又分为公网 IP 地址和内网 IP 地址。公网 IP 地址可以直接被访问，内网 IP 地址只能在内网访问。内网 IP 地址类似于：</p>
+<ul>
+<li><p>192.168.x.x</p></li>
+<li><p>10.x.x.x</p></li>
+</ul>
+<p>有一个特殊的 IP 地址，称之为本机地址，它总是<code>127.0.0.1</code>。</p>
+<p>IPv4 地址实际上是一个 32 位整数。例如：</p>
+<pre class="ascii"><code>1707762444 = 0x65ca630c
+           = 65  ca  63 0c
+           = 101.202.99.12</code></pre>
+<p>如果一台计算机只有一个网卡，并且接入了网络，那么，它有一个本机地址<code>127.0.0.1</code>，还有一个 IP 地址，例如<code>101.202.99.12</code>，可以通过这个 IP 地址接入网络。</p>
+<p>如果一台计算机有两块网卡，那么除了本机地址，它可以有两个 IP 地址，可以分别接入两个网络。通常连接两个网络的设备是路由器或者交换机，它至少有两个 IP 地址，分别接入不同的网络，让网络之间连接起来。</p>
+<p>如果两台计算机位于同一个网络，那么他们之间可以直接通信，因为他们的 IP 地址前段是相同的，也就是网络号是相同的。网络号是 IP 地址通过子网掩码过滤后得到的。例如：</p>
+<p>某台计算机的 IP 是<code>101.202.99.2</code>，子网掩码是<code>255.255.255.0</code>，那么计算该计算机的网络号是：</p>
+<pre><code>IP = 101.202.99.2
+Mask = 255.255.255.0
+Network = IP &amp; Mask = 101.202.99.0</code></pre>
+<p>每台计算机都需要正确配置 IP 地址和子网掩码，根据这两个就可以计算网络号，如果两台计算机计算出的网络号相同，说明两台计算机在同一个网络，可以直接通信。如果两台计算机计算出的网络号不同，那么两台计算机不在同一个网络，不能直接通信，它们之间必须通过路由器或者交换机这样的网络设备间接通信，我们把这种设备称为网关。</p>
+<p>网关的作用就是连接多个网络，负责把来自一个网络的数据包发到另一个网络，这个过程叫路由。</p>
+<p>所以，一台计算机的一个网卡会有 3 个关键配置：</p>
+<ul>
+<li><p>IP 地址，例如：<code>10.0.2.15</code></p></li>
+<li><p>子网掩码，例如：<code>255.255.255.0</code></p></li>
+<li><p>网关的 IP 地址，例如：<code>10.0.2.2</code></p></li>
+</ul>
+</section>
+<section id="域名" class="level3">
+<h3>域名</h3>
+<p>因为直接记忆 IP 地址非常困难，所以我们通常使用域名访问某个特定的服务。域名解析服务器 DNS 负责把域名翻译成对应的 IP，客户端再根据 IP 地址访问服务器。</p>
+<p>用<code>nslookup</code>可以查看域名对应的 IP 地址：</p>
+<pre><code>$ nslookup www.tobebetterjavaer.com
+Server:  xxx.xxx.xxx.xxx
+Address: xxx.xxx.xxx.xxx#53
+
+Non-authoritative answer:
+Name:    www.tobebetterjavaer.com
+Address: 47.98.33.223</code></pre>
+<p>有一个特殊的本机域名<code>localhost</code>，它对应的 IP 地址总是本机地址<code>127.0.0.1</code>。</p>
+</section>
+<section id="网络模型" class="level3">
+<h3>网络模型</h3>
+<p>由于计算机网络从底层的传输到高层的软件设计十分复杂，要合理地设计计算机网络模型，必须采用分层模型，每一层负责处理自己的操作。OSI（Open System Interconnect）网络模型是 ISO 组织定义的一个计算机互联的标准模型，注意它只是一个定义，目的是为了简化网络各层的操作，提供标准接口便于实现和维护。这个模型从上到下依次是：</p>
+<ul>
+<li><p>应用层，提供应用程序之间的通信；</p></li>
+<li><p>表示层：处理数据格式，加解密等等；</p></li>
+<li><p>会话层：负责建立和维护会话；</p></li>
+<li><p>传输层：负责提供端到端的可靠传输；</p></li>
+<li><p>网络层：负责根据目标地址选择路由来传输数据；</p></li>
+<li><p>链路层和物理层负责把数据进行分片并且真正通过物理网络传输，例如，无线网、光纤等。</p></li>
+</ul>
+<p>互联网实际使用的 TCP/IP 模型并不是对应到 OSI 的 7 层模型，而是大致对应 OSI 的 5 层模型：</p>
+<p><img src="../media/file344.png" title="fig:" alt="" /></p>
+</section>
+<section id="常用协议" class="level3">
+<h3>常用协议</h3>
+<p>IP 协议是一个分组交换，它不保证可靠传输。而 TCP 协议是传输控制协议，它是面向连接的协议，支持可靠传输和双向通信。TCP 协议是建立在 IP 协议之上的，简单地说，IP 协议只负责发数据包，不保证顺序和正确性，而 TCP 协议负责控制数据包传输，它在传输数据之前需要先建立连接，建立连接后才能传输数据，传输完后还需要断开连接。TCP 协议之所以能保证数据的可靠传输，是通过接收确认、超时重传这些机制实现的。并且，TCP 协议允许双向通信，即通信双方可以同时发送和接收数据。</p>
+<p>TCP 协议也是应用最广泛的协议，许多高级协议都是建立在 TCP 协议之上的，例如 HTTP、SMTP 等。</p>
+<p>TCP（传输控制协议）和 IP（互联网协议）通常一起使用，被称为 TCP/IP 协议。</p>
+<p>TCP/IP 协议栈分为四层：应用层、传输层、网络层和链路层。IP 协议位于网络层，负责将数据包从源主机路由到目标主机；TCP 协议位于传输层，负责在源主机和目标主机之间建立可靠的连接并确保数据的有序传输。</p>
+<p><img src="../media/file345.png" title="fig:" alt="" /></p>
+<p>UDP 协议（User Datagram Protocol）是一种数据报文协议，它是无连接协议，不保证可靠传输。因为 UDP 协议在通信前不需要建立连接，因此它的传输效率比 TCP 高，而且 UDP 协议比 TCP 协议要简单得多。</p>
+<p><img src="../media/file346.png" title="fig:" alt="" /></p>
+<p>选择 UDP 协议时，传输的数据通常是能容忍丢失的，例如，一些语音视频通信的应用会选择 UDP 协议。</p>
+</section>
+<section id="小结-11" class="level3">
+<h3>小结</h3>
+<p>计算机网络的基本概念主要有：</p>
+<ul>
+<li><p>计算机网络：由两台或更多计算机组成的网络；</p></li>
+<li><p>互联网：连接网络的网络；</p></li>
+<li><p>IP 地址：计算机的网络接口（通常是网卡）在网络中的唯一标识；</p></li>
+<li><p>网关：负责连接多个网络，并在多个网络之间转发数据的计算机，通常是路由器或交换机；</p></li>
+<li><p>网络协议：互联网使用 TCP/IP 协议，它泛指互联网协议簇；</p></li>
+<li><p>IP 协议：一种分组交换传输协议；</p></li>
+<li><p>TCP 协议：一种面向连接，可靠传输的协议；</p></li>
+<li><p>UDP 协议：一种无连接，不可靠传输的协议。</p></li>
+</ul>
+<blockquote>
+<p>参考链接：<a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1305163149082658">https://www.liaoxuefeng.com/wiki/1252599548343744/1305163149082658</a>，作者：廖雪峰，整理：沉默王二</p>
+</blockquote>
+<hr />
+<p>GitHub 上标星 7600+ 的开源知识库《二哥的 Java 进阶之路》第一版 PDF 终于来了！包括Java基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM等等，共计 32 万余字，可以说是通俗易懂、风趣幽默……详情戳：<a href="https://tobebetterjavaer.com/overview/">太赞了，GitHub 上标星 7600+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img src="../media/file4.jpg" title="fig:" alt="" /></p>
+</section>
+</section>
+<section id="id_112-网络编程的核心套接字socket" class="level2">
+<h2>11.2 网络编程的核心套接字Socket</h2>
+<p>在古代，由于通信不便利，一些聪明的人就利用鸽子会飞且飞得比较快、会辨认方向的优点，对其进行了驯化，用来进行消息的传递——也就是所谓的“飞鸽传书”。而在 Java 中，网络套接字（Socket）扮演了同样的角色。</p>
+<p><img src="../media/file347.jpg" title="fig:" alt="" /></p>
+<p>套接字（Socket）是一个抽象层，应用程序可以通过它发送或接收数据；就像操作文件那样可以打开、读写和关闭。套接字允许应用程序将 I/O 应用于网络中，并与其他应用程序进行通信。网络套接字是 IP 地址与端口的组合。</p>
+<section id="id_01ping-与-telnet" class="level3">
+<h3>01、ping 与 telnet</h3>
+<p>“老王啊，能不能帮我看一下这个问题呢，明明本地可以进行网络通信，可等我部署到服务器上时就通信不了了，搞了半天也不知道什么原因，我看代码是没有问题的。”小二的语气中充满了沮丧。</p>
+<p>“ping 过吗？或者 telnet 了吗？”老王头都没回，冷冰冰地扔出去了这句话。</p>
+<p>“哦，我去试试。”小二心头掠过一丝愧疚。</p>
+<p>ping 与 telnet 这两个命令，对调试网络程序有着非常大的帮助。</p>
+<p>ping，一种计算机网络工具，用来测试数据包能否透过 IP 协议到达特定主机。ping 会向目标主机发出一个 ICMP 的请求回显数据包，并等待接收回显响应数据包。</p>
+<p>例如，我们 ping 一下博客园。截图如下。</p>
+<p><img src="../media/file348.jpg" title="fig:" alt="" /></p>
+<p>telnet，Internet 远程登录服务的标准协议和主要方式，可以让我们坐在家里的计算机面前，登录到另一台远在天涯海角的远程计算机上。</p>
+<p><img src="../media/file349.jpg" title="fig:" alt="" /></p>
+<p>在 Windows 系统中，telnet 一般是默认安装的，但未激活（可以在控制面板中激活它）。</p>
+<p>例如，我们 telnet 一下火（shui）土（mu）社区。截图如下。</p>
+<p><img src="../media/file350.jpg" title="fig:" alt="" /></p>
+<p>使用 telnet 登录远程计算机时，需要远程计算机上运行一个服务，它一直不停地等待那些希望和它进行连接的网络请求；当接收到一个客户端的网络连接时，它便唤醒正在监听网络连接请求的服务器进程，并为两者建立连接。连接会一直保持，直到某一方中止。</p>
+<p>不过，需要注意的是，telnet 在格外重视安全的现代网络技术中并不受到重用。因为 telnet 是一个明文传输协议，用户的所有内容（包括用户名和密码）都没有经过加密，安全隐患非常大。</p>
+</section>
+<section id="id_02socket-实例" class="level3">
+<h3>02、Socket 实例</h3>
+<p>不知道你有没有体验一下 telnet 火土社区的那条命令，结果非常有趣。我们也可以通过 Java 的客户端套接字（Socket）实现，代码示例如下。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">(</span><span class="bu">Socket</span> socket <span class="op">=</span> <span class="kw">new</span> <span class="bu">Socket</span><span class="op">(</span><span class="st">&quot;bbs.newsmth.net&quot;</span><span class="op">,</span> <span class="dv">23</span><span class="op">);)</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">InputStream</span> is <span class="op">=</span> socket<span class="op">.</span><span class="fu">getInputStream</span><span class="op">();</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Scanner</span> scanner <span class="op">=</span> <span class="kw">new</span> <span class="bu">Scanner</span><span class="op">(</span>is<span class="op">,</span> <span class="st">&quot;gbk&quot;</span><span class="op">);</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>scanner<span class="op">.</span><span class="fu">hasNextLine</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> line <span class="op">=</span> scanner<span class="op">.</span><span class="fu">nextLine</span><span class="op">();</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>line<span class="op">);</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">UnknownHostException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>1）建立套接字连接非常简单，只需要一行代码：</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Socket</span> socket <span class="op">=</span> <span class="kw">new</span> <span class="bu">Socket</span><span class="op">(</span>host<span class="op">,</span> port<span class="op">)</span></span></code></pre></div>
+<p>host 为主机名，port 为端口号（23 为默认的 telnet 端口号）。如果无法确定主机的 IP 地址，则抛出 <code>UnknownHostException</code> 异常；如果在创建套接字时发生 IO 错误，则抛出 <code>IOException</code> 异常。</p>
+<p>需要注意的是，套接字在建立的时候，如果远程主机不可访问，这段代码就会阻塞很长时间，直到底层操作系统的限制而抛出异常。所以一般会在套接字建立后设置一个超时时间。</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Socket</span> socket <span class="op">=</span> <span class="kw">new</span> <span class="bu">Socket</span><span class="op">(</span><span class="kw">...</span><span class="op">);</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>socket<span class="op">.</span><span class="fu">setSoTimeout</span><span class="op">(</span><span class="dv">10000</span><span class="op">);</span> <span class="co">// 单位为毫秒</span></span></code></pre></div>
+<p>2）套接字连接成功后，可以通过 <code>java.net.Socket</code> 类的 <code>getInputStream()</code> 方法获取输入流。有了 <code>InputStream</code> 对象后，可以借助文本扫描器类（Scanner）将其中的内容打印出来。</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">InputStream</span> is <span class="op">=</span> socket<span class="op">.</span><span class="fu">getInputStream</span><span class="op">();</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Scanner</span> scanner <span class="op">=</span> <span class="kw">new</span> <span class="bu">Scanner</span><span class="op">(</span>is<span class="op">,</span> <span class="st">&quot;gbk&quot;</span><span class="op">);</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span>scanner<span class="op">.</span><span class="fu">hasNextLine</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> line <span class="op">=</span> scanner<span class="op">.</span><span class="fu">nextLine</span><span class="op">();</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>line<span class="op">);</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>部分结果（完整结果自己亲手实践一下哦）如下图所示：</p>
+<p><img src="../media/file351.jpg" title="fig:" alt="" /></p>
+</section>
+<section id="id_03serversocket-实例" class="level3">
+<h3>03、ServerSocket 实例</h3>
+<p>接下来，我们模拟一个远程服务，通过 <code>java.net.ServerSocket</code> 实现。代码示例如下。</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">(</span><span class="bu">ServerSocket</span> server <span class="op">=</span> <span class="kw">new</span> <span class="bu">ServerSocket</span><span class="op">(</span><span class="dv">8888</span><span class="op">);</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Socket</span> socket <span class="op">=</span> server<span class="op">.</span><span class="fu">accept</span><span class="op">();</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">InputStream</span> is <span class="op">=</span> socket<span class="op">.</span><span class="fu">getInputStream</span><span class="op">();</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">OutputStream</span> os <span class="op">=</span> socket<span class="op">.</span><span class="fu">getOutputStream</span><span class="op">();</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Scanner</span> scanner <span class="op">=</span> <span class="kw">new</span> <span class="bu">Scanner</span><span class="op">(</span>is<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">PrintWriter</span> pw <span class="op">=</span> <span class="kw">new</span> <span class="bu">PrintWriter</span><span class="op">(</span><span class="kw">new</span> <span class="bu">OutputStreamWriter</span><span class="op">(</span>os<span class="op">,</span> <span class="st">&quot;gbk&quot;</span><span class="op">),</span> <span class="kw">true</span><span class="op">);</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    pw<span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;你好啊，欢迎关注「沉默王二」 公众号，回复关键字「2048」 领取程序员进阶必读资料包&quot;</span><span class="op">);</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">boolean</span> done <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(!</span>done <span class="op">&amp;&amp;</span> scanner<span class="op">.</span><span class="fu">hasNextLine</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> line <span class="op">=</span> scanner<span class="op">.</span><span class="fu">nextLine</span><span class="op">();</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>line<span class="op">);</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span><span class="st">&quot;2048&quot;</span><span class="op">.</span><span class="fu">equals</span><span class="op">(</span>line<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>            done <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">UnknownHostException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>1）建立服务器端的套接字也比较简单，只需要指定一个能够独占的端口号就可以了（0~1023 这些端口都已经被系统预留了）。</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">ServerSocket</span> server <span class="op">=</span> <span class="kw">new</span> <span class="bu">ServerSocket</span><span class="op">(</span><span class="dv">8888</span><span class="op">);</span></span></code></pre></div>
+<p>2）调用 ServerSocket 对象的 <code>accept()</code> 等待客户端套接字的连接请求。一旦监听到客户端的套接字请求，就会返回一个表示连接已建立的 Socket 对象，可以从中获取到输入流和输出流。</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Socket</span> socket <span class="op">=</span> server<span class="op">.</span><span class="fu">accept</span><span class="op">();</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">InputStream</span> is <span class="op">=</span> socket<span class="op">.</span><span class="fu">getInputStream</span><span class="op">();</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">OutputStream</span> os <span class="op">=</span> socket<span class="op">.</span><span class="fu">getOutputStream</span><span class="op">();</span></span></code></pre></div>
+<p>客户端套接字发送的所有信息都会包裹在服务器端套接字的输入流中；而服务器端套接字发送的所有信息都会包裹在客户端套接字的输出流中。</p>
+<p>3）服务器端可以通过以下代码向客户端发送消息。</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">PrintWriter</span> pw <span class="op">=</span> <span class="kw">new</span> <span class="bu">PrintWriter</span><span class="op">(</span><span class="kw">new</span> <span class="bu">OutputStreamWriter</span><span class="op">(</span>os<span class="op">,</span> <span class="st">&quot;gbk&quot;</span><span class="op">),</span> <span class="kw">true</span><span class="op">);</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>pw<span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;你好啊，欢迎关注「沉默王二」 公众号，回复关键字「2048」 领取程序员进阶必读资料包&quot;</span><span class="op">);</span></span></code></pre></div>
+<p>4）服务器端可以通过以下代码读取客户端发送过来的消息。</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Scanner</span> scanner <span class="op">=</span> <span class="kw">new</span> <span class="bu">Scanner</span><span class="op">(</span>is<span class="op">);</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> done <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(!</span>done <span class="op">&amp;&amp;</span> scanner<span class="op">.</span><span class="fu">hasNextLine</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> line <span class="op">=</span> scanner<span class="op">.</span><span class="fu">nextLine</span><span class="op">();</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>line<span class="op">);</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span><span class="st">&quot;2048&quot;</span><span class="op">.</span><span class="fu">equals</span><span class="op">(</span>line<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        done <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>运行该服务后，可以通过 <code>telnet localhost 8888</code> 命令连接该远程服务，不出所料，你将会看到以下信息。</p>
+<p><img src="../media/file352.jpg" title="fig:" alt="" /></p>
+<p>PS：可以在当前命令窗口中输入 2048，服务端收到该消息后会中断该套接字连接（当前窗口会显示“遗失对主机的连接”）。</p>
+</section>
+<section id="id_04为多个客户端服务" class="level3">
+<h3>04、为多个客户端服务</h3>
+<p>非常遗憾的是，上面的例子中，服务器端只能为一个客户端服务——这不符合服务器端一对多的要求。</p>
+<p>优化方案也非常简单（你应该也能想得到）：服务器端接收到客户端的套接字请求时，可以启动一个线程来处理，而主程序继续等待下一个连接。代码示例如下。</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">(</span><span class="bu">ServerSocket</span> server <span class="op">=</span> <span class="kw">new</span> <span class="bu">ServerSocket</span><span class="op">(</span><span class="dv">8888</span><span class="op">))</span> <span class="op">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Socket</span> socket <span class="op">=</span> server<span class="op">.</span><span class="fu">accept</span><span class="op">();</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Thread</span> thread <span class="op">=</span> <span class="kw">new</span> <span class="bu">Thread</span><span class="op">(</span><span class="kw">new</span> <span class="bu">Runnable</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">@Override</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>            <span class="kw">public</span> <span class="dt">void</span> <span class="fu">run</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>              <span class="co">// 套接字处理程序</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">});</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        thread<span class="op">.</span><span class="fu">start</span><span class="op">();</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>线程内部（<code>run(){}</code> 方法里）用来处理套接字，代码示例如下：</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">InputStream</span> is <span class="op">=</span> socket<span class="op">.</span><span class="fu">getInputStream</span><span class="op">();</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">OutputStream</span> os <span class="op">=</span> socket<span class="op">.</span><span class="fu">getOutputStream</span><span class="op">();</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Scanner</span> scanner <span class="op">=</span> <span class="kw">new</span> <span class="bu">Scanner</span><span class="op">(</span>is<span class="op">);</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>   <span class="co">// 其他代码省略</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>   <span class="co">// 向客户端发送消息</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>   <span class="co">// 读取客户端发送过来的消息</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        socket<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>        e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>服务器端代码优化后重新运行，你就可以通过 telnet 命令测试了。打开一个命令行窗口输入 <code>telnet localhost 8888</code>，再打开一个新的命令行窗口输入 <code>telnet localhost 8888</code>，多个窗口都可以和服务器端进行通信，除非服务器端代码中断运行。</p>
+</section>
+<section id="id_05加入多线程" class="level3">
+<h3>05、加入多线程</h3>
+<p><a href="https://tobebetterjavaer.com/thread/wangzhe-thread.html">多线程</a>我们后面会详细讲，这里就主要是写个例子，好让大家感觉更有趣一些，其实也非常简单。</p>
+<p>来看服务端：</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.*;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">net</span><span class="op">.</span><span class="im">ServerSocket</span><span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">net</span><span class="op">.</span><span class="im">Socket</span><span class="op">;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> MultiThreadedServer <span class="op">{</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="kw">throws</span> <span class="bu">IOException</span> <span class="op">{</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> port <span class="op">=</span> <span class="dv">12345</span><span class="op">;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">ServerSocket</span> serverSocket <span class="op">=</span> <span class="kw">new</span> <span class="bu">ServerSocket</span><span class="op">(</span>port<span class="op">);</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Server is listening on port &quot;</span> <span class="op">+</span> port<span class="op">);</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>            <span class="bu">Socket</span> socket <span class="op">=</span> serverSocket<span class="op">.</span><span class="fu">accept</span><span class="op">();</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Client connected&quot;</span><span class="op">);</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="fu">ClientHandler</span><span class="op">(</span>socket<span class="op">).</span><span class="fu">start</span><span class="op">();</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ClientHandler <span class="kw">extends</span> <span class="bu">Thread</span> <span class="op">{</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">Socket</span> socket<span class="op">;</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">ClientHandler</span><span class="op">(</span><span class="bu">Socket</span> socket<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">socket</span> <span class="op">=</span> socket<span class="op">;</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">run</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>            <span class="bu">InputStream</span> input <span class="op">=</span> socket<span class="op">.</span><span class="fu">getInputStream</span><span class="op">();</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>            <span class="bu">BufferedReader</span> reader <span class="op">=</span> <span class="kw">new</span> <span class="bu">BufferedReader</span><span class="op">(</span><span class="kw">new</span> <span class="bu">InputStreamReader</span><span class="op">(</span>input<span class="op">));</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>            <span class="bu">OutputStream</span> output <span class="op">=</span> socket<span class="op">.</span><span class="fu">getOutputStream</span><span class="op">();</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>            <span class="bu">PrintWriter</span> writer <span class="op">=</span> <span class="kw">new</span> <span class="bu">PrintWriter</span><span class="op">(</span>output<span class="op">,</span> <span class="kw">true</span><span class="op">);</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>            <span class="bu">String</span> line<span class="op">;</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> <span class="op">((</span>line <span class="op">=</span> reader<span class="op">.</span><span class="fu">readLine</span><span class="op">())</span> <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>                <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Received: &quot;</span> <span class="op">+</span> line<span class="op">);</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>                writer<span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Server: &quot;</span> <span class="op">+</span> line<span class="op">);</span></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>            socket<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Client disconnected&quot;</span><span class="op">);</span></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>在这个示例中，我们使用了一个 ClientHandler 类，该类继承自 Thread 类。这使得每个客户端连接都可以在单独的线程中处理，从而允许服务器同时处理多个客户端连接。当一个新客户端连接到服务器时，服务器会创建一个新的 ClientHandler 对象，并使用 <code>start()</code> 方法启动线程。ClientHandler 类的 <code>run()</code> 方法包含处理客户端请求的逻辑。</p>
+<p>来看客户端代码：</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.*;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">net</span><span class="op">.</span><span class="im">Socket</span><span class="op">;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Client <span class="op">{</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="kw">throws</span> <span class="bu">IOException</span> <span class="op">{</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> hostname <span class="op">=</span> <span class="st">&quot;localhost&quot;</span><span class="op">;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> port <span class="op">=</span> <span class="dv">12345</span><span class="op">;</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Socket</span> socket <span class="op">=</span> <span class="kw">new</span> <span class="bu">Socket</span><span class="op">(</span>hostname<span class="op">,</span> port<span class="op">);</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Connected to the server&quot;</span><span class="op">);</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">InputStream</span> input <span class="op">=</span> socket<span class="op">.</span><span class="fu">getInputStream</span><span class="op">();</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">BufferedReader</span> reader <span class="op">=</span> <span class="kw">new</span> <span class="bu">BufferedReader</span><span class="op">(</span><span class="kw">new</span> <span class="bu">InputStreamReader</span><span class="op">(</span>input<span class="op">));</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">OutputStream</span> output <span class="op">=</span> socket<span class="op">.</span><span class="fu">getOutputStream</span><span class="op">();</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">PrintWriter</span> writer <span class="op">=</span> <span class="kw">new</span> <span class="bu">PrintWriter</span><span class="op">(</span>output<span class="op">,</span> <span class="kw">true</span><span class="op">);</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>        writer<span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Hello, server!&quot;</span><span class="op">);</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> response <span class="op">=</span> reader<span class="op">.</span><span class="fu">readLine</span><span class="op">();</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Server response: &quot;</span> <span class="op">+</span> response<span class="op">);</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>        socket<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>启动服务器端，然后多启动几个客户端，就可以体验到交互的乐趣了。</p>
+<p><img src="../media/file353.png" title="fig:" alt="" /></p>
+</section>
+<section id="id_08datagramsocket-实例" class="level3">
+<h3>08、DatagramSocket 实例</h3>
+<p>DatagramSocket 类是 Java 中实现 UDP 协议的核心类。与基于 TCP 的 Socket 和 ServerSocket 类不同，DatagramSocket 类提供了无连接的通信服务，发送和接收数据包。由于无需建立连接，UDP 通常比 TCP 更快，但可能不如 TCP 可靠。</p>
+<p>以下是一个简单的 DatagramSocket 示例，展示了如何使用 UDP 协议在客户端和服务器之间发送和接收消息。</p>
+<p>服务器端代码：</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.</span><span class="im">IOException</span><span class="op">;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">net</span><span class="op">.</span><span class="im">DatagramPacket</span><span class="op">;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">net</span><span class="op">.</span><span class="im">DatagramSocket</span><span class="op">;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> UDPServer <span class="op">{</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="kw">throws</span> <span class="bu">IOException</span> <span class="op">{</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> port <span class="op">=</span> <span class="dv">12345</span><span class="op">;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">DatagramSocket</span> serverSocket <span class="op">=</span> <span class="kw">new</span> <span class="bu">DatagramSocket</span><span class="op">(</span>port<span class="op">);</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Server is listening on port &quot;</span> <span class="op">+</span> port<span class="op">);</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">byte</span><span class="op">[]</span> buffer <span class="op">=</span> <span class="kw">new</span> <span class="dt">byte</span><span class="op">[</span><span class="dv">1024</span><span class="op">];</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">DatagramPacket</span> packet <span class="op">=</span> <span class="kw">new</span> <span class="bu">DatagramPacket</span><span class="op">(</span>buffer<span class="op">,</span> buffer<span class="op">.</span><span class="fu">length</span><span class="op">);</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>        serverSocket<span class="op">.</span><span class="fu">receive</span><span class="op">(</span>packet<span class="op">);</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> message <span class="op">=</span> <span class="kw">new</span> <span class="bu">String</span><span class="op">(</span>packet<span class="op">.</span><span class="fu">getData</span><span class="op">(),</span> <span class="dv">0</span><span class="op">,</span> packet<span class="op">.</span><span class="fu">getLength</span><span class="op">());</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Received: &quot;</span> <span class="op">+</span> message<span class="op">);</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>        serverSocket<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>客户端代码：</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.</span><span class="im">IOException</span><span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">net</span><span class="op">.*;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> UDPClient <span class="op">{</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="kw">throws</span> <span class="bu">IOException</span> <span class="op">{</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> hostname <span class="op">=</span> <span class="st">&quot;localhost&quot;</span><span class="op">;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> port <span class="op">=</span> <span class="dv">12345</span><span class="op">;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">InetAddress</span> address <span class="op">=</span> <span class="bu">InetAddress</span><span class="op">.</span><span class="fu">getByName</span><span class="op">(</span>hostname<span class="op">);</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">DatagramSocket</span> clientSocket <span class="op">=</span> <span class="kw">new</span> <span class="bu">DatagramSocket</span><span class="op">();</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> message <span class="op">=</span> <span class="st">&quot;Hello, server!&quot;</span><span class="op">;</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">byte</span><span class="op">[]</span> buffer <span class="op">=</span> message<span class="op">.</span><span class="fu">getBytes</span><span class="op">();</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">DatagramPacket</span> packet <span class="op">=</span> <span class="kw">new</span> <span class="bu">DatagramPacket</span><span class="op">(</span>buffer<span class="op">,</span> buffer<span class="op">.</span><span class="fu">length</span><span class="op">,</span> address<span class="op">,</span> port<span class="op">);</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        clientSocket<span class="op">.</span><span class="fu">send</span><span class="op">(</span>packet<span class="op">);</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Message sent&quot;</span><span class="op">);</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>        clientSocket<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>在这个示例中，服务器端创建一个 DatagramSocket 对象并监听端口 12345。然后，它创建一个 DatagramPacket 对象，用于存储接收到的数据包。<code>serverSocket.receive(packet)</code> 方法阻塞，直到收到一个数据包。收到数据包后，服务器从数据包中提取并打印消息。</p>
+<p>客户端首先解析服务器的 IP 地址，然后创建一个 DatagramSocket 对象。接着，客户端创建一个包含要发送消息的 DatagramPacket 对象，并指定目标地址和端口。最后，客户端通过调用 <code>clientSocket.send(packet)</code> 方法发送数据包。</p>
+<p>运行结果如下所示：</p>
+<p><img src="../media/file354.png" title="fig:" alt="" /></p>
+</section>
+<section id="id_07最后" class="level3">
+<h3>07、最后</h3>
+<p>如今大多数基于网络的软件，如浏览器、即时通讯工具甚至是 P2P 下载都是基于 Socket 实现的，所以掌握 Java Socket 编程还是蛮有必要的。Socket 编程也比较有趣，很多初学者都会编写一两个基于“客户端-服务器端”的小程序来提高自己的编程水平，建议你也试一试。</p>
+<hr />
+<p>GitHub 上标星 7600+ 的开源知识库《二哥的 Java 进阶之路》第一版 PDF 终于来了！包括Java基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM等等，共计 32 万余字，可以说是通俗易懂、风趣幽默……详情戳：<a href="https://tobebetterjavaer.com/overview/">太赞了，GitHub 上标星 7600+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img src="../media/file4.jpg" title="fig:" alt="" /></p>
+</section>
+</section>
+<section id="id_113-用socket实现一个http服务器" class="level2">
+<h2>11.3 用Socket实现一个HTTP服务器</h2>
+<p>作为一个 Java 后端，提供 HTTP 服务可以说是基本技能之一了，但是你真的了解 HTTP 协议么？你知道知道如何手撸一个 HTTP 服务器么？Tomcat 的底层是怎么支持 HTTP 服务的呢？大名鼎鼎的 Servlet 又是什么东西呢，该怎么使用呢？</p>
+<p>在初学 Java 时，Socket 编程是逃不掉的一章；虽然在实际业务项目中，使用这个的可能性基本为 0， 但并不意味着不用学。本篇将主要介绍如何使用 Socket 来实现一个简单的 HTTP 服务器，提供常见的 get/post 请求支持，并在此过程中了解下 HTTP 协议。</p>
+<section id="i-http-服务器从-0-到-1" class="level3">
+<h3>I. HTTP 服务器从 0 到 1</h3>
+<p>既然我们的目标是借助 Socket 来搭建 HTTP 服务器，那么我们首先需要确认两点，一是如何使用 Socket；另一个则是 HTTP 协议如何解析数据；下面分别进行说明。</p>
+<section id="id_1-socket-编程基础" class="level4">
+<h4>1. Socket 编程基础</h4>
+<p>我们这里主要是利用 <a href="https://tobebetterjavaer.com/socket/socket.html">ServerSocket</a> 来绑定端口，提供 TCP 服务，基本使用姿势也比较简单，一般套路如下</p>
+<ul>
+<li><p>创建 ServerSocket 对象，绑定监听端口</p></li>
+<li><p>通过 <code>accept()</code> 方法监听客户端请求</p></li>
+<li><p>连接建立后，通过输入流读取客户端发送的请求信息</p></li>
+<li><p>通过输出流向客户端发送响应信息</p></li>
+<li><p>关闭相关资源</p></li>
+</ul>
+<p>对应的伪代码如下:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">ServerSocket</span> serverSocket <span class="op">=</span> <span class="kw">new</span> <span class="bu">ServerSocket</span><span class="op">(</span>port<span class="op">,</span> ip<span class="op">)</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>serverSocket<span class="op">.</span><span class="fu">accept</span><span class="op">();</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">// 接收请求数据</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>socket<span class="op">.</span><span class="fu">getInputStream</span><span class="op">();</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">// 返回数据给请求方</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> socket<span class="op">.</span><span class="fu">getOutputStream</span><span class="op">()</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>out<span class="op">.</span><span class="fu">print</span><span class="op">(</span>xxx<span class="op">)</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>out<span class="op">.</span><span class="fu">flush</span><span class="op">();;</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">// 关闭连接</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>socket<span class="op">.</span><span class="fu">close</span><span class="op">()</span></span></code></pre></div>
+<p>具体的代码，我们前面的章节详细地讲过了，第一次来的小伙伴可以<a href="https://tobebetterjavaer.com/socket/socket.html">戳链接</a>去学习一下。</p>
+</section>
+<section id="id_2-http-协议" class="level4">
+<h4>2. HTTP 协议</h4>
+<p>ServerSocket 走的是 <a href="https://tobebetterjavaer.com/socket/network-base.html">TCP 协议</a>，HTTP 协议本身是在 TCP 协议之上的一层。</p>
+<p>TCP 是一种面向连接的、可靠的、基于字节流的传输层协议。TCP 在两个网络节点之间提供了一条可靠的通信信道，确保数据在传输过程中不会丢失、重复或乱序。TCP 使用握手过程建立连接，通过确认和重传机制确保数据可靠传输，并使用流量控制和拥塞控制算法来优化网络性能。</p>
+<p>HTTP 是一个用于在 Web 浏览器和 Web 服务器之间传输超文本、图像、视频和其他媒体资源的应用层协议。HTTP 使用请求-响应模型，即客户端（通常是 Web 浏览器）发送请求给服务器，服务器处理请求并返回响应。HTTP 协议定义了一组方法（如 GET、POST、PUT、DELETE 等），用于指定请求的类型和目的。此外，HTTP 协议还定义了一组状态代码（如 200、404、500 等），用于表示响应的结果。</p>
+<p>HTTP 协议依赖于 TCP 协议来传输数据。当 Web 浏览器向 Web 服务器发送 HTTP 请求时，它首先使用 TCP 协议与服务器建立连接。一旦连接建立，HTTP 请求消息会被封装在 TCP 数据包中，然后通过 TCP 信道发送给服务器。服务器收到 TCP 数据包后，解包提取 HTTP 请求消息，处理请求并生成 HTTP 响应消息。最后，HTTP 响应消息被封装在 TCP 数据包中，并通过相同的 TCP 信道发送回客户端。客户端收到 TCP 数据包后，解包提取 HTTP 响应消息并显示给用户。</p>
+<p><img src="../media/file355.png" title="fig:" alt="" /></p>
+<p>这幅图展示了客户端（Web 浏览器）与服务器（Web 服务器）之间的 HTTP 请求和响应，它们通过可靠的、面向连接的 TCP 连接进行数据传输。</p>
+<p>好，再说回 HTTP 服务器这件事，最需要关注的无非两点：</p>
+<ul>
+<li><p>请求的数据怎么按照 HTTP 协议解析出来</p></li>
+<li><p>如何按照 HTTP 协议，返回数据</p></li>
+</ul>
+<p>所以我们需要知道数据格式的规范。</p>
+<p><strong>请求消息</strong></p>
+<p>HTTP 请求消息由请求行（Request Line）、请求头（Request Headers）、空行（Empty Line）、请求体（Request Body，可选）几个部分组成。</p>
+<p>①、请求行又包含三个部分，HTTP 方法（例如 GET, POST, PUT, DELETE 等）、请求的目标 URL（通常是相对 URL，但也可以是绝对 URL）、HTTP 版本（例如 HTTP/1.1 或 HTTP/2），这些部分用空格分隔，例如：</p>
+<pre><code>GET /index.html HTTP/1.1</code></pre>
+<p>②、请求头是一系列以键值对表示的元数据，用于描述请求的附加信息。每个请求头占一行，键和值之间用冒号（:）分隔。请求头包含诸如 Host、User-Agent、Content-Type、Content-Length、Accept 等信息。例如：</p>
+<pre><code>Host: www.tobebetterjavaer.com
+User-Agent: Mozilla/5.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</code></pre>
+<p>③、请求头和请求体之间有一个空行，表示请求头的结束。</p>
+<p>④、对于某些 HTTP 方法（例如 POST、PUT 等），还可以在请求消息中包含请求体。请求体用于传输要发送给服务器的数据。请求体的格式和内容取决于 Content-Type 请求头的值。</p>
+<p>例如，当提交 HTML 表单时，请求体可能如下所示：</p>
+<pre><code>username=沉默王二&amp;password=123456</code></pre>
+<p>将这些部分放在一起，就构成了一个完整的 HTTP 请求消息：</p>
+<pre><code>POST /login HTTP/1.1
+Host: Host: www.tobebetterjavaer.com
+User-Agent: Mozilla/5.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 29
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+username=沉默王二&amp;password=123456</code></pre>
+<p>我用一张思维导图来表示下：</p>
+<p><img src="../media/file356.png" title="fig:" alt="" /></p>
+<p><strong>响应消息</strong></p>
+<p>一个典型的 HTTP 响应消息由三部分组成：状态行（Status Line）、响应头（Response Headers）、响应体（Response Body）。</p>
+<p><img src="../media/file357.png" title="fig:" alt="" /></p>
+<p>上面两张图，可以让你对 HTTP 请求和响应有个直观映象，接下来开始抓重点。</p>
+<p>不管是请求消息还是响应消息，都可以划分为三部分，这就为我们后面的处理简化了很多工作。</p>
+<ul>
+<li><p>第一行：状态行</p></li>
+<li><p>第二行到第一个空行：header（请求头/相应头）</p></li>
+<li><p>剩下所有：正文</p></li>
+</ul>
+</section>
+<section id="id_3-http-服务器设计" class="level4">
+<h4>3. HTTP 服务器设计</h4>
+<p>接下来进入正题，基于 Socket 创建一个 HTTP 服务器，使用 Socket 基本没啥太大的问题，我们需要额外关注以下两点：</p>
+<ul>
+<li><p>对请求数据进行解析</p></li>
+<li><p>封装返回结果</p></li>
+</ul>
+<section id="a-请求数据解析" class="level5">
+<h5>a. 请求数据解析</h5>
+<p>我们从 Socket 中拿到所有的数据，然后解析为对应的 HTTP 请求，我们先定义个 Request 对象，内部保存一些基本的 HTTP 信息，接下来重点就是将 Socket 中的所有数据都捞出来，封装为 request 对象。</p>
+<blockquote>
+<p>注意📢，这些代码放在 HttpMessageParser 类中，随后会给出完整的代码。</p>
+</blockquote>
+<div class="sourceCode" id="cb24"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Data</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="kw">class</span> <span class="bu">Request</span> <span class="op">{</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">/**</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">请求方法</span> GET<span class="co">/</span>POST<span class="co">/</span>PUT<span class="co">/</span>DELETE<span class="co">/</span>OPTION<span class="co">...</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>     <span class="co">*/</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> method<span class="op">;</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">/**</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">请求的</span>uri</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>     <span class="co">*/</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> uri<span class="op">;</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">/**</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> HTTP<span class="co">版本</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>     <span class="co">*/</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> version<span class="op">;</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">/**</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">请求头</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>     <span class="co">*/</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">Map</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">,</span> <span class="bu">String</span><span class="op">&gt;</span> headers<span class="op">;</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">/**</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">请求参数相关</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>     <span class="co">*/</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> message<span class="op">;</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>根据前面的 HTTP 协议介绍，解析过程如下，我们先看请求行的解析过程。</p>
+<p><strong>请求行</strong>，包含三个基本要素：请求方法 + URI + HTTP 版本，用空格进行分割，所以解析代码如下</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> <span class="co">根据标准的</span>HTTP<span class="co">协议，解析请求行</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"> * @</span>param reader</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> <span class="co">@</span>param request</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a> <span class="co">*/</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">decodeRequestLine</span><span class="op">(</span><span class="bu">BufferedReader</span> reader<span class="op">,</span> <span class="bu">Request</span> request<span class="op">)</span> <span class="kw">throws</span> <span class="bu">IOException</span> <span class="op">{</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span><span class="op">[]</span> strs <span class="op">=</span> StringUtils<span class="op">.</span><span class="fu">split</span><span class="op">(</span>reader<span class="op">.</span><span class="fu">readLine</span><span class="op">(),</span> <span class="st">&quot; &quot;</span><span class="op">);</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> strs<span class="op">.</span><span class="fu">length</span> <span class="op">==</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    request<span class="op">.</span><span class="fu">setMethod</span><span class="op">(</span>strs<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    request<span class="op">.</span><span class="fu">setUri</span><span class="op">(</span>strs<span class="op">[</span><span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    request<span class="op">.</span><span class="fu">setVersion</span><span class="op">(</span>strs<span class="op">[</span><span class="dv">2</span><span class="op">]);</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>请求头的解析</strong>，从第二行，到第一个空白行之间的所有数据，都是请求头；请求头的格式也比较清晰，形如 <code>key:value</code>, 具体实现如下：</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span> <span class="co">根据标准</span> HTTP <span class="co">协议，解析请求头</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">    * @</span>param reader  <span class="co">读取请求头的</span> BufferedReader <span class="co">对象</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span> <span class="co">@</span>param request <span class="co">存储请求信息的</span> Request <span class="co">对象</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span> <span class="co">@</span>throws IOException <span class="co">当读取请求头信息时发生</span> I<span class="co">/</span>O <span class="co">异常时，将抛出该异常</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">*/</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">decodeRequestHeader</span><span class="op">(</span><span class="bu">BufferedReader</span> reader<span class="op">,</span> <span class="bu">Request</span> request<span class="op">)</span> <span class="kw">throws</span> <span class="bu">IOException</span> <span class="op">{</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 创建一个 Map 对象，用于存储请求头信息</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Map</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">,</span> <span class="bu">String</span><span class="op">&gt;</span> headers <span class="op">=</span> <span class="kw">new</span> <span class="bu">HashMap</span><span class="op">&lt;&gt;(</span><span class="dv">16</span><span class="op">);</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 读取请求头信息，每行都是一个键值对，以空行结束</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> line <span class="op">=</span> reader<span class="op">.</span><span class="fu">readLine</span><span class="op">();</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span><span class="op">[]</span> kv<span class="op">;</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(!</span><span class="st">&quot;&quot;</span><span class="op">.</span><span class="fu">equals</span><span class="op">(</span>line<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 将每行请求头信息按冒号分隔，分别作为键和值存入 Map 中</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>        kv <span class="op">=</span> StringUtils<span class="op">.</span><span class="fu">split</span><span class="op">(</span>line<span class="op">,</span> <span class="st">&quot;:&quot;</span><span class="op">);</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> kv<span class="op">.</span><span class="fu">length</span> <span class="op">==</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>        headers<span class="op">.</span><span class="fu">put</span><span class="op">(</span>kv<span class="op">[</span><span class="dv">0</span><span class="op">].</span><span class="fu">trim</span><span class="op">(),</span> kv<span class="op">[</span><span class="dv">1</span><span class="op">].</span><span class="fu">trim</span><span class="op">());</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>        line <span class="op">=</span> reader<span class="op">.</span><span class="fu">readLine</span><span class="op">();</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 将解析出来的请求头信息存入 Request 对象中</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    request<span class="op">.</span><span class="fu">setHeaders</span><span class="op">(</span>headers<span class="op">);</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>最后就是正文的解析了</strong>，这一块需要注意一点，正文可能为空，也可能有数据；有数据时，我们要如何把所有的数据都取出来呢？</p>
+<p>先看具体实现如下：</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> <span class="co">根据标注</span>HTTP<span class="co">协议，解析正文</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"> * @</span>param reader    <span class="co">输入流读取器，用于读取请求中的数据</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> <span class="co">@</span>param request   Request <span class="co">对象，表示</span> HTTP <span class="co">请求</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> <span class="co">@</span>throws IOException <span class="co">当发生</span> I<span class="co">/</span>O <span class="co">错误时抛出</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a> <span class="co">*/</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">decodeRequestMessage</span><span class="op">(</span><span class="bu">BufferedReader</span> reader<span class="op">,</span> <span class="bu">Request</span> request<span class="op">)</span> <span class="kw">throws</span> <span class="bu">IOException</span> <span class="op">{</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 从请求头中获取 Content-Length，如果没有，则默认为 0</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> contentLen <span class="op">=</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>request<span class="op">.</span><span class="fu">getHeaders</span><span class="op">().</span><span class="fu">getOrDefault</span><span class="op">(</span><span class="st">&quot;Content-Length&quot;</span><span class="op">,</span> <span class="st">&quot;0&quot;</span><span class="op">));</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 如果 Content-Length 为 0，表示没有请求正文，直接返回。</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 例如 GET 和 OPTIONS 请求通常不包含请求正文</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>contentLen <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 根据 Content-Length 创建一个字符数组来存储请求正文</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span><span class="op">[]</span> message <span class="op">=</span> <span class="kw">new</span> <span class="dt">char</span><span class="op">[</span>contentLen<span class="op">];</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 使用 BufferedReader 读取请求正文</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>    reader<span class="op">.</span><span class="fu">read</span><span class="op">(</span>message<span class="op">);</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 将字符数组转换为字符串，并将其设置为 Request 对象的 message</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>    request<span class="op">.</span><span class="fu">setMessage</span><span class="op">(</span><span class="kw">new</span> <span class="bu">String</span><span class="op">(</span>message<span class="op">));</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>注意上面我的使用姿势，首先是根据请求头中的<code>Content-Type</code>的值，来获得正文的数据大小，因此我们获取的方式是创建一个这么大的<code>char[]</code> 数组来读取流中所有数据，如果我们的数组比实际的小，则读不完；如果大，则数组中会有一些空的数据；</p>
+<p><strong>最后将上面的几个解析封装一下</strong>，完成 request 解析：</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> HTTP <span class="co">请求可以分为三部分：</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> <span class="co">1. 请求行：包括请求方法、</span>URI <span class="co">和</span> HTTP <span class="co">协议版本</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> <span class="co">2.</span> <span class="co">请求头：从第二行开始，直到一个空行为止</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> <span class="co">3.</span> <span class="co">消息正文：紧跟在空行后的所有内容，长度由请求头中的</span> Content<span class="co">-</span>Length <span class="co">决定</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> <span class="co">本方法将</span> InputStream <span class="co">中的</span> HTTP <span class="co">请求数据解析为一个</span> Request <span class="co">对象</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> <span class="co">@</span>param reqStream  <span class="co">包含</span> HTTP <span class="co">请求数据的输入流</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> <span class="co">@</span>return           <span class="co">一个表示</span> HTTP <span class="co">请求的</span> Request <span class="co">对象</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> <span class="co">@</span>throws IOException <span class="co">当发生</span> I<span class="co">/</span>O <span class="co">错误时抛出</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a> <span class="co">*/</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="bu">Request</span> <span class="fu">parse2request</span><span class="op">(</span><span class="bu">InputStream</span> reqStream<span class="op">)</span> <span class="kw">throws</span> <span class="bu">IOException</span> <span class="op">{</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 使用 BufferedReader 和 InputStreamReader 读取输入流中的数据</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">BufferedReader</span> httpReader <span class="op">=</span> <span class="kw">new</span> <span class="bu">BufferedReader</span><span class="op">(</span><span class="kw">new</span> <span class="bu">InputStreamReader</span><span class="op">(</span>reqStream<span class="op">,</span> <span class="st">&quot;UTF-8&quot;</span><span class="op">));</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 创建一个新的 Request 对象</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Request</span> httpRequest <span class="op">=</span> <span class="kw">new</span> <span class="bu">Request</span><span class="op">();</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 解析请求行并设置到 Request 对象中</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">decodeRequestLine</span><span class="op">(</span>httpReader<span class="op">,</span> httpRequest<span class="op">);</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 解析请求头并设置到 Request 对象中</span></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">decodeRequestHeader</span><span class="op">(</span>httpReader<span class="op">,</span> httpRequest<span class="op">);</span></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 解析消息正文并设置到 Request 对象中</span></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">decodeRequestMessage</span><span class="op">(</span>httpReader<span class="op">,</span> httpRequest<span class="op">);</span></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 返回解析后的 Request 对象</span></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> httpRequest<span class="op">;</span></span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>接下来，是请求结果的封装，给一个简单的进行演示：</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span> Response <span class="co">类表示一个</span> HTTP <span class="co">响应，包括版本、状态码、状态信息、响应头和响应正文。</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">*/</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="at">@Data</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="kw">class</span> <span class="bu">Response</span> <span class="op">{</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> version<span class="op">;</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">int</span> code<span class="op">;</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> status<span class="op">;</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">Map</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">,</span> <span class="bu">String</span><span class="op">&gt;</span> headers<span class="op">;</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> message<span class="op">;</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span> <span class="co">根据给定的</span> Request <span class="co">对象和响应字符串构建一个</span> HTTP <span class="co">响应。</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="co">    * @</span>param request   <span class="co">用于构建响应的</span> Request <span class="co">对象</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span> <span class="co">@</span>param response  <span class="co">响应字符串</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span> <span class="co">@</span>return          <span class="co">一个表示</span> HTTP <span class="co">响应的字符串</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">*/</span></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="bu">String</span> <span class="fu">buildResponse</span><span class="op">(</span><span class="bu">Request</span> request<span class="op">,</span> <span class="bu">String</span> response<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 创建一个新的 Response 对象，并设置版本、状态码和状态信息</span></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Response</span> httpResponse <span class="op">=</span> <span class="kw">new</span> <span class="bu">Response</span><span class="op">();</span></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>    httpResponse<span class="op">.</span><span class="fu">setCode</span><span class="op">(</span><span class="dv">200</span><span class="op">);</span></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>    httpResponse<span class="op">.</span><span class="fu">setStatus</span><span class="op">(</span><span class="st">&quot;ok&quot;</span><span class="op">);</span></span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>    httpResponse<span class="op">.</span><span class="fu">setVersion</span><span class="op">(</span>request<span class="op">.</span><span class="fu">getVersion</span><span class="op">());</span></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 设置响应头</span></span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Map</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">,</span> <span class="bu">String</span><span class="op">&gt;</span> headers <span class="op">=</span> <span class="kw">new</span> <span class="bu">HashMap</span><span class="op">&lt;&gt;();</span></span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>    headers<span class="op">.</span><span class="fu">put</span><span class="op">(</span><span class="st">&quot;Content-Type&quot;</span><span class="op">,</span> <span class="st">&quot;application/json&quot;</span><span class="op">);</span></span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>    headers<span class="op">.</span><span class="fu">put</span><span class="op">(</span><span class="st">&quot;Content-Length&quot;</span><span class="op">,</span> <span class="bu">String</span><span class="op">.</span><span class="fu">valueOf</span><span class="op">(</span>response<span class="op">.</span><span class="fu">getBytes</span><span class="op">().</span><span class="fu">length</span><span class="op">));</span></span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>    httpResponse<span class="op">.</span><span class="fu">setHeaders</span><span class="op">(</span>headers<span class="op">);</span></span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 设置响应正文</span></span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>    httpResponse<span class="op">.</span><span class="fu">setMessage</span><span class="op">(</span>response<span class="op">);</span></span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 构建响应字符串</span></span>
+<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a>    <span class="bu">StringBuilder</span> builder <span class="op">=</span> <span class="kw">new</span> <span class="bu">StringBuilder</span><span class="op">();</span></span>
+<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">buildResponseLine</span><span class="op">(</span>httpResponse<span class="op">,</span> builder<span class="op">);</span></span>
+<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">buildResponseHeaders</span><span class="op">(</span>httpResponse<span class="op">,</span> builder<span class="op">);</span></span>
+<span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">buildResponseMessage</span><span class="op">(</span>httpResponse<span class="op">,</span> builder<span class="op">);</span></span>
+<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> builder<span class="op">.</span><span class="fu">toString</span><span class="op">();</span></span>
+<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span> <span class="co">构建响应行，包括版本、状态码和状态信息。</span></span>
+<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span></span>
+<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a><span class="co">    * @</span>param response      <span class="co">用于构建响应行的</span> Response <span class="co">对象</span></span>
+<span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span> <span class="co">@</span>param stringBuilder <span class="co">用于拼接响应字符串的</span> StringBuilder <span class="co">对象</span></span>
+<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a>    <span class="co">*/</span></span>
+<span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">buildResponseLine</span><span class="op">(</span><span class="bu">Response</span> response<span class="op">,</span> <span class="bu">StringBuilder</span> stringBuilder<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a>    stringBuilder<span class="op">.</span><span class="fu">append</span><span class="op">(</span>response<span class="op">.</span><span class="fu">getVersion</span><span class="op">()).</span><span class="fu">append</span><span class="op">(</span><span class="st">&quot; &quot;</span><span class="op">).</span><span class="fu">append</span><span class="op">(</span>response<span class="op">.</span><span class="fu">getCode</span><span class="op">()).</span><span class="fu">append</span><span class="op">(</span><span class="st">&quot; &quot;</span><span class="op">)</span></span>
+<span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a>            <span class="op">.</span><span class="fu">append</span><span class="op">(</span>response<span class="op">.</span><span class="fu">getStatus</span><span class="op">()).</span><span class="fu">append</span><span class="op">(</span><span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb29-53"><a href="#cb29-53" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb29-54"><a href="#cb29-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-55"><a href="#cb29-55" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb29-56"><a href="#cb29-56" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span> <span class="co">构建响应头。</span></span>
+<span id="cb29-57"><a href="#cb29-57" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span></span>
+<span id="cb29-58"><a href="#cb29-58" aria-hidden="true" tabindex="-1"></a><span class="co">    * @</span>param response      <span class="co">用于构建响应头的</span> Response <span class="co">对象</span></span>
+<span id="cb29-59"><a href="#cb29-59" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span> <span class="co">@</span>param stringBuilder <span class="co">用于拼接响应字符串的</span> StringBuilder <span class="co">对象</span></span>
+<span id="cb29-60"><a href="#cb29-60" aria-hidden="true" tabindex="-1"></a>    <span class="co">*/</span></span>
+<span id="cb29-61"><a href="#cb29-61" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">buildResponseHeaders</span><span class="op">(</span><span class="bu">Response</span> response<span class="op">,</span> <span class="bu">StringBuilder</span> stringBuilder<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-62"><a href="#cb29-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="bu">Map</span><span class="op">.</span><span class="fu">Entry</span><span class="op">&lt;</span><span class="bu">String</span><span class="op">,</span> <span class="bu">String</span><span class="op">&gt;</span> entry <span class="op">:</span> response<span class="op">.</span><span class="fu">getHeaders</span><span class="op">().</span><span class="fu">entrySet</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb29-63"><a href="#cb29-63" aria-hidden="true" tabindex="-1"></a>        stringBuilder<span class="op">.</span><span class="fu">append</span><span class="op">(</span>entry<span class="op">.</span><span class="fu">getKey</span><span class="op">()).</span><span class="fu">append</span><span class="op">(</span><span class="st">&quot;:&quot;</span><span class="op">).</span><span class="fu">append</span><span class="op">(</span>entry<span class="op">.</span><span class="fu">getValue</span><span class="op">()).</span><span class="fu">append</span><span class="op">(</span><span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb29-64"><a href="#cb29-64" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb29-65"><a href="#cb29-65" aria-hidden="true" tabindex="-1"></a>    stringBuilder<span class="op">.</span><span class="fu">append</span><span class="op">(</span><span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb29-66"><a href="#cb29-66" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb29-67"><a href="#cb29-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-68"><a href="#cb29-68" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb29-69"><a href="#cb29-69" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span> <span class="co">构建响应正文。</span></span>
+<span id="cb29-70"><a href="#cb29-70" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span></span>
+<span id="cb29-71"><a href="#cb29-71" aria-hidden="true" tabindex="-1"></a><span class="co">    * @</span>param response      <span class="co">用于构建响应正文的</span> Response <span class="co">对象</span></span>
+<span id="cb29-72"><a href="#cb29-72" aria-hidden="true" tabindex="-1"></a>    <span class="co">*</span> <span class="co">@</span>param stringBuilder <span class="co">用于拼接响应字符串的</span> StringBuilder <span class="co">对象</span></span>
+<span id="cb29-73"><a href="#cb29-73" aria-hidden="true" tabindex="-1"></a>    <span class="co">*/</span></span>
+<span id="cb29-74"><a href="#cb29-74" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">buildResponseMessage</span><span class="op">(</span><span class="bu">Response</span> response<span class="op">,</span> <span class="bu">StringBuilder</span> stringBuilder<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-75"><a href="#cb29-75" aria-hidden="true" tabindex="-1"></a>    stringBuilder<span class="op">.</span><span class="fu">append</span><span class="op">(</span>response<span class="op">.</span><span class="fu">getMessage</span><span class="op">());</span></span>
+<span id="cb29-76"><a href="#cb29-76" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</section>
+<section id="b-请求任务-httptask" class="level5">
+<h5>b. 请求任务 HttpTask</h5>
+<p>每个请求，单独分配一个任务来干这个事情，就是为了支持并发，对于 ServerSocket 而言，接收到了一个请求，那就创建一个 HttpTask 任务来实现 HTTP 通信。</p>
+<p>那么这个 httptask 干啥呢？</p>
+<ul>
+<li><p>从请求中捞数据</p></li>
+<li><p>响应请求</p></li>
+<li><p>封装结果并返回</p></li>
+</ul>
+<div class="sourceCode" id="cb30"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> HttpTask <span class="co">类实现了</span> Runnable <span class="co">接口，用于处理一个</span> HTTP <span class="co">请求。</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> <span class="co">当在一个线程中执行时，该任务将处理一个</span> Socket <span class="co">连接上的</span> HTTP <span class="co">请求，</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> <span class="co">并发送响应消息。</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a> <span class="co">*/</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> HttpTask <span class="kw">implements</span> <span class="bu">Runnable</span> <span class="op">{</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 用于处理 HTTP 请求的 Socket</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">Socket</span> socket<span class="op">;</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">/**</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">构造一个新的</span> HttpTask<span class="co">，用于处理指定的</span> Socket <span class="co">连接。</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="co">     * @</span>param socket  <span class="co">用于处理</span> HTTP <span class="co">请求的</span> Socket</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>     <span class="co">*/</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">HttpTask</span><span class="op">(</span><span class="bu">Socket</span> socket<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">socket</span> <span class="op">=</span> socket<span class="op">;</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">/**</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="co">实现</span> Runnable <span class="co">接口的</span> run <span class="co">方法，用于处理</span> HTTP <span class="co">请求并发送响应消息。</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>     <span class="co">*/</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">run</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 检查 socket 是否为 null，如果为 null 则抛出异常</span></span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>socket <span class="op">==</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>            <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">IllegalArgumentException</span><span class="op">(</span><span class="st">&quot;socket can&#39;t be null.&quot;</span><span class="op">);</span></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>            <span class="co">// 获取 Socket 的输出流，并创建一个 PrintWriter 对象</span></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>            <span class="bu">OutputStream</span> outputStream <span class="op">=</span> socket<span class="op">.</span><span class="fu">getOutputStream</span><span class="op">();</span></span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>            <span class="bu">PrintWriter</span> out <span class="op">=</span> <span class="kw">new</span> <span class="bu">PrintWriter</span><span class="op">(</span>outputStream<span class="op">);</span></span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>            <span class="co">// 从 Socket 的输入流中解析 HTTP 请求</span></span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>            HttpMessageParser<span class="op">.</span><span class="fu">Request</span> httpRequest <span class="op">=</span> HttpMessageParser<span class="op">.</span><span class="fu">parse2request</span><span class="op">(</span>socket<span class="op">.</span><span class="fu">getInputStream</span><span class="op">());</span></span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>            <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>                <span class="co">// 根据请求结果进行响应，省略返回</span></span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>                <span class="bu">String</span> result <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a>                <span class="co">// 根据请求和结果构建 HTTP 响应</span></span>
+<span id="cb30-42"><a href="#cb30-42" aria-hidden="true" tabindex="-1"></a>                <span class="bu">String</span> httpRes <span class="op">=</span> HttpMessageParser<span class="op">.</span><span class="fu">buildResponse</span><span class="op">(</span>httpRequest<span class="op">,</span> result<span class="op">);</span></span>
+<span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-44"><a href="#cb30-44" aria-hidden="true" tabindex="-1"></a>                <span class="co">// 将 HTTP 响应发送到客户端</span></span>
+<span id="cb30-45"><a href="#cb30-45" aria-hidden="true" tabindex="-1"></a>                out<span class="op">.</span><span class="fu">print</span><span class="op">(</span>httpRes<span class="op">);</span></span>
+<span id="cb30-46"><a href="#cb30-46" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Exception</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-47"><a href="#cb30-47" aria-hidden="true" tabindex="-1"></a>                <span class="co">// 如果发生异常，构建一个包含异常信息的 HTTP 响应</span></span>
+<span id="cb30-48"><a href="#cb30-48" aria-hidden="true" tabindex="-1"></a>                <span class="bu">String</span> httpRes <span class="op">=</span> HttpMessageParser<span class="op">.</span><span class="fu">buildResponse</span><span class="op">(</span>httpRequest<span class="op">,</span> e<span class="op">.</span><span class="fu">toString</span><span class="op">());</span></span>
+<span id="cb30-49"><a href="#cb30-49" aria-hidden="true" tabindex="-1"></a>                out<span class="op">.</span><span class="fu">print</span><span class="op">(</span>httpRes<span class="op">);</span></span>
+<span id="cb30-50"><a href="#cb30-50" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb30-51"><a href="#cb30-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-52"><a href="#cb30-52" aria-hidden="true" tabindex="-1"></a>            <span class="co">// 刷新输出流，确保响应消息被发送</span></span>
+<span id="cb30-53"><a href="#cb30-53" aria-hidden="true" tabindex="-1"></a>            out<span class="op">.</span><span class="fu">flush</span><span class="op">();</span></span>
+<span id="cb30-54"><a href="#cb30-54" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-55"><a href="#cb30-55" aria-hidden="true" tabindex="-1"></a>            e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb30-56"><a href="#cb30-56" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">finally</span> <span class="op">{</span></span>
+<span id="cb30-57"><a href="#cb30-57" aria-hidden="true" tabindex="-1"></a>            <span class="co">// 关闭 Socket 连接</span></span>
+<span id="cb30-58"><a href="#cb30-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb30-59"><a href="#cb30-59" aria-hidden="true" tabindex="-1"></a>                socket<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb30-60"><a href="#cb30-60" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-61"><a href="#cb30-61" aria-hidden="true" tabindex="-1"></a>                e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb30-62"><a href="#cb30-62" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb30-63"><a href="#cb30-63" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb30-64"><a href="#cb30-64" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb30-65"><a href="#cb30-65" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</section>
+<section id="c-http-服务搭建" class="level5">
+<h5>c. HTTP 服务搭建</h5>
+<p>前面的基本上把该干的事情都干了，剩下的就简单了，创建<code>ServerSocket</code>，绑定端口接收请求，我们在线程池中跑这个 HTTP 服务</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> BasicHttpServer <span class="op">{</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 创建一个单线程执行器，用于启动 HTTP 服务器</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">static</span> <span class="bu">ExecutorService</span> bootstrapExecutor <span class="op">=</span> <span class="bu">Executors</span><span class="op">.</span><span class="fu">newSingleThreadExecutor</span><span class="op">();</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 创建一个线程池，用于处理来自客户端的 HTTP 请求</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">static</span> <span class="bu">ExecutorService</span> taskExecutor<span class="op">;</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 设置服务器监听的端口号</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">static</span> <span class="dt">int</span> PORT <span class="op">=</span> <span class="dv">8999</span><span class="op">;</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 启动 HTTP 服务器的方法</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">static</span> <span class="dt">void</span> <span class="fu">startHttpServer</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 获取处理器可用核心数，用于设置线程池大小</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> nThreads <span class="op">=</span> <span class="bu">Runtime</span><span class="op">.</span><span class="fu">getRuntime</span><span class="op">().</span><span class="fu">availableProcessors</span><span class="op">();</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 初始化线程池，设置线程池大小，队列大小和丢弃策略</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>        taskExecutor <span class="op">=</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>                <span class="kw">new</span> <span class="bu">ThreadPoolExecutor</span><span class="op">(</span>nThreads<span class="op">,</span> nThreads<span class="op">,</span> <span class="dv">0L</span><span class="op">,</span> <span class="bu">TimeUnit</span><span class="op">.</span><span class="fu">MILLISECONDS</span><span class="op">,</span> <span class="kw">new</span> <span class="bu">LinkedBlockingQueue</span><span class="op">&lt;&gt;(</span><span class="dv">100</span><span class="op">),</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>                        <span class="kw">new</span> <span class="bu">ThreadPoolExecutor</span><span class="op">.</span><span class="fu">DiscardPolicy</span><span class="op">());</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 循环尝试启动服务器，如果启动失败，则等待10秒后重试</span></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>                <span class="bu">ServerSocket</span> serverSocket <span class="op">=</span> <span class="kw">new</span> <span class="bu">ServerSocket</span><span class="op">(</span>PORT<span class="op">);</span></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>                bootstrapExecutor<span class="op">.</span><span class="fu">submit</span><span class="op">(</span><span class="kw">new</span> <span class="fu">ServerThread</span><span class="op">(</span>serverSocket<span class="op">));</span></span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Exception</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>                <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>                    <span class="co">// 重试，等待 10 秒</span></span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">TimeUnit</span><span class="op">.</span><span class="fu">SECONDS</span><span class="op">.</span><span class="fu">sleep</span><span class="op">(</span><span class="dv">10</span><span class="op">);</span></span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">InterruptedException</span> ie<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">Thread</span><span class="op">.</span><span class="fu">currentThread</span><span class="op">().</span><span class="fu">interrupt</span><span class="op">();</span></span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span></span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 关闭启动执行器</span></span>
+<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>        bootstrapExecutor<span class="op">.</span><span class="fu">shutdown</span><span class="op">();</span></span>
+<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a>    <span class="co">// HTTP 服务器主要任务类</span></span>
+<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">static</span> <span class="kw">class</span> ServerThread <span class="kw">implements</span> <span class="bu">Runnable</span> <span class="op">{</span></span>
+<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 保存传递给构造函数的 ServerSocket 实例</span></span>
+<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a>        <span class="kw">private</span> <span class="bu">ServerSocket</span> serverSocket<span class="op">;</span></span>
+<span id="cb31-42"><a href="#cb31-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-43"><a href="#cb31-43" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 构造函数</span></span>
+<span id="cb31-44"><a href="#cb31-44" aria-hidden="true" tabindex="-1"></a>        <span class="kw">public</span> <span class="fu">ServerThread</span><span class="op">(</span><span class="bu">ServerSocket</span> s<span class="op">)</span> <span class="kw">throws</span> <span class="bu">IOException</span> <span class="op">{</span></span>
+<span id="cb31-45"><a href="#cb31-45" aria-hidden="true" tabindex="-1"></a>            <span class="kw">this</span><span class="op">.</span><span class="fu">serverSocket</span> <span class="op">=</span> s<span class="op">;</span></span>
+<span id="cb31-46"><a href="#cb31-46" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb31-47"><a href="#cb31-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-48"><a href="#cb31-48" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 任务主体方法</span></span>
+<span id="cb31-49"><a href="#cb31-49" aria-hidden="true" tabindex="-1"></a>        <span class="at">@Override</span></span>
+<span id="cb31-50"><a href="#cb31-50" aria-hidden="true" tabindex="-1"></a>        <span class="kw">public</span> <span class="dt">void</span> <span class="fu">run</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb31-51"><a href="#cb31-51" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-52"><a href="#cb31-52" aria-hidden="true" tabindex="-1"></a>                <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb31-53"><a href="#cb31-53" aria-hidden="true" tabindex="-1"></a>                    <span class="co">// 等待客户端连接</span></span>
+<span id="cb31-54"><a href="#cb31-54" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">Socket</span> socket <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">serverSocket</span><span class="op">.</span><span class="fu">accept</span><span class="op">();</span></span>
+<span id="cb31-55"><a href="#cb31-55" aria-hidden="true" tabindex="-1"></a>                    <span class="co">// 创建一个 HttpTask 实例，将 Socket 实例作为参数传递</span></span>
+<span id="cb31-56"><a href="#cb31-56" aria-hidden="true" tabindex="-1"></a>                    HttpTask eventTask <span class="op">=</span> <span class="kw">new</span> <span class="fu">HttpTask</span><span class="op">(</span>socket<span class="op">);</span></span>
+<span id="cb31-57"><a href="#cb31-57" aria-hidden="true" tabindex="-1"></a>                    <span class="co">// 将 HttpTask 提交给 taskExecutor 执行</span></span>
+<span id="cb31-58"><a href="#cb31-58" aria-hidden="true" tabindex="-1"></a>                    taskExecutor<span class="op">.</span><span class="fu">submit</span><span class="op">(</span>eventTask<span class="op">);</span></span>
+<span id="cb31-59"><a href="#cb31-59" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">Exception</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-60"><a href="#cb31-60" aria-hidden="true" tabindex="-1"></a>                    e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb31-61"><a href="#cb31-61" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb31-62"><a href="#cb31-62" aria-hidden="true" tabindex="-1"></a>                        <span class="co">// 如果发生异常，等待 1 秒后继续尝试</span></span>
+<span id="cb31-63"><a href="#cb31-63" aria-hidden="true" tabindex="-1"></a>                        <span class="bu">TimeUnit</span><span class="op">.</span><span class="fu">SECONDS</span><span class="op">.</span><span class="fu">sleep</span><span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb31-64"><a href="#cb31-64" aria-hidden="true" tabindex="-1"></a>                    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">InterruptedException</span> ie<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-65"><a href="#cb31-65" aria-hidden="true" tabindex="-1"></a>                        <span class="bu">Thread</span><span class="op">.</span><span class="fu">currentThread</span><span class="op">().</span><span class="fu">interrupt</span><span class="op">();</span></span>
+<span id="cb31-66"><a href="#cb31-66" aria-hidden="true" tabindex="-1"></a>                    <span class="op">}</span></span>
+<span id="cb31-67"><a href="#cb31-67" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span></span>
+<span id="cb31-68"><a href="#cb31-68" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb31-69"><a href="#cb31-69" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb31-70"><a href="#cb31-70" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb31-71"><a href="#cb31-71" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>这段代码是一个简单的 HTTP 服务器实现。以下是关于这个 HTTP 服务器的主要组件和功能的详细解释：</p>
+<p>1、bootstrapExecutor：一个单线程的 ExecutorService，用于执行 HTTP 服务器的启动任务。</p>
+<p>2、taskExecutor：一个线程池，用于处理来自客户端的 HTTP 请求。线程池的大小等于处理器可用核心数，队列大小为100，使用 DiscardPolicy 丢弃策略。</p>
+<p>3、PORT：服务器侦听的端口号，默认为 8999。</p>
+<p>4、startHttpServer() 方法：</p>
+<pre><code>- a.创建一个线程池 taskExecutor 用于处理 HTTP 请求。
+- b.在一个循环中，尝试创建一个 ServerSocket 实例并绑定到指定端口。如果失败，则等待 10 秒后重试。
+- c.当成功创建 ServerSocket 实例后，将其作为参数提交给 bootstrapExecutor 执行 ServerThread 任务。
+- d.关闭 bootstrapExecutor。</code></pre>
+<p>5、ServerThread 类实现了 Runnable 接口，它是 HTTP 服务器的主要任务：<br />
+- a.serverSocket 成员变量：保存传递给构造函数的 ServerSocket 实例。<br />
+- b.run() 方法：<br />
+- 在一个无限循环中，调用 serverSocket.accept() 方法等待客户端的连接。<br />
+- 当接受到一个新的客户端连接时，创建一个 HttpTask 实例，将 Socket 实例作为参数传递。<br />
+- 将 HttpTask 提交给 taskExecutor 执行。</p>
+<p>这个 HTTP 服务器的主要逻辑是：使用一个线程来监听客户端连接，当有新的客户端连接时，创建一个 HttpTask 来处理客户端的 HTTP 请求，并将这个任务提交给线程池 taskExecutor 执行。这样可以实现多个客户端请求的并发处理。</p>
+<p>到这里，一个基于 Socket 实现的 HTTP 服务器基本上就搭建完了，接下来就可以进行测试了</p>
+</section>
+</section>
+<section id="id_4-测试" class="level4">
+<h4>4. 测试</h4>
+<p>做这个服务器，主要是基于项目 <a href="https://github.com/liuyueyi/quick-fix">quick-fix</a> 产生的，这个项目主要是为了解决应用内部服务访问与数据订正，我们在这个项目的基础上进行测试。</p>
+<p>一个完整的 post 请求如下</p>
+<p><img src="../media/file358.gif" title="fig:" alt="" /></p>
+<p>接下来我们看下打印出返回头的情况</p>
+<p><img src="../media/file359.gif" title="fig:" alt="" /></p>
+</section>
+</section>
+<section id="ii-其他" class="level3">
+<h3>II. 其他</h3>
+<section id="id_0-项目源码" class="level4">
+<h4>0. 项目源码</h4>
+<ul>
+<li><p><a href="https://github.com/liuyueyi/quick-fix">quick-fix</a></p></li>
+<li><p>相关代码:</p></li>
+<li><p>com.git.hui.fix.core.endpoint.BasicHttpServer</p></li>
+<li><p>com.git.hui.fix.core.endpoint.HttpMessageParser</p></li>
+<li><p>com.git.hui.fix.core.endpoint.HttpTask</p></li>
+</ul>
+<blockquote>
+<p>作者：一灰，整理：沉默王二，团队，技术派</p>
+</blockquote>
+<hr />
+<p>最近整理了一份牛逼的学习资料，包括但不限于 Java 基础部分（JVM、Java 集合框架、多线程），还囊括了 <strong>数据库、计算机网络、算法与数据结构、设计模式、框架类 Spring、Netty、微服务（Dubbo，消息队列） 网关</strong> 等等等等……详情戳：<a href="https://tobebetterjavaer.com/pdf/programmer-111.html">可以说是 2022 年全网最全的学习和找工作的 PDF 资源了</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img src="../media/file4.jpg" title="fig:" alt="" /></p>
+<p></p>
+</section>
+</section>
+</section>
+</section>
+</body>
+</html>
