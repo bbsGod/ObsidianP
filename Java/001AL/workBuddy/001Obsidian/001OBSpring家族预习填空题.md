@@ -28,25 +28,26 @@
 
 ### 1.2 Bean 的定义与扫描
 
-（5）Bean 的本质：由 Spring 容器管理的 Java 对象（普通对象是我们自己 new 的）；定义 Bean 的三种方式：注解 @Component、   **___  ？<xml=bea_____**（老项目 bean 标签）、Java 配置 @Configuration + @Bean。⭐⭐⭐ [来源：画布 如何定义bean `Bean 是被交给 Spring 容器来管理` `Bean 的配置⽅式有哪些`]
+（5）Bean 的本质：由 Spring 容器管理的 Java 对象（普通对象是我们自己 new 的）；定义 Bean 的三种方式：注解 @Component、   **___  ？<xml=bea_xml配置文件____**（老项目 bean 标签）、Java 配置 @Configuration + @Bean。⭐⭐⭐ [来源：画布 如何定义bean `Bean 是被交给 Spring 容器来管理` `Bean 的配置⽅式有哪些`]
 
 （6）@Configuration + @Bean 主要用来包装第三方类（DruidDataSource、RedisTemplate），因为这些类 **______ 无法修改 __** 源码，没法加 @Component。⭐⭐⭐ [来源：画布 如何定义bean `使用场景：第三方类，不修改源代码的`]	
 
-（7）@Configuration 类是工厂 Bean，@Bean 方法就是 **___ ？实例_____** 方法，Spring 反射调用它、把返回值注册成 Bean。⭐⭐ [来源：画布 如何定义bean `@Bean 方法是工厂方法`]
+（7）@Configuration 类是工厂 Bean，@Bean 方法就是 **___ ？实例---@bean注册的方法是工厂方法_____** 方法，Spring 反射调用它、把返回值注册成 Bean。⭐⭐ [来源：画布 如何定义bean `@Bean 方法是工厂方法`] 
 
-（8）包扫描的真正执行者：@ComponentScan 只声明扫描路径，真正解析 @Configuration、@ComponentScan、@Import、@PropertySource 的是 **__ ？______**。⭐⭐⭐ [来源：画布 实例化 `真正干活的是 ConfigurationClassPostProcessor`]
+- [ ] （8）包扫描的真正执行者：@ComponentScan 只声明扫描路径，真正解析 @Configuration、@ComponentScan、@Import、@PropertySource 的是 **__ ？配置文件类后置处理器______**。⭐⭐⭐ [来源：画布 实例化 `真正干活的是 ConfigurationClassPostProcessor`]
+
 
 （9）扫描完成后，Spring 把类上的注解、类名、scope、是否懒加载、依赖信息等元数据封装成 **___ ？BeanDefinition_____**，存进 BeanFactory 的 beanDefinitionMap。⭐⭐⭐ [来源：画布 bean实例化之前需要扫描、优化，创建bean的后置post处理器 `生成包含bean元信息的Bean定义（BeanDefinition）`]
 
 （10）BeanDefinition 存的是类的 **______ 元数据 __**（beanClass、scope、lazyInit、initMethod、destroyMethod），它不是对象，只是一份"Bean 的图纸"。⭐⭐⭐ [来源：画布 bean实例化之前需要扫描、优化，创建bean的后置post处理器 `BeanDefinition 里面存的是类的元信息`]
 
-### 1.3 Bean 的实例化（4 种方式）
+### 1.3 Bean 的实例化（4 种方式）  -----BEAN 是豆子的意思 RedBean 红豆
 
 （11）实例化阶段：Spring 通过 **___ 反射 _____** 调用构造方法创建原始对象，此时对象里的属性都还是 **______ null __**。⭐⭐⭐ [来源：画布 实例化过程 `只是调用了 new 来生成，此时对象里面的属性都是 null`]
 
 （12）为什么不直接 new：`new` 要求 **____ 编译器 ____** 期就能确定类，而 Spring 是运行时才通过扫描 class、解析注解拿到类信息（类名是字符串解析出来的）。⭐⭐⭐ [来源：画布 实例化过程 `new Xxx() 要求编译期就能确定 Xxx 这个类`]
 
-- [ ] （13）Spring 实例化 Bean 的 4 种方式：构造方法实例化（@Component/@Service）、静态工厂方法（@Bean + static）、实例工厂方法（@Bean 非 static）、**___ 实现 _____** 接口实例化。⭐⭐⭐ [来源：画布 实例化过程 `Spring 提供了 4 种方式来实例化 Bean`]
+- [ ] （13）Spring 实例化 Bean 的 4 种方式：构造方法实例化（@Component/@Service）、静态工厂方法（@Bean + static）、实例工厂方法（@Bean 非 static）、**___ ？实现  正确答案：（FactoyrBean）工厂接口_____** 接口实例化。⭐⭐⭐ [来源：画布 实例化过程 `Spring 提供了 4 种方式来实例化 Bean`]
 
 
 （14）FactoryBean 实例化：容器管理 FactoryBean 本身，调用它的 **___ ？构造方法_____** 方法拿到的对象才是容器里真正使用的 Bean，MyBatis 的 SqlSessionFactory 就是典型。⭐⭐⭐ [来源：画布 实例化过程 `调用它的 getObject() 方法，拿到我们真正需要的目标 Bean 对象`]
