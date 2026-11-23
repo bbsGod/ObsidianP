@@ -13,15 +13,15 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Java/多线程并发.canvas",
+                "file": "Java/小聪明.canvas",
                 "viewState": {
-                  "x": -4405.214699826443,
-                  "y": 9660.771796302783,
-                  "zoom": -1.666666666666666
+                  "x": 4424.361313913596,
+                  "y": 15813.302422341392,
+                  "zoom": -0.333333333333333
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "多线程并发"
+              "title": "小聪明"
             }
           }
         ]
@@ -86,8 +86,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 322.8333435058594,
-    "collapsed": true
+    "width": 322.8333435058594
   },
   "right": {
     "id": "2335fe4443cdde6a",
@@ -195,6 +194,7 @@
   },
   "active": "26564200eee770f8",
   "lastOpenFiles": [
+    "Java/多线程并发.canvas",
     "Java/001AL/workBuddy/_tmp_jvm_recheck/jvmr_21.png",
     "Java/001AL/workBuddy/_tmp_jvm_recheck/jvmr_20.png",
     "Java/001AL/workBuddy/_tmp_jvm_recheck/jvmr_19.png",
@@ -205,7 +205,6 @@
     "Java/001AL/workBuddy/_tmp_jvm_recheck/jvmr_14.png",
     "Java/001AL/workBuddy/_tmp_jvm_recheck/jvmr_13.png",
     "Java/001AL/workBuddy/_tmp_jvm_recheck/jvmr_12.png",
-    "Java/001AL/workBuddy/_tmp_jvm_recheck/jvmr_11.png",
     "Java/001AL/workBuddy/_tmp_jvm_recheck",
     "Java/001AL/workBuddy/_jvm_recheck_files.txt",
     "Java/001AL/workBuddy/_jvm_recheck_texts.txt",
@@ -235,7 +234,6 @@
     "Java/小聪明.canvas",
     "Java/GLM/01jvm/04-JVM总预习讲义+02-JVM补充知识点.md",
     "Java/项目.canvas",
-    "Java/多线程并发.canvas",
     "Java/数据库.canvas",
     "Java/信创升级.canvas",
     "Java/小聪明-分析.md",
