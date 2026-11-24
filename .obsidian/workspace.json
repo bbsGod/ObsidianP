@@ -15,9 +15,9 @@
               "state": {
                 "file": "Java/多线程并发.canvas",
                 "viewState": {
-                  "x": -3501.6786849299538,
-                  "y": 4474.9454459409235,
-                  "zoom": -1.3333333333333328
+                  "x": -16109.619703252913,
+                  "y": 23902.123147658316,
+                  "zoom": 1
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -86,7 +86,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 322.8333435058594
+    "width": 322.8333435058594,
+    "collapsed": true
   },
   "right": {
     "id": "2335fe4443cdde6a",

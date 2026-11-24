@@ -18,7 +18,7 @@
 
 ### 1.1 Spring 与 IOC/DI 核心概念
 
-（1）Spring 框架的两大核心思想：IOC 控制反转和 **____IOP____** 面向切面编程。⭐⭐⭐ [来源：画布 Spring主体 `AOP面向切面编程`]
+（1）Spring 框架的两大核心思想：IOC 控制反转和 **____AOP____** 面向切面编程。⭐⭐⭐ [来源：画布 Spring主体 `AOP面向切面编程`]
 
 （2）IOC 控制反转：把对象创建和依赖关系管理的控制权，从业务代码转移到 **______容器__**。⭐⭐⭐ [来源：画布 Spring主体 `将对象创建和对象之间依赖关系的控制权，从业务代码转移到容器`]
 
@@ -34,7 +34,9 @@
 
 （7）@Configuration 类是工厂 Bean，@Bean 方法就是 **___ ？实例---@bean注册的方法是工厂方法_____** 方法，Spring 反射调用它、把返回值注册成 Bean。⭐⭐ [来源：画布 如何定义bean `@Bean 方法是工厂方法`] 
 
-- [ ] （8）包扫描的真正执行者：@ComponentScan 只声明扫描路径，真正解析 @Configuration、@ComponentScan、@Import、@PropertySource 的是 **__ ？配置文件类后置处理器ConfigurationClassPostProcessor______**。⭐⭐⭐ [来源：画布 实例化 `真正干活的是 ConfigurationClassPostProcessor`]
+- [ ] （8）包扫描的真正执行者：@ComponentScan 只声明扫描路径，真正解析 @Configuration、@ComponentScan、@Import、@PropertySource 的是 **__ ？配置文件类后置处理器ConfigurationClassPostProcessor 就记成 configclasPostProcessor______**。⭐⭐⭐ [来源：画布 实例化 `真正干活的是 ConfigurationClassPostProcessor`]
+  - [ ] configclassPostProcess 好记忆 
+
 
 
 （9）扫描完成后，Spring 把类上的注解、类名、scope、是否懒加载、依赖信息等元数据封装成 **___ ？BeanDefinition_____**，存进 BeanFactory 的 beanDefinitionMap。⭐⭐⭐ [来源：画布 bean实例化之前需要扫描、优化，创建bean的后置post处理器 `生成包含bean元信息的Bean定义（BeanDefinition）`]
@@ -43,14 +45,20 @@
 
 ### 1.3 Bean 的实例化（4 种方式）  -----BEAN 是豆子的意思 RedBean 红豆
 
-（11）实例化阶段：Spring 通过 **___ 反射 _____** 调用构造方法创建原始对象，此时对象里的属性都还是 **______ null __**。⭐⭐⭐ [来源：画布 实例化过程 `只是调用了 new 来生成，此时对象里面的属性都是 null`]
+（11）实例化阶段：Spring 通过 **___ 反射 _____** 调用构造方法创建原始对象，此时对象里的属性都还是 **______ null __**。⭐⭐⭐ [来源：画布 实例化过程 `只是调用了 new 来生成，此时对象里面的属性都是 null`]  
+
+- [ ] 运行状态动态的获取对象的方式是反射	
 
 （12）为什么不直接 new：`new` 要求 **____ 编译器 ____** 期就能确定类，而 Spring 是运行时才通过扫描 class、解析注解拿到类信息（类名是字符串解析出来的）。⭐⭐⭐ [来源：画布 实例化过程 `new Xxx() 要求编译期就能确定 Xxx 这个类`]
 
 - [ ] （13）Spring 实例化 Bean 的 4 种方式：构造方法实例化（@Component/@Service）、静态工厂方法（@Bean + static）、实例工厂方法（@Bean 非 static）、**___ ？实现  正确答案：（FactoyrBean）工厂接口_____** 接口实例化。⭐⭐⭐ [来源：画布 实例化过程 `Spring 提供了 4 种方式来实例化 Bean`]
+  - [ ] 两个工厂方法都存在配置文件中 ，@configuration ，方法上是@Bean 
 
-- [ ] 
-  （14）FactoryBean 实例化：容器管理 FactoryBean 本身，调用它的 **___ ？构造方法___正确答案：getObject()__** 方法拿到的对象才是容器里真正使用的 Bean，MyBatis 的 SqlSessionFactory 就是典型。⭐⭐⭐ [来源：画布 实例化过程 `调用它的 getObject() 方法，拿到我们真正需要的目标 Bean 对象`]
+  - [ ] bean工厂接口
+
+- [ ] （14）FactoryBean 实例化：容器管理 FactoryBean 本身，调用它的 **___ ？构造方法___正确答案：getObject()__** 方法拿到的对象才是容器里真正使用的 Bean，MyBatis 的 SqlSessionFactory 就是典型。⭐⭐⭐ [来源：画布 实例化过程 `调用它的 getObject() 方法，拿到我们真正需要的目标 Bean 对象`]
+  - [ ] bean的实例化通过bean工厂的方式，获取bean的方式是getObject
+
 
 
 - [ ] （15）@Bean 实例化的本质：Spring 反射调用 @Bean 标注的方法、方法内部是我们手写的 new，这属于 **______？工厂 __** 方法实例化。⭐⭐ [来源：画布 实例化过程 `这就是【工厂方法实例化】和【构造器实例化】本质区别`]
@@ -68,6 +76,8 @@
 （19）类中只有一个构造器时，@Autowired 可以省略——这是 Spring **___ 最新 Srping_____** 4.3+ 的特性。⭐⭐ [来源：画布 实例化之后的属性赋值；DI三种注入方式，字段，setter，构造器 `Spring4.3+，仅有一个构造器时 ，@Autowired 可以省略`]
 
 - [ ] （20）IDEA 不推荐 @Autowired 字段注入的三个原因：不利于 **__？单元测试______**、会隐藏循环依赖问题（构造器注入启动时就暴露）、不能用 final。⭐⭐⭐ [来源：画布 Bean `为什么IDEA不推荐使用@Autowired注解注入Bean`]
+  - [ ] 字段注入 ，隐藏循环依赖 、不利于测试
+
 
 
 （21）注入时机区分：构造器注入发生在 **__ 实例化______** 阶段（new 对象时把依赖直接传进去）；字段/setter 注入发生在实例化之后的 populateBean 属性填充阶段。⭐⭐⭐ [来源：画布 实例化之后的注入 `构造器注入：注入动作发生在【实例化阶段】`]
@@ -84,15 +94,25 @@
 
 - [ ] （25）refresh 中真正实例化所有非懒加载单例 Bean 的阶段：**______ ？finishBeanFactoryInitialization 完成bean工厂初始化__**。⭐⭐ [来源：画布 Bean的生命周期 `在 refresh 内部的finishBeanFactoryInitialization阶段`]
 
+  - [ ] finish  BeanFactory  Initialization 方法
+
+
 
 （26）Bean 生命周期五大阶段：实例化 → **___ DI依赖注入的属性填充 _____** → 初始化 → 使用中 → 销毁。⭐⭐⭐ [来源：画布 Bean `实例化 → 属性赋值 → 初始化 → 使用中 → 销毁`]
 
-（27）属性填充阶段（populateBean / DI 依赖注入）：给对象的字段赋值，由 **__ @Autowired ______**、xml 注入等方式完成。⭐⭐⭐ [来源：画布 bean的生命周期 `属性填充（PopulateBean / DI 依赖注入）：给对象的字段赋值（@Autowired、xml 注入）`]
+- [ ] （27）属性填充阶段（populateBean / DI 依赖注入）：给对象的字段赋值，由 **__ @Autowired ______**、xml 注入等方式完成。⭐⭐⭐ [来源：画布 bean的生命周期 `属性填充（PopulateBean / DI 依赖注入）：给对象的字段赋值（@Autowired、xml 注入）`]
+  - [ ] DI的三种方式：构造器、setter、@Autowire字段注入
 
-- [ ] （28）初始化阶段三个回调的执行顺序：先 **__ 注解@PostConstruct（构建）______** 注解方法 → 再 InitializingBean 接口的 afterPropertiesSet() → 最后 init-method指定方法。⭐⭐⭐ [来源：画布 bean的生命周期 `先执⾏ @PostConstruct 标注的⽅法...最后再执⾏ init-method 指定的⽅法`]  先注解---接口---方法
+- [ ] （28）初始化阶段三个回调的执行顺序：先 **__ 注解@PostConstruct（构建）______** 注解方法 → 再 InitializingBean 接口的 afterPropertiesSet() → 最后 init-method指定方法。⭐⭐⭐ [来源：画布 bean的生命周期 `先执⾏ @PostConstruct 标注的⽅法...最后再执⾏ init-method 指定的⽅法`]  
+  - [ ] 先注解@PostConstruct---接口---方法
+  - [ ] 初始化注解@PostConstruct
+
 
 
 - [ ] （29）单例 Bean 销毁阶段在容器关闭时触发，销毁回调顺序：@PreDestroy → **_ PreDestoryBean 正确答案是：（一次性的）DisposabBean_______** 接口的 destroy() → @Bean 的 destroyMethod。⭐⭐⭐ [来源：画布 bean的生命周期 `销毁阶段（Destruction）容器关闭时执行顺序`] 先注解@PreDestroy -接口-destroyMethod
+
+  - [ ] 销毁注解 @PreDestroy
+
 
 
 - [ ] （30）实际开发中通常用 @PostConstruct（构造之后） 和 **______注解2：@PreDestroy 销毁之前__** 两个注解就够了，它们最简洁。⭐⭐ [来源：画布 bean的生命周期 `实际开发中，通常⽤ @PostConstruct 和 @PreDestroy 就够了`]
@@ -105,19 +125,28 @@
 （32）两大后置处理器区分：BeanFactoryPostProcessor 作用于 **___ BeanDeifne_____**（Bean 还没实例化）；BeanPostProcessor 作用于每个 Bean 实例（初始化前后拦截）。⭐⭐⭐ [来源：画布 生命周期高频坑点 `BeanFactoryPostProcessor：作用于 BeanDefinition，不属于 Bean 实例生命周期`]
 
 - [ ] （33）ConfigurationClassPostProcessor 是 **__？ BeanFactoryPostProcessor  --正确： BeanFactoryPostProcessor______** 的实现类，是 Spring 优先级最高、最先执行的 BeanFactory 后置处理器。⭐⭐⭐ [来源：画布 bean实例化之前需要扫描、优化，创建bean的后置post处理器 `ConfigurationClassPostProcessor（它本身就是一个 BeanFactoryPostProcessor！）`]
+  - [ ] 扫描Bean的是bean工厂的后置处理器 
+
 
 
 - [ ] （34）BeanFactoryPostProcessor 的执行时机：BeanFactory 就绪之后、Bean 实例还没创建时，在 refresh() 的 **___ ？实例化 _正确：invokeBeanFactoryPostProcessors____** 步骤执行，做包扫描、解析配置类、注册 BeanDefinition。⭐⭐⭐ [来源：画布 两个post后置处理器 `它的工作时机是 BeanFactory 已经就绪、但是 Bean 实例还没有创建的时候`]
+
+  - [ ] invoke是调用给的意思
+
 
 
 （35）❌ BeanFactoryPostProcessor 属于 Bean 实例的生命周期？→ ✅ 错。它属于 **___ BeanDefine bean定义阶段_____** 阶段的事情，不属于 Bean 实例生命周期。⭐⭐⭐ [来源：画布 生命周期高频坑点（需纠错）]
 
 - [ ] （36）❌ @PostConstruct 属于构造方法/实例化阶段？→ ✅ 错。@PostConstruct 属于 Bean 的 **__ ？实例化 --正确：初始化 ______** 阶段，构造方法才是实例化。⭐⭐⭐ [来源：画布 生命周期高频坑点（需纠错）`@PostConstruct 属于初始化阶段，不是构造方法`]
+  - [ ] bean初始化后置处理器也是AOP功能加强的阶段
+
 
 
 （37）单例 Bean 生命周期完全交给 IOC 容器（容器创建、容器销毁）；多例 Bean 容器只负责创建，**___ 销毁_____** 不会被容器调用。⭐⭐⭐ [来源：画布 生命周期高频坑点 `多例 Bean 容器只负责创建...销毁回调不会被容器调用`]
 
 - [ ] （38）BeanPostProcessor 的两个方法：postProcessBeforeInitialization（前置处理）和 ？**___aferBeanPostProcess___  --正确postProcessAfterInitialization__**（后置处理，AOP 代理就在这里生成）。⭐⭐⭐ [来源：画布 bean的生命周期 `BeanPostProcessor 后置处理（postProcessAfterInitialization）👉 AOP 代理就是在这里生成！`]
+  - [ ] bean初始化阶段前置处理器  ----- 初始化 ----- 初始化后置处理器
+
 
 
 ### 1.7 Aware 接口与手写 IOC
@@ -131,6 +160,9 @@
 ### 容器体系：ApplicationContext 与 BeanFactory
 
 - [ ] （41）Spring 容器体系的组合关系：高级容器 ApplicationContext 内部组合持有一个 **___ ？默认的DefaultBeanFactory 正确：DefaultListableBeanFactory _____**（低级 Bean 工厂的实现实例，真正干活、存 Bean 的就是它）——refresh() 等容器流程都委托给它执行。⭐⭐⭐ [来源：画布 Bean工厂和IOC容器 `IOC 容器（ApplicationContext）内部持有 Bean 工厂（DefaultListableBeanFactory）` + ApplicationContext 和 DefaultableBeanFactory]
+  - [ ] applicationContext 应用程序上下文，  bean工厂 + 附加能力+bean的生命周期
+  - [ ] bean工厂实际上干活的类是子类 defaultBeanFactory
+
 
 
 （42）BeanFactory 与 ApplicationContext 的能力差异：BeanFactory 是最底层接口，能力极简，**__ 只能获取bean ______**；ApplicationContext 在其之上扩展，提供事件发布、国际化（什么是国际化 难道是英语？）、资源加载、AOP、注解扫描等能力。⭐⭐ [来源：画布 Bean工厂和IOC容器 `能力极简：没有资源加载、事件、国际化、AOP 支持`]
@@ -157,6 +189,8 @@
 
 （5）流程起点：A 实例化（反射 new 出原始对象）后，把 A 的 ObjectFactory 放入 **__ 工厂对象 三级级缓存中  ______**，然后进行属性填充。⭐⭐⭐ [来源：画布 三级缓存 `A 实例化（反射得对象），A 的 ObjectFactory 加入三级缓存`]
 
+- [ ] A实例化的时候 放到三级缓存，提前暴漏给B，B拿到三级缓存的工厂对象，调用方法获取A的早期对象，完整初始化
+
 （6）B 属性填充需要 A 时：查三级缓存拿到 A 的 ObjectFactory，调用 getObject() 触发 **___？ 实例化--正确：getEarlyBeanReference _____**，提前生成 A 的代理对象，并把 A 放入二级缓存、从三级缓存移除。⭐⭐⭐ [来源：画布 三级缓存 `objectFactory.getObject()` `查三级缓存 singletonFactories：找到了 A 的 ObjectFactory`]
 
 （7）B 拿到没完工的 A 半成品继续完成自己；A 后面拿到完工的 B，最后 A 自己完工——**___ 流程 _____** 打通，两边都能完成创建。⭐⭐⭐ [来源：画布 三级缓存 `闭环打通了：B 拿到了还没完工的 A 半成品`]
@@ -165,9 +199,15 @@
 
 ### 2.3 为什么不能删缓存（面试深挖）
 
-（9）❌ 三级缓存可以删？→ ✅ 错。三级缓存存 ObjectFactory，提供 **___ AOP 工厂对象延迟创建 _____** 创建代理的能力；删掉后在循环依赖 + AOP 场景下，注入给依赖方的是原始对象、单例池里是代理对象，两者不一致，AOP 增强失效。⭐⭐⭐ [来源：画布 三级缓存 `不能删三级缓存：三级缓存存放 ObjectFactory，提供延迟创建代理的能力`]
+- [ ] （9）❌ 三级缓存可以删？→ ✅ 错。三级缓存存 ObjectFactory，提供 **___ AOP 工厂对象延迟创建 _____** 创建代理的能力；删掉后在循环依赖 + AOP 场景下，注入给依赖方的是原始对象、单例池里是代理对象，两者不一致，AOP 增强失效。⭐⭐⭐ [来源：画布 三级缓存 `不能删三级缓存：三级缓存存放 ObjectFactory，提供延迟创建代理的能力`]
+  - [ ] 删除三级缓存会带来哪些问题？
+    - [ ] AOP场景，B是从三级缓存中拿到A的工厂对象，然后通过getObject，生成A的代理对象放到二级缓存中，
+    - [ ] 如果只有二级缓存，代理对象是A 初始化后置处理生成的
+    - [ ] 延迟创建的解释：工厂（ObjectFactory）先放进去，**代理创建动作延迟**，不实例化完就立刻造代理；
 
-（10）❌ 二级缓存可以删？→ ✅ 错。二级缓存缓存工厂产出的早期 Bean/代理；删掉后同一个 Bean 被多个依赖方需要时会反复调用 ObjectFactory、**_ 多次生成代理对象 _______**，破坏单例。⭐⭐⭐ [来源：画布 三级缓存 `不能删二级缓存...会反复调用 ObjectFactory，多次生成不同的代理实例，破坏单例`]
+- [ ] （10）❌ 二级缓存可以删？→ ✅ 错。二级缓存缓存工厂产出的早期 Bean/代理；删掉后同一个 Bean 被多个依赖方需要时会反复调用 ObjectFactory、**_ 多次生成代理对象 _______**，破坏单例。⭐⭐⭐ [来源：画布 三级缓存 `不能删二级缓存...会反复调用 ObjectFactory，多次生成不同的代理实例，破坏单例`]
+  - [ ] 删除二级缓存会带来哪些问题
+    - [ ] 早期对象无法被保存，所有会存在多次被调用生成的情况
 
 （11）面试深挖：项目没用 AOP 时三级缓存能不能删？→ Spring 统一按"可能有 AOP"设计，用 **__ ？ 加载  正确：ObjectFactory ______** 延迟决策，保证任何场景下注入给依赖方的对象和最终单例池里的是同一个。⭐ [来源：画布 三级缓存 `高频追问原题`] [补充：百度搜索「Spring 三级缓存 没用AOP 能否删除」]
 
@@ -205,6 +245,10 @@
 
 - [ ] （8）@Around 是功能最强的通知：参数类型 **______？可以控制是否执行目标方法   正确：ProceedingJoinPoint__**（JoinPoint 的子类），通过 proceed() 控制目标方法什么时候执行、执不执行。⭐⭐⭐ [来源：画布 aop 切面、切点、通知、织入 LogAspect 代码 `ProceedingJoinPoint 是 JoinPoint 的子类，可以控制是否执行目标方法`]
 
+  - [ ] 织入是自动完成的，是Spring读到你定义的规则后，把通知逻辑织入到原始逻辑中进行加强的过程 
+  - [ ] 切面、切点 类和拦截正则
+
+
 
 （9）织入 Weaving 的定义：Spring 运行期 **___ 生成代理对象 _____**（target + extra logic），把通知逻辑加到目标 Bean 外面；是容器内自动完成的黑盒过程、一次性动作。⭐⭐⭐ [来源：画布 织入 `织入就是生成代理对象（target + extra logic）`] （疑问：忘记织入是什么了 干啥用的了）
 
@@ -219,6 +263,8 @@
 （13）JDK 代理：代理对象任何方法被调用都会进入 InvocationHandler 的 **___ invoke _____** 方法，内部 method.invoke(target, args) 反射调用真实目标。⭐⭐⭐ [来源：画布 原生的JDK、CGLib代理的写法 `任何方法被调用，都会自动交给这个 handler 的 invoke() 方法执行`]
 
 - [ ] （14）CGLIB 的核心工具类 **__  这个类是Java核心提供的吧？答不是：**CGLIB** 第三方库的类 Enhancer ______**：专门生成目标类的子类代理（setSuperclass + setCallback + create）。⭐⭐⭐ [来源：画布 原生的JDK、CGLib代理的写法 `Enhancer，CGLib 提供专门用来生成目标类子类代理类的工具类`]
+  - [ ] CGLIB** 第三方库的类 Enhancer
+
 
 
 （15）JDK 与 CGLIB 调用方式区别：JDK 用 method.invoke 走反射；CGLIB 的 methodProxy.**___ invoke supper_____** 直接调用父类原方法（invokespecial），无反射、性能更高。⭐⭐ [来源：画布 原生的JDK、CGLib代理的写法 `methodProxy.invokeSuper 不是反射！`]
@@ -285,6 +331,9 @@
 
 - [ ] （19）行锁是基于 **___ ? 行锁___--正确是：索引__** 加的，没有索引会退化成表锁；普通快照读 select 不加 S/X 行锁，走 MVCC。⭐⭐ [来源：画布 数据行锁 `行锁是基于索引加的！没有索引会退化成表锁`]
 
+  - [ ] 行锁需要在索引的基础上
+
+
 
 ### 4.4 事务传播行为
 
@@ -328,6 +377,9 @@
 
 - [ ] （29）事务传播基于 ThreadLocal，所以被调方法在 **___？ 新线程_____** 中执行时，事务传播会失效（不在调用方事务范围内）。⭐⭐⭐ [来源：画布 AOP事务 `如果调用的方法是在新线程中，事务传播就会失效`]
 
+  - [ ] REQUIRED 必须有一个事务，REQUIRES_NEW 两个独立的事务 、NESTED-嵌套事务，回滚相互影响、SUPPORTS 支持事务，有事务支持执行，没有我无事务执行、NOT_SUPPORTED 不支持有事务，有事务我也得非事务执行 
+
+
 
 ### 4.5 事务失效清单（纠错清单）
 
@@ -358,6 +410,9 @@
 
 - [ ] （5）singleton Bean 注入 prototype Bean 的坑：singleton 只创建一次，prototype 也只注入一次；解法是用 **___ ？ lookup是是干啥的_--正确：`@Lookup` 标注在方法，Spring 会动态生成这个方法的代理实现：____** 注解（Spring 重写该方法，每次调用返回新实例）或 ApplicationContext 动态获取。⭐⭐ [来源：画布 bean作用域@scope `可以用 @Lookup 注解或者 ApplicationContext 来动态获取`]
 
+  - [ ] @Lookup 我看着你呢单例，可以创建多个
+
+
 
 ### 5.2 Spring 单例的实现（纠错清单）
 
@@ -373,7 +428,10 @@
 
 （10）单例 Bean 线程安全问题的根源：Bean 里有 **__ 可变的 ______** 的状态变量，多线程修改就出并发问题。⭐⭐⭐ [来源：画布 单例下线程安全 `可变的状态变量`]
 
-（11）解决思路：①无状态设计（**___ 局部变量 _____** 变量、数据全靠参数传递）②改作用域（prototype/request）③用线程安全容器（ConcurrentHashMap 替代 HashMap）④加锁（synchronized / ReentrantLock）。⭐⭐⭐ [来源：画布 单例下线程安全 `使用局部变量...把所有状态都通过方法参数传递`]
+- [ ] （11）解决思路：①无状态设计（**___ 局部变量 _____** 变量、数据全靠参数传递）②改作用域（prototype/request）③用线程安全容器（ConcurrentHashMap 替代 HashMap）④加锁（synchronized / ReentrantLock）。⭐⭐⭐ [来源：画布 单例下线程安全 `使用局部变量...把所有状态都通过方法参数传递`]
+  - [ ] 线程安全，如果不存在共享变量不就好了、如果有锁不就好了、如果有安全的容器不就好了、如果参数每个人一份互不影响不就好了ThreadLocal.reamve
+
+
 
 - [ ] （12）需要维护跨请求/跨线程的状态时，可用 **__ ThreadLocal______**：每个线程独立变量副本互不干扰（用完记得 remove 防内存泄漏）。⭐⭐ [来源：画布 单例下线程安全 `可以使用 ThreadLocal 来保存状态`]
 
@@ -382,7 +440,7 @@
 
 ---
 
-## 模块六 · SpringBoot 核心原理
+## 模块六 · SpringBoot 核心原理？
 
 ### 6.1 SpringBoot 定位与理念
 
@@ -475,7 +533,7 @@
 
 ---
 
-## 模块七 · SpringMVC 与 RESTful
+## 模块七 · SpringMVC 与 RESTful ？
 
 ### 7.1 核心组件与请求流程
 
@@ -510,7 +568,7 @@
 
 ---
 
-## 模块八 · 常用注解、设计模式与事件机制
+## 模块八 · 常用注解、设计模式与事件机制 ？
 
 ### 8.1 常用注解
 
@@ -576,12 +634,20 @@
 
 - [ ] （5）Spring Cloud Gateway 三大核心概念：Route 路由、**___ 断言 正确的是：Predicate_____** 断言（匹配请求）、Filter 过滤器；底层 WebFlux 响应式。⭐⭐⭐ [来源：画布 SpringCloud `Predicate 断言：匹配请求（路径、Header、参数等）`]
 
+  - [ ] 看不懂 Route 路由 是接收到请求后，分配匹配请求连接到服务吗，那么路由和断言又有什么区别呢
+  - [ ] 过滤啥 黑白名单Ip限制
+  - [ ] 底层 WebFlux 响应式 啥意思
+
 
 （6）分布式事务组件 **__ seata 水塔______**：解决微服务跨库事务一致性（AT/TCC/SAGA/XA 模式）。⭐⭐⭐ [来源：画布 SpringCloud `分布式事务【Seata】：解决微服务跨库事务一致性`]
+
+- [ ] 默认用seat的AT，什么情况下需要手动写代码，进行ATT呢？
 
 ### 9.2 负载均衡与链路追踪
 
 - [ ] （7）客户端负载均衡：Spring Cloud **___ ？ 正确的是：LoadBalancer_____** 是官方原生组件（替代 Ribbon），@LoadBalanced 修饰 RestTemplate，默认轮询策略。⭐⭐ [来源：画布 SpringCloud `Spring官方原生负载均衡，替代Ribbon`]
+  - [ ] LoadBalancer 是在ribbon 之后出的吧？
+
 
 
 （8）链路追踪 SkyWalking：无侵入 Java agent 探针，核心模型 **______ ？正确是：Trace  __**（整条链路）+ Span（单个调用段）。⭐⭐ [来源：画布 SpringCloud `核心模型：Trace（整条链路）、Span（单个调用段）`]
@@ -589,6 +655,8 @@
 ### 9.3 配置中心与消息组件
 
 - [ ] （9）Nacos Config 配置中心的三层结构：**___ DataId _____**（配置集 ID）、Group 分组、Namespace 环境隔离（dev/test/prod）；配置变更靠 @RefreshScope 自动刷新。⭐⭐ [来源：画布 SpringCloud `核心概念：DataId、Group、Namespace（环境隔离：dev/test/prod）`]
+  - [ ] ID + GROUP + 环境
+
 
 
 - [ ] （10）消息组件 RocketMQ 的四个角色：**___ 促成交易的中间人或经纪人broker  _____**（消息存储与投递）、Producer 生产者、Consumer 消费者、NameServer 注册中心；三大能力是异步通信、削峰填谷、解耦，另支持事务消息。⭐⭐ [来源：画布 SpringCloud `角色：Broker、Producer、Consumer、NameServer`]
@@ -605,6 +673,8 @@
 （2）OAuth2 四个角色：资源所有者（用户）、**______ 资源申请者客户端 __**（第三方应用）、授权服务器（认证服务）、资源服务器（业务接口）。⭐⭐⭐ [来源：画布 Oauth2 授权码模式 `角色先记 4 个`]
 
 - [ ] （3）OAuth2 四种授权模式中最常用、最安全的是 **___ 授权码 _____** 模式——微信公众号/小程序、QQ 登录、GitHub 登录都是它。⭐⭐⭐ [来源：画布 Oauth2 授权码模式 `授权码模式（最常用）`]
+  - [ ] 授权码？token吗
+
 
 
 （4）授权码模式流程：跳转授权页（appid、redirect_uri、scope、state）→ 用户同意 → 回调带回一次性 code → 后端用 appid + **___ appsecret _____** + code 去授权服务器换 access_token + openid。⭐⭐⭐ [来源：画布 Oauth2 授权码模式 `后端拿着 appid + appsecret + code 去微信服务器`]
