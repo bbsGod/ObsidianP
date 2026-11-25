@@ -431,8 +431,6 @@
 - [ ] （11）解决思路：①无状态设计（**___ 局部变量 _____** 变量、数据全靠参数传递）②改作用域（prototype/request）③用线程安全容器（ConcurrentHashMap 替代 HashMap）④加锁（synchronized / ReentrantLock）。⭐⭐⭐ [来源：画布 单例下线程安全 `使用局部变量...把所有状态都通过方法参数传递`]
   - [ ] 线程安全，如果不存在共享变量不就好了、如果有锁不就好了、如果有安全的容器不就好了、如果参数每个人一份互不影响不就好了ThreadLocal.reamve
 
-
-
 - [ ] （12）需要维护跨请求/跨线程的状态时，可用 **__ ThreadLocal______**：每个线程独立变量副本互不干扰（用完记得 remove 防内存泄漏）。⭐⭐ [来源：画布 单例下线程安全 `可以使用 ThreadLocal 来保存状态`]
 
 
@@ -542,6 +540,11 @@
 （2）SpringMVC 核心组件：DispatcherServlet、**___ HadelerMapping（处理器映射器） _____**（根据 @RequestMapping 匹配 URL）、HandlerAdapter、ViewResolver、Handler（Controller 方法）。⭐⭐⭐ [来源：画布 SpringMVC整体结构和RestFull风格 `SpringMVC的核心组件`]
 
 - [ ] （3）HandlerMapping 找到处理器后返回 **___ controller ？正确的是： HandlerExecutionChain_____**（处理器 + 拦截器的组合），供 DispatcherServlet 执行。⭐⭐ [来源：画布 SpringMVC整体结构和RestFull风格 `返回HandlerExecutionChain（处理器与拦截器的组合）`]
+  - [ ] HandlerMapping 找到处理器后返回不就是Controller吗 然后通过HandlerAdapter 执行这个controller
+  - [ ] 算对啊 
+  - HandlerMapping 根据 url 匹配，找到对应的 handler（就是我们写的 Controller 里面那个方法，也叫 HandlerMethod）
+  - 然后把这个 handler + 匹配上的所有拦截器 `HandlerInterceptor`，打包组装成 **HandlerExecutionChain（执行链）** 返回
+
 
 
 （4）HandlerAdapter 存在的意义：处理器有多种类型（注解方式、实现接口方式），适配器为它们提供 **___ 统一_____** 的调用方式，并处理参数绑定、类型转换。⭐⭐⭐ [来源：画布 SpringMVC整体结构和RestFull风格 `适配器提供统一调用的方式`]
@@ -550,7 +553,57 @@
 
 （6）SpringMVC 请求处理流程四步概括：请求接收 → **___ 路由分发 _____** → 控制器处理 → 视图解析。⭐⭐⭐ [来源：画布 SpringMVC整体结构和RestFull风格 `请求接收 → 路由分发 → 控制器处理 → 视图解析`]
 
-（7）SpringBoot 中 DispatcherServlet 由 **__ 自动配置  ______** 自动注册并默认映射到 "/"。⭐⭐ [来源：画布 SpringMVC整体结构和RestFull风格 `DispatcherServlet 的启动逻辑是自动配置完成的`]
+（7）SpringBoot 中 DispatcherServlet 由 **__ 自动配置  ______** 自动注册并默认映射到 "/"。⭐⭐ [来源：画布 SpringMVC整体结构和RestFull风格 `DispatcherServlet 的启动逻辑是自动配置完成的`]	
+
+- [ ] DispatcherServlet 还和自动配置有关系吗？
+
+  - [ ] 引入 `spring-boot-starter-web` → 触发 `DispatcherServletAutoConfiguration` 里面干两件事：
+
+    1. `@ConditionalOnMissingBean`：容器没有 DispatcherServlet，就 new 一个出来放进 Spring 容器
+    2. 通过 `ServletRegistrationBean` 把这个 Servlet 注册给内嵌 Tomcat，**默认映射路径 `/`**
+
+  - 还会自动注入WebMvcConfigurer
+
+    - 没有WebMvcConfigurer  就没办法注册拦截器了吗
+
+      - 不实现 WebMvcConfigurer 也可以注册拦截器，可以直接操作 RequestMappingHandlerMapping 设置拦截器列表；但是 WebMvcConfigurer 是官方推荐、最轻量的扩展方式，不会破坏 MVC 默认装配。
+
+      - 
+
+      - ```
+        @Configuration
+        public class MvcConfig implements WebMvcConfigurer {
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                registry.addInterceptor(new LoginInterceptor())
+                        .addPathPatterns("/**");
+            }
+        }
+        ```
+
+    - ```
+      public interface WebMvcConfigurer {
+          // 跨域配置
+          default void addCorsMappings(CorsRegistry registry) {}
+          // 拦截器注册（addInterceptor）⭐高频
+          default void addInterceptors(InterceptorRegistry registry) {}
+          // 静态资源映射
+          default void addResourceHandlers(ResourceHandlerRegistry registry) {}
+          // 视图控制器，简单跳转
+          default void addViewControllers(ViewControllerRegistry registry) {}
+          // 配置视图解析器
+          default void configureViewResolvers(ViewResolverRegistry registry) {}
+          // 消息转换器扩展
+          default void configureMessageConverters(List<HttpMessageConverter<?>> converters) {}
+      }
+      ```
+
+- [ ] **自动配置 是不是也可以叫做自动注入呢** 
+
+  - [ ] 自动配置：根据 starter 和条件 → **创建 Bean，放进容器**
+  - 自动注入：你写`@Autowired` → **从容器取出 Bean 注入给你的类**
+
+  > 没有自动配置，Bean 不会自动创建；就算有 Bean，你不写注入注解，也不会自动赋值给你。
 
 ### 7.2 RESTful 与 JSON 序列化
 
@@ -574,7 +627,11 @@
 
 （1）@Component 是最基础的组件注解，@Service、@Repository、**__ @Controller ______** 都是它的派生（特化）注解，分别用在 Service 层、Dao 层、Controller 层。⭐⭐⭐ [来源：画布 spring常用注解 `@Service、@Repository、@Controller 这些都是 @Component 的特化版本`]
 
+- [ ] ​	Component  的派生注解
+
 - [ ] （2）配置相关四件套：@Configuration 标识配置类、@Bean 定义 Bean、**__ ？ @Value______** 注入配置文件属性值（Redis、MQ 连接信息常用）、@PropertySource 指定配置文件位置。⭐⭐⭐ [来源：画布 spring常用注解 `@Value 用来注入配置文件中的属性值`]
+  - [ ] 配置相关的四个注解 配置类、bean、字段、配置文件
+
 
 
 - [ ] （3）@PropertySource 在 SpringBoot 里很少用的原因：Boot 默认已自动加载 application.yml/properties，且 @PropertySource **___  不支持 _____** yml 文件。⭐⭐ [来源：画布 spring常用注解 `@PropertySource 不支持 yml`]
@@ -582,10 +639,20 @@
 
 - [ ] （4）Web 参数注解：@PathVariable 读路径参数、**___ @RequestParam _____** 读请求参数、@RequestBody 读 JSON 请求体。⭐⭐⭐ [来源：画布 spring常用注解 `@PathVariable 读取路径参数。@RequestParam 读取请求参数`]
 
+  - [ ] web参数：接口参数、路径上的参数、读取请求体、请求体和响应体
+
 
 （5）@Transactional 基本上加在 **___ server层业务层 _____** 层需要保证事务原子性的方法上。⭐⭐⭐ [来源：画布 spring常用注解 `基本上 Service 层需要保证事务原子性的方法都会加上这个注解`]
 
+- [ ] 事务注解
+
 ### 8.2 设计模式
+
+ **单例和工厂 是一对 **
+
+ **AOP代理、RedisTemplate模板 **
+
+**拦截器责任链、事件发布监听观察者**
 
 （6）工厂模式：Spring 中的 **___ BeanFactory _____** 就是典型工厂，负责创建和管理所有 Bean；@Autowired 获取 Bean 底层走的就是工厂模型。⭐⭐⭐ [来源：画布 spring设计模式 `BeanFactory 就是一个典型的工厂`]
 
@@ -596,6 +663,10 @@
 （9）模板方法模式：**___ jdcTemplate _____** 定义了数据库操作骨架（获取连接、执行 SQL、处理结果、关闭连接），具体 SQL 和结果处理由我们实现。⭐⭐⭐ [来源：画布 spring设计模式 `jdbcTemplate，它定义了数据库操作的基本流程`]
 
 - [ ] （10）观察者模式：Spring 事件机制 = ApplicationEvent（事件）+ **___ ApplicationListener _____**（监听器），如用户注册后发布事件、多个监听器发邮件/记日志。⭐⭐⭐ [来源：画布 spring设计模式 `通过 ApplicationEvent 和 ApplicationListener 来实现事件发布/监听`]
+  - [ ] 观察者模式，这个观察者是指的事件的监听者吧，观察者和 发布订阅不是描述的一回事吗
+  - [ ] **观察者模式：没有中间人，发布者直接通知观察者，同进程内**（Spring 事件、Guava EventBus）
+  - **发布订阅：有 Broker 中间人，发布者和订阅者隔离，分布式跨服务**（MQ） 多了一层中间件（Broker，消息队列：RocketMQ、RabbitMQ、Kafka）
+
 
 
 - [ ] （11）责任链模式经典例子：SpringMVC 的 **__ ？ 拦截器执行链路吗  是的：Interceptor（拦截器） ______** 链（preHandle 依次执行，任一返回 false 直接中断）和 Servlet 的 FilterChain（doFilter 往下传）。⭐⭐⭐ [来源：画布 spring设计模式 `SpringMVC 的拦截器 Interceptor 链`]
@@ -628,25 +699,83 @@
 
 - [ ] （3）OpenFeign：**___？声明式 _____** HTTP 客户端——@FeignClient("服务名") 定义接口，底层 JDK 动态代理组装请求，配合 LoadBalancer 负载均衡。⭐⭐⭐ [来源：画布 SpringCloud `声明式服务调用【OpenFeign】`]
 
+  - [ ] 什么是声明式啊 
+
+    - [ ] 
+
+    - ```
+      @FeignClient("order-service")
+      public interface OrderApi {
+          @GetMapping("/order/get")
+          OrderDTO getOrder(@RequestParam Long id);
+      }
+      ```
+
+      你只告诉框架：
+
+      - 调用哪个服务
+      - 请求路径、请求方式、参数 **不用写 RestTemplate / HttpClient 去拼接 url、发 http、解析响应**。 底层 JDK 动态代理帮你生成这个接口的实现类，自动发起远程调用。
+
+      > 重点：**声明，就是描述目标，不描述执行步骤**。
+
+
 
 - [ ] （4）Sentinel 的职责：流量控制、熔断降级、系统保护，防止 **___ 故障被放大  正确：服务雪崩 _____**（下游故障逐级放大拖垮整个链路），SCA 官方推荐替代 Hystrix。⭐⭐⭐ [来源：画布 SpringCloud `服务雪崩：下游故障逐级放大，拖垮整个链路`]
+
+  - [ ] 熔断降级区分
+
+    - [ ] **熔断规则写在【调用方】身上！ ** 熔断配置在 A → A 发现 B 不稳，A 主动停止调用 B。A 是调用方，熔断在 A。**等一段时间自动探测恢复（保险丝）**
+    - [ ] 兜底方案 也写在A 上 
+    - [ ] **熔断**：A 统计调用 B 的异常，达到阈值 → A 主动停止发请求给 B
+    - **降级**：A 不发请求了（熔断拦住），此时 A 执行自己写好的兜底逻辑，返回兜底数据
+
 
 
 - [ ] （5）Spring Cloud Gateway 三大核心概念：Route 路由、**___ 断言 正确的是：Predicate_____** 断言（匹配请求）、Filter 过滤器；底层 WebFlux 响应式。⭐⭐⭐ [来源：画布 SpringCloud `Predicate 断言：匹配请求（路径、Header、参数等）`]
 
   - [ ] 看不懂 Route 路由 是接收到请求后，分配匹配请求连接到服务吗，那么路由和断言又有什么区别呢
+  
+    - [ ]  **Route 路由**：是一条完整的路由条目，**由【断言 + 目标 uri + 过滤器集合】组成**
+    - [ ] **Predicate 断言**：是**匹配规则**，用来判断「这个请求能不能走这条路由」 例子：
   - [ ] 过滤啥 黑白名单Ip限制
+  
+    - [ ] 过滤器分两类：**前置过滤器（pre）、后置过滤器（post）**
+  
+      - pre：转发给微服务**之前**执行 ✅ 常见：IP 黑白名单、鉴权校验、参数修改、请求头增加、限流
+      - post：微服务返回结果**之后**，返回给前端之前执行 ✅ 常见：修改响应头、统一包装返回结果、日志记录
+  
+      > 注意：Gateway 内置过滤器，也可以自定义全局 Filter 做 IP 拦截。
   - [ ] 底层 WebFlux 响应式 啥意思
+  
+    - [ ] Spring Cloud Gateway **不是基于 Servlet（Tomcat 那套）**，底层是 Spring WebFlux，基于 Netty。 对比传统 Servlet（阻塞模型）：
+      - Servlet（阻塞）：一个请求占一个线程，请求卡在 IO（等数据库、等下游服务）的时候，线程卡住不动，线程资源被占死，并发高了线程池打满就崩。
+      - WebFlux（响应式非阻塞）：少量线程，线程不会卡在等待 IO 上；等待下游返回的时候，线程可以去处理别的请求。等 IO 结果回来，再接着处理这个请求。
+      - BIO：同步阻塞，一连接一线程
+      - NIO：同步非阻塞，多路复用，Netty、Gateway 底层用它 核心：Selector 多路复用，少量线程管理大量连接 **IO 操作本身还是要自己去轮询查结果，但是线程不会被卡住等数据**
+      - AIO：异步非阻塞，Linux 场景很少用
+      - WebFlux 的 “非阻塞响应式” = 基于 NIO 多路复用，不是 AIO
 
 
 （6）分布式事务组件 **__ seata 水塔______**：解决微服务跨库事务一致性（AT/TCC/SAGA/XA 模式）。⭐⭐⭐ [来源：画布 SpringCloud `分布式事务【Seata】：解决微服务跨库事务一致性`]
 
-- [ ] 默认用seat的AT，什么情况下需要手动写代码，进行ATT呢？
+- [ ] 默认用seat的AT，什么情况下需要手动写代码，进行ATT呢？ 不是ATT 是 TCC
+
+- [ ] Seata AT 模式基于 undo_log 自动回滚，只适合 MySQL 这类关系库的普通 DML 
+
+  - [ ] MySQL 自己的 undo log：innodb 用来支持本地事务 MVCC、事务回滚  存的就是操作之前的数据  数据库内核层面；
+  - [ ] Seata undo_log：Seata 自己用的，用来做**分布式事务的补偿回滚**，业务层面的快照日志 
+
+- [ ] 为什么**非关系型数据库** Redis、**调用第三方外部接口**AT 不能用？ 👉 Redis 没有办法让 Seata 拦截 SQL、自动生成 before/after 镜像写入 undo_log，没有 undo_log 就没法自动回滚，只能手写 TCC。
+
+  - [ ] AT 靠代理 JDBC，拦截 SQL，自动记录 `undo_log` 前后镜像，自动回滚；**只支持关系型数据库（MySQL/Oracle）+ 标准 DML（update/insert/delete）**，只需要入口加 `@GlobalTransactional`，业务代码不用写补偿逻辑
+
+  
 
 ### 9.2 负载均衡与链路追踪
 
 - [ ] （7）客户端负载均衡：Spring Cloud **___ ？ 正确的是：LoadBalancer_____** 是官方原生组件（替代 Ribbon），@LoadBalanced 修饰 RestTemplate，默认轮询策略。⭐⭐ [来源：画布 SpringCloud `Spring官方原生负载均衡，替代Ribbon`]
   - [ ] LoadBalancer 是在ribbon 之后出的吧？
+  - [ ] Ribbon 是 Netflix 的老组件，停止新特性开发后，Spring 官方推出 LoadBalancer 作为原生替代，@LoadBalanced 注解复用，2020 版本之后默认使用 LoadBalancer。
 
 
 
@@ -673,7 +802,27 @@
 （2）OAuth2 四个角色：资源所有者（用户）、**______ 资源申请者客户端 __**（第三方应用）、授权服务器（认证服务）、资源服务器（业务接口）。⭐⭐⭐ [来源：画布 Oauth2 授权码模式 `角色先记 4 个`]
 
 - [ ] （3）OAuth2 四种授权模式中最常用、最安全的是 **___ 授权码 _____** 模式——微信公众号/小程序、QQ 登录、GitHub 登录都是它。⭐⭐⭐ [来源：画布 Oauth2 授权码模式 `授权码模式（最常用）`]
-  - [ ] 授权码？token吗
+  - [ ] 授权码？token吗 不是
+  
+  - [ ] 一句话分清：**授权码 ≠ token，授权码只是用来换 token 的一次性 “提货券”**
+  
+    ### 简单流程（授权码模式）
+  
+    1. 你跳转到第三方（微信 / GitHub）登录，登录成功后，第三方回调给应用一个 
+  
+       授权码 code
+  
+       - ✅ code：短期、一次性、不能直接用，**只能发给后端**，绝对不能暴露在前端
+  
+    2. 后端拿着这个 code + 自己的 client_id、client_secret，去第三方服务器交换
+  
+    3. 换回真正的 
+  
+       access_token（访问令牌）
+  
+       ，还有可选的 refresh_token
+  
+       - ✅ access_token：才是凭证，拿着它去拿用户信息、访问接口
 
 
 
