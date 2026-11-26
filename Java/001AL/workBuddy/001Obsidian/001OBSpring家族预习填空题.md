@@ -35,7 +35,8 @@
 （7）@Configuration 类是工厂 Bean，@Bean 方法就是 **___ ？实例---@bean注册的方法是工厂方法_____** 方法，Spring 反射调用它、把返回值注册成 Bean。⭐⭐ [来源：画布 如何定义bean `@Bean 方法是工厂方法`] 
 
 - [ ] （8）包扫描的真正执行者：@ComponentScan 只声明扫描路径，真正解析 @Configuration、@ComponentScan、@Import、@PropertySource 的是 **__ ？配置文件类后置处理器ConfigurationClassPostProcessor 就记成 configclasPostProcessor______**。⭐⭐⭐ [来源：画布 实例化 `真正干活的是 ConfigurationClassPostProcessor`]
-  - [ ] configclassPostProcess 好记忆 
+  - [ ] configclassPostProcess 这个后置处理器 是beanFacotry的吧
+  - [ ] 对
 
 
 
@@ -52,7 +53,7 @@
 （12）为什么不直接 new：`new` 要求 **____ 编译器 ____** 期就能确定类，而 Spring 是运行时才通过扫描 class、解析注解拿到类信息（类名是字符串解析出来的）。⭐⭐⭐ [来源：画布 实例化过程 `new Xxx() 要求编译期就能确定 Xxx 这个类`]
 
 - [ ] （13）Spring 实例化 Bean 的 4 种方式：构造方法实例化（@Component/@Service）、静态工厂方法（@Bean + static）、实例工厂方法（@Bean 非 static）、**___ ？实现  正确答案：（FactoyrBean）工厂接口_____** 接口实例化。⭐⭐⭐ [来源：画布 实例化过程 `Spring 提供了 4 种方式来实例化 Bean`]
-  - [ ] 两个工厂方法都存在配置文件中 ，@configuration ，方法上是@Bean 
+  - [ ] 工厂方法实现的方式是配置类，@configuration类 ，方法上是@Bean 
 
   - [ ] bean工厂接口
 
@@ -76,13 +77,55 @@
 （19）类中只有一个构造器时，@Autowired 可以省略——这是 Spring **___ 最新 Srping_____** 4.3+ 的特性。⭐⭐ [来源：画布 实例化之后的属性赋值；DI三种注入方式，字段，setter，构造器 `Spring4.3+，仅有一个构造器时 ，@Autowired 可以省略`]
 
 - [ ] （20）IDEA 不推荐 @Autowired 字段注入的三个原因：不利于 **__？单元测试______**、会隐藏循环依赖问题（构造器注入启动时就暴露）、不能用 final。⭐⭐⭐ [来源：画布 Bean `为什么IDEA不推荐使用@Autowired注解注入Bean`]
-  - [ ] 字段注入 ，隐藏循环依赖 、不利于测试
-
-
+  - [ ]  @Autowired 不利于单元测试 就是测试时候不好写吗 但是我写测试方法的Utils5那种测试，感觉挺好写的
+  
+    - [ ] **你现在写的：Spring 容器环境下的测试（`@SpringBootTest`）** 容器会帮你扫描、注入，写起来确实省事，感受不到麻烦。
+  
+    - [ ] ：纯单元测试（不启动 Spring 容器，new 对象直接测）
+  
+      - [ ] ### 关于单元测试
+  
+        **不是不好写，而是「不可控」。**
+  
+        字段注入时，测试时你得手动 new 对象再手动 set 依赖：
+  
+        java
+  
+        ```java
+        // 字段注入的测试
+        UserService service = new UserService();
+        service.setRepository(mockRepo);  // 你得知道 setter 或反射
+        ```
+  
+        构造器注入就简单：
+  
+        java
+  
+        ```java
+        // 构造器注入的测试
+        UserService service = new UserService(mockRepo);  // 直接传进去
+        ```
+  
+        你写的 Utils5 那种测试如果依赖少、结构简单，确实感觉不到区别。但项目大了、依赖多了，构造器注入的测试是**一行搞定**，字段注入得**手动管理每个依赖的注入**，而且如果依赖是 private 没 setter，你还得用反射，代码又臭又长。
+  
+  - [ ] 还有就是@Autowired 自动隐藏循环依赖并且解决了不是好事吗 为啥成了不推荐的理由了
+  
+    - [ ] 「隐藏循环依赖」不是 Spring 能力强，而是**字段注入掩盖了设计问题**，这才是它不推荐的真正原因。  实际这种循环依赖是**设计缺陷**，应该重构
+  
+  - [ ] 没看懂不能用final 是什么意思不能final是不能被子类继承吗 为啥这个注解没办法使用final 注解呢，和aop没关系吧我记得aop是不能用私有修饰啊 不懂
+  
+    - [ ] `final` 在这里**不是讲继承**（final 类不能继承、final 方法不能重写） 和 AOP 也没关系
+    - [ ] 这里说的是 **final 成员变量**
+      - [ ] 时序冲突：
+        - final 变量：**构造期必须赋值**  **`final` 字段只能在构造器里赋值一次，赋值后不能再改。**
+        - 字段 @Autowired 注入：**构造期之后才赋值**
 
 （21）注入时机区分：构造器注入发生在 **__ 实例化______** 阶段（new 对象时把依赖直接传进去）；字段/setter 注入发生在实例化之后的 populateBean 属性填充阶段。⭐⭐⭐ [来源：画布 实例化之后的注入 `构造器注入：注入动作发生在【实例化阶段】`]
 
 （22）实例化与注入的关系：实例化是先把对象 **______ new __** 出来，注入是给对象的属性赋值。⭐⭐⭐ [来源：画布 实例化之后的注入 `注入，是给对象的属性赋值；实例化，是先把对象造出来`]
+
+- [ ] ​	实例化是为了new出来空对象，DI是为了属性赋值，初始化呢，初始化只是为了执行初始化方法吗？
+  - [ ] 还有前置处理器后置处理器，后置处理器中还有AOP的实现
 
 - [ ] （23）从循环依赖角度：**___？ 字段注入和构造器注入___ 正确答案：构造器 __** 注入无法解决循环依赖，字段/setter 注入可以（靠三级缓存）。⭐⭐⭐ [来源：画布 实例化之后的属性赋值；DI三种注入方式，字段，setter，构造器 `构造器注入无法解决循环依赖，字段 /setter 注入可以（三级缓存）`]
 
@@ -94,7 +137,10 @@
 
 - [ ] （25）refresh 中真正实例化所有非懒加载单例 Bean 的阶段：**______ ？finishBeanFactoryInitialization 完成bean工厂初始化__**。⭐⭐ [来源：画布 Bean的生命周期 `在 refresh 内部的finishBeanFactoryInitialization阶段`]
 
-  - [ ] finish  BeanFactory  Initialization 方法
+  - [ ] finish  BeanFactory  Initialization 方法还是阶段？
+    - [ ] `finishBeanFactoryInitialization()` 是 **refresh () 里面的一个方法**；这个方法内部做的事情，就是我们说的「实例化所有非懒加载单例 Bean」这个阶段。
+    - [ ] **方法名**：`finishBeanFactoryInitialization()`
+    - **阶段名**：完成 Bean 工厂初始化阶段
 
 
 
@@ -122,16 +168,25 @@
 
 ### 1.6 两大后置处理器与高频坑点（含纠错清单）
 
+​	两个后置处理器   BeanFactory后置处理器、bean初始化后置处理器
+
+1. **BeanFactoryPostProcessor（BFPP）**：作用在 **BeanFactory 层面**，处理 BeanDefinition；时机：Bean 有图纸，还没实例化；方法入口：`invokeBeanFactoryPostProcessors`
+2. **BeanPostProcessor（BPP）**：作用在 **单个 Bean 实例层面**，在 Bean 初始化前后拦截；时机：Bean 已经 new 出来、注入完成之后
+
 （32）两大后置处理器区分：BeanFactoryPostProcessor 作用于 **___ BeanDeifne_____**（Bean 还没实例化）；BeanPostProcessor 作用于每个 Bean 实例（初始化前后拦截）。⭐⭐⭐ [来源：画布 生命周期高频坑点 `BeanFactoryPostProcessor：作用于 BeanDefinition，不属于 Bean 实例生命周期`]
 
 - [ ] （33）ConfigurationClassPostProcessor 是 **__？ BeanFactoryPostProcessor  --正确： BeanFactoryPostProcessor______** 的实现类，是 Spring 优先级最高、最先执行的 BeanFactory 后置处理器。⭐⭐⭐ [来源：画布 bean实例化之前需要扫描、优化，创建bean的后置post处理器 `ConfigurationClassPostProcessor（它本身就是一个 BeanFactoryPostProcessor！）`]
-  - [ ] 扫描Bean的是bean工厂的后置处理器 
 
 
 
 - [ ] （34）BeanFactoryPostProcessor 的执行时机：BeanFactory 就绪之后、Bean 实例还没创建时，在 refresh() 的 **___ ？实例化 _正确：invokeBeanFactoryPostProcessors____** 步骤执行，做包扫描、解析配置类、注册 BeanDefinition。⭐⭐⭐ [来源：画布 两个post后置处理器 `它的工作时机是 BeanFactory 已经就绪、但是 Bean 实例还没有创建的时候`]
 
-  - [ ] invoke是调用给的意思
+  - [ ] invoke是调用给的意思？
+  
+    - [ ] **`invokeBeanFactoryPostProcessors`：直译 调用 ⭐⭐BeanFactory 后置处理器⭐⭐。 注册 BeanDefinition ⭐⭐⭐**
+    - [ ] ***finishBeanFactoryInitialization  。 BeanFactory 初始化完成后 顺便把BeanDefinition 实例化 Bean⭐⭐⭐***
+  
+    - [ ] 是的  BeanFactory 工厂初始化后 把
 
 
 
@@ -153,6 +208,18 @@
 
 - [ ] （39）Aware 接口的本质：一种 **______？回调__** 机制，让 Bean 能感知到容器内部组件，最常用的是 ApplicationContextAware（拿到容器本身）。⭐⭐ [来源：画布 aware接口 `Aware 接口实现了一种"回调"机制`]
 
+  - [ ] 这里的回调怎么理解？ aware接口好熟悉 是不是为了拿到beanFactory的信息，这个好像发生在bean初始化阶段的前置处理器之前吧
+
+  - [ ] ### 回调怎么理解？
+
+    **回调 = Spring 主动调用你的方法。**
+
+    正常流程是：你的代码调用 Spring → Spring 给你返回结果。
+
+    回调反过来：Spring 在某个时机**主动调用你实现的接口方法**，把容器内部的东西塞给你。
+
+  - [ ] 也可以拿到bean的信息 ，也可以拿到ApplicationContext的信息
+
 
 - [ ] （40）手写简易 IOC（SimpleIoC）验证 IOC 本质：Map 存 Bean、**___ ？构造器 正确：反射 _____** 完成实例化和 @Autowired 字段赋值（registerBean → inject → getBean 三步）。⭐⭐ [来源：画布 IOC容器类 + 手写ioc]
 
@@ -160,8 +227,8 @@
 ### 容器体系：ApplicationContext 与 BeanFactory
 
 - [ ] （41）Spring 容器体系的组合关系：高级容器 ApplicationContext 内部组合持有一个 **___ ？默认的DefaultBeanFactory 正确：DefaultListableBeanFactory _____**（低级 Bean 工厂的实现实例，真正干活、存 Bean 的就是它）——refresh() 等容器流程都委托给它执行。⭐⭐⭐ [来源：画布 Bean工厂和IOC容器 `IOC 容器（ApplicationContext）内部持有 Bean 工厂（DefaultListableBeanFactory）` + ApplicationContext 和 DefaultableBeanFactory]
-  - [ ] applicationContext 应用程序上下文，  bean工厂 + 附加能力+bean的生命周期
-  - [ ] bean工厂实际上干活的类是子类 defaultBeanFactory
+  - [ ] applicationContext 应用程序上下文，  bean工厂 + 附加能力+bean的生命周期 ⭐⭐⭐
+  - [ ] bean工厂实际上干活的类是子类 DefaultListableBeanFactory  ⭐⭐⭐
 
 
 
@@ -182,7 +249,9 @@
 
 （3）三级缓存里存的是 **___ ？singeltonFactories_--正确：ObjectFactory____**（对象工厂），不是 Bean 本身——需要被依赖时才调用产出早期引用。⭐⭐⭐ [来源：画布 三级缓存 `三级：ObjectFactory，是一个【对象工厂】，不是Bean本身`]
 
-- [ ] （4）❌ 三个缓存 Map 直接声明在 DefaultListableBeanFactory（这个是真正干活的bean工厂beanFactory） 里？→ ✅ 不精确。它们声明在 DefaultListableBeanFactory 的父类 **__ ？ApplicationContext（应用上下文） 正确：DefaultSingletonBeanRegistry______** 中。⭐ [来源：画布 三级缓存（表述需纠错）`DefaultListableBeanFactory 里面有三个 Map`] [来源：外部 DefaultSingletonBeanRegistry 源码]
+- [ ] （4）❌ 三个缓存 Map 直接声明在 DefaultListableBeanFactory（这个是真正干活的bean工厂beanFactory） 里？→ ✅ 不精确。它们声明在 DefaultListableBeanFactory 的父类 **__ DefaultSingletonBeanRegistry______** 中。⭐ [来源：画布 三级缓存（表述需纠错）`DefaultListableBeanFactory 里面有三个 Map`] [来源：外部 DefaultSingletonBeanRegistry 源码]
+  - [ ] 也算对
+
 
 
 ### 2.2 三级缓存解决流程
@@ -200,16 +269,79 @@
 ### 2.3 为什么不能删缓存（面试深挖）
 
 - [ ] （9）❌ 三级缓存可以删？→ ✅ 错。三级缓存存 ObjectFactory，提供 **___ AOP 工厂对象延迟创建 _____** 创建代理的能力；删掉后在循环依赖 + AOP 场景下，注入给依赖方的是原始对象、单例池里是代理对象，两者不一致，AOP 增强失效。⭐⭐⭐ [来源：画布 三级缓存 `不能删三级缓存：三级缓存存放 ObjectFactory，提供延迟创建代理的能力`]
-  - [ ] 删除三级缓存会带来哪些问题？
-    - [ ] AOP场景，B是从三级缓存中拿到A的工厂对象，然后通过getObject，生成A的代理对象放到二级缓存中，
-    - [ ] 如果只有二级缓存，代理对象是A 初始化后置处理生成的
-    - [ ] 延迟创建的解释：工厂（ObjectFactory）先放进去，**代理创建动作延迟**，不实例化完就立刻造代理；
-
+  - [ ] 删除三级缓存会带来哪些问题？⭐⭐⭐
+    
+    - [ ] 注入给依赖方的是原始对象、单例池里是代理对象 没太明白怎么回事
+    
+      - [ ] ### 有三级缓存（正确流程）
+    
+        plaintext
+    
+        ```
+        A 创建 → 实例化 → 放三级缓存（ObjectFactory）
+                            ↓
+        B 依赖 A → 从三级缓存取 ObjectFactory → 调用 getObject()
+                            ↓
+                    ObjectFactory 触发 AOP → 创建代理对象
+                            ↓
+                    代理对象放二级缓存 → B 拿到的是代理对象 ✅
+                            ↓
+        A 继续初始化 → 完成后放一级缓存（单例池）
+        ```
+    
+        **结果：B 拿到的是代理对象，单例池里也是代理对象，一致。**
+    
+        ------
+    
+        ### 删掉三级缓存（错误流程）
+    
+        plaintext
+    
+        ```
+        A 创建 → 实例化 → 放二级缓存（没有三级缓存了，直接放原始对象）
+                            ↓
+        B 依赖 A → 从二级缓存直接拿到原始对象（没有 ObjectFactory 来创建代理）
+                            ↓
+                    B 拿到的是原始对象 ❌
+                            ↓
+        A 继续初始化 → 初始化完成后才创建代理对象 → 放一级缓存
+        ```
+    
+        **结果：B 拿到的是原始对象，但单例池里是代理对象，不一致！**
+    
+      **三级缓存的作用就是：在 B 需要 A 的时候，通过 ObjectFactory 延迟创建代理对象，保证 B 拿到的是代理而不是原始对象。**
+    
+      ​	不延迟：A 实例化 → 立刻创建 A 的代理对象   
+    
+      ​	延迟就是 A实例化的时候没有创建代理对象，被使用的时候通过ObjectFactory创建代理对象的
+    
+      
+  
 - [ ] （10）❌ 二级缓存可以删？→ ✅ 错。二级缓存缓存工厂产出的早期 Bean/代理；删掉后同一个 Bean 被多个依赖方需要时会反复调用 ObjectFactory、**_ 多次生成代理对象 _______**，破坏单例。⭐⭐⭐ [来源：画布 三级缓存 `不能删二级缓存...会反复调用 ObjectFactory，多次生成不同的代理实例，破坏单例`]
-  - [ ] 删除二级缓存会带来哪些问题
-    - [ ] 早期对象无法被保存，所有会存在多次被调用生成的情况
+  - [ ] 删除二级缓存会带来哪些问题 ⭐⭐⭐
+    - [ ] 早期对象--代理对象 无法被保存，所有会存在多次被调用生成的情况
+    
+    - [ ] ### 删掉二级缓存会发生什么
+    
+      plaintext
+    
+      ```
+      A 创建 → 放三级缓存（ObjectFactory）
+          ↓
+      B 需要 A → 调用 ObjectFactory → 创建代理对象 A1
+                 → 用完直接丢掉（没有二级缓存存）
+          ↓
+      C 也需要 A → 又调用 ObjectFactory → 创建代理对象 A2
+                 → 用完直接丢掉
+          ↓
+      D 也需要 A → 又创建 A3...
+      ```
+    
+      **结果：B、C、D 拿到的不是同一个 A，每个都是不同的代理对象，单例被破坏了。**
 
 （11）面试深挖：项目没用 AOP 时三级缓存能不能删？→ Spring 统一按"可能有 AOP"设计，用 **__ ？ 加载  正确：ObjectFactory ______** 延迟决策，保证任何场景下注入给依赖方的对象和最终单例池里的是同一个。⭐ [来源：画布 三级缓存 `高频追问原题`] [补充：百度搜索「Spring 三级缓存 没用AOP 能否删除」]
+
+- [ ] ​	意思：Spring 不知道你有没有 AOP，所以用 ObjectFactory **延迟判断**，有 AOP 就创建代理，没 AOP 就返回原始对象，保证任何场景下注入的对象和单例池里的一致。
 
 ### 2.4 无法解决的情况（纠错清单）
 
@@ -289,6 +421,8 @@
 
 （1）Spring 声明式事务 @Transactional 的底层本质是 **___ AOP _____**——事务也是一个切面，注解由 AOP 切面识别、给 Bean 加上事务增强。⭐⭐⭐ [来源：画布 aop事务 `底层本质：AOP！事务也是一个切面`]
 
+​	声明式：：**声明，就是描述目标，不描述执行步骤**。
+
 （2）事务代理两阶段：阶段一容器启动时扫描 @Transactional 方法并创建代理对象；阶段二方法 **__? 被调用的是 ______** 时，实际执行的是代理对象的方法。⭐⭐⭐ [来源：画布 事务实现 `第二个阶段发生在方法调用的运行阶段`]
 
 （3）事务拦截器开启事务：根据注解获取事务属性（传播行为、隔离级别），通过事务管理器开启新事务，从连接池获取连接并关闭 **___ 关闭之前的自动提交了，然后提交阶段交给注解事务来执行_____**。⭐⭐⭐ [来源：画布 事务实现 `关闭其自动提交`]
@@ -357,6 +491,8 @@
 
 （28）NEVER 与 MANDATORY 的区别：NEVER 是有事务就报异常，MANDATORY 是 **___  无事务 _____** 报异常。⭐⭐ [来源：画布 AOP事务 `never是有事务报异常，mandatory是没事务报异常`] （疑问 现在知道了 NESTED vs REQUIRES_NEW 和NEVER 与 MANDATORY  这四个事务，但是这些题中没有另外三种事务传播行为的题 或者解释啊 ）
 
+⭐⭐
+
 - [ ] | 传播类型                                           | 外层已有事务                                                 | 外层无事务           | 异常影响                                                     |
   | -------------------------------------------------- | ------------------------------------------------------------ | -------------------- | ------------------------------------------------------------ |
   | **SUPPORTS**（支持的一起事务，无事务就非事务执行） | 加入外层同一个事务，共用连接、同一个回滚边界                 | 非事务执行，自动提交 | 方法抛异常 → 外层事务一起回滚                                |
@@ -385,11 +521,15 @@
 
 （30）失效场景①：@Transactional 加在非 **___ public _____** 修饰的方法上——private 方法代理类无法覆盖，完全不生效（protected/default 也应避免）。⭐⭐⭐ [来源：画布 事务失效原因，代理无效和异常无效 `用在非 public 修饰的方法上`]
 
+- [ ] ​	⭐⭐ 我不理解这句话和 初始化后置处理器的关系 
+  - [ ] @Transactional 加在非 public 方法上不生效，是 **CGLIB 代理机制的限制**，和初始化后置处理器多大关系，也就是初始化后置处理阶段完成了这个aop代理的创建。
+  - [ ] ⭐⭐不生效的原因还是继承**原因：CGLIB 代理是通过继承实现的，子类只能看到父类的 public 方法，private 方法对子类不可见，所以代理无法拦截。**
+
 （31）失效场景②：同一个类里方法 A 直接 **___ 直接调用_____** 调用带事务的方法 B——this 引用绕过了代理对象，代理里的事务逻辑没机会执行。⭐⭐⭐ [来源：画布 事务失效原因，代理无效和异常无效 `直接调用本类...使用的是 this 引用，绕过了 Spring 的代理对象`]
 
 （32）失效场景③：事务方法内部 **____ 异常被捕获了____** 了异常且没有重新抛出——事务拦截器无法感知异常，不会回滚。⭐⭐⭐ [来源：画布 事务失效原因，代理无效和异常无效 `try-catch 捕获了异常，但没有在 catch 块中将异常重新抛出`]
 
-（33）失效场景④：默认只对 **___ runtimeExceptiong _____** 和 Error 类型的异常回滚；Checked 异常不配 rollbackFor = Exception.class 就不回滚。⭐⭐⭐ [来源：画布 事务失效原因，代理无效和异常无效 `Spring 事务默认只对 RuntimeException 和 Error 类型的异常进行回滚`]
+（33）失效场景④：默认只对 **___ runtimeExceptiong _____** 和 Error 类型的异常回滚；Checked 异常不配 rollbackFor = Exception.class 就不回滚。⭐⭐⭐ [来源：画布 事务失效原因，代理无效和异常无效 `Spring 事务默认只对 RuntimeException 和 Error 类型的异常进行回滚`] ⭐⭐ Throwable --- 1.ERROR  2.EXCEPTIONG  ---2.1RuntimeException  2.3 受检异常
 
 ---
 
@@ -410,7 +550,7 @@
 
 - [ ] （5）singleton Bean 注入 prototype Bean 的坑：singleton 只创建一次，prototype 也只注入一次；解法是用 **___ ？ lookup是是干啥的_--正确：`@Lookup` 标注在方法，Spring 会动态生成这个方法的代理实现：____** 注解（Spring 重写该方法，每次调用返回新实例）或 ApplicationContext 动态获取。⭐⭐ [来源：画布 bean作用域@scope `可以用 @Lookup 注解或者 ApplicationContext 来动态获取`]
 
-  - [ ] @Lookup 我看着你呢单例，可以创建多个
+  - [ ] ⭐⭐@Lookup 我看着你呢单例，可以创建多个
 
 
 
@@ -429,7 +569,7 @@
 （10）单例 Bean 线程安全问题的根源：Bean 里有 **__ 可变的 ______** 的状态变量，多线程修改就出并发问题。⭐⭐⭐ [来源：画布 单例下线程安全 `可变的状态变量`]
 
 - [ ] （11）解决思路：①无状态设计（**___ 局部变量 _____** 变量、数据全靠参数传递）②改作用域（prototype/request）③用线程安全容器（ConcurrentHashMap 替代 HashMap）④加锁（synchronized / ReentrantLock）。⭐⭐⭐ [来源：画布 单例下线程安全 `使用局部变量...把所有状态都通过方法参数传递`]
-  - [ ] 线程安全，如果不存在共享变量不就好了、如果有锁不就好了、如果有安全的容器不就好了、如果参数每个人一份互不影响不就好了ThreadLocal.reamve
+  - [ ] ⭐⭐ 线程安全，如果不存在共享变量不就好了、如果有锁不就好了、如果有安全的容器不就好了、如果参数每个人一份互不影响不就好了ThreadLocal.reamve
 
 - [ ] （12）需要维护跨请求/跨线程的状态时，可用 **__ ThreadLocal______**：每个线程独立变量副本互不干扰（用完记得 remove 防内存泄漏）。⭐⭐ [来源：画布 单例下线程安全 `可以使用 ThreadLocal 来保存状态`]
 
@@ -453,6 +593,8 @@
 
 ### 6.2 自动配置原理
 
+⭐⭐别人写好 starter → 你引入 starter → 自动配置类条件满足 → 容器自动注册 Bean → 你直接 `@Autowired` 用。
+
 - [ ] （5）@SpringBootApplication 是组合注解 = @SpringBootConfiguration（等价 **__ @Configuration______**）+ @EnableAutoConfiguration + @ComponentScan。⭐⭐⭐ [来源：画布 SpringBoot的启动原理 + spring常用注解]
 
 
@@ -464,16 +606,16 @@
 - [ ] （8）SpringBoot 2.7+ 的自动配置清单文件：META-INF/spring/ 下的 **__ autoConfiguration.imports ，自动配置导入______**（每行一个自动配置类全类名），替代旧版 spring.factories（Boot 3 已移除）。⭐⭐⭐ [来源：画布 Starter理解 `SpringBoot 3.x 后不再用 spring.factories，改用 META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`]
 
 
-- [ ] （9）❌ 每个官方 starter 都自带 imports 文件？→ ✅ 不对。官方所有 starter 共用 **__ ？___正确：spring-boot-autoconfigure ___**.jar 里唯一一份 imports 清单；starter 本身只负责引入依赖（web → spring-webmvc + tomcat 等）。⭐⭐⭐ [来源：画布 spring-boot-autoconfigure.jar和improts（需纠错）`starter 不会自带 imports`]
+- [ ] （9）❌ 每个官方 starter 都自带 imports 文件？→ ✅ 不对。⭐⭐官方所有 starter 共用 **__⭐⭐ spring-boot-autoconfigure **.jar 里唯一一份 imports 清单；starter 本身只负责引入依赖（web → spring-webmvc + tomcat 等）。⭐⭐⭐ [来源：画布 spring-boot-autoconfigure.jar和improts（需纠错）`starter 不会自带 imports`]
 
 
-- [ ] （10）❌ classpath 上永远只有一份 imports？→ ✅ 不一定。第三方/自定义 starter 可以自带自己的 imports，此时会有 **_ 自动配置类--正确：多分imoports_______** 文件，SpringBoot 启动时全部收集合并成候选列表。⭐⭐⭐ [来源：画布 spring-boot-autoconfigure.jar和improts `收集 classpath 下全部的 imports 文件，合并所有候选自动配置类`]
+- [ ] （10）❌ classpath 上永远只有一份 imports？→ ✅ 不一定。⭐⭐第三方/自定义 starter 可以自带自己的 imports，此时会有 **_ 自动配置类--正确：多分imoports_______** 文件，SpringBoot 启动时全部收集合并成候选列表。⭐⭐⭐ [来源：画布 spring-boot-autoconfigure.jar和improts `收集 classpath 下全部的 imports 文件，合并所有候选自动配置类`]
 
 
 - [ ] （11）清单里的自动配置类是否生效，由 **___ @condition 条件注解吗 差不多：@ConditionalOnClass_____** 条件注解逐个判断：classpath 有 DispatcherServlet → WebMvcAutoConfiguration 生效；有 Redis 相关类 → RedisAutoConfiguration 生效；没有就跳过。⭐⭐⭐ [来源：画布 spring-boot-autoconfigure.jar和improts `再逐个执行每个 @ConditionalOnClass 判断`]
 
 
-- [ ] （12）三大条件注解：@ConditionalOnClass（类存在才开启）、**______？正确：@ConditionalOnMissingBean 当前容器里【不存在这个 Bean】的时候，才会注册当前这个 Bean是 存在就不注册，不存在才注册 __**（用户自己定义了 Bean 就优先用户的、自动配置跳过）、@ConditionalOnProperty（配置属性条件）。⭐⭐⭐ [来源：画布 SpringBoot Starter `@ConditionalOnMissingBean：用户自己定义了 Bean，就优先用户的`]
+- [ ] （12）三大条件注解：⭐⭐@ConditionalOnClass（类存在才开启）、**______？正确：⭐⭐@ConditionalOnMissingBean 当前容器里【不存在这个 Bean】的时候，才会注册当前这个 Bean是 存在就不注册，不存在才注册 __**（用户自己定义了 Bean 就优先用户的、自动配置跳过）、⭐⭐@ConditionalOnProperty（配置属性条件）。⭐⭐⭐ [来源：画布 SpringBoot Starter `@ConditionalOnMissingBean：用户自己定义了 Bean，就优先用户的`]
 
 
 ### 6.3 @Import 与 @EnableXXX
@@ -484,14 +626,14 @@
 
 ### 6.4 Starter 原理与自定义
 
-（15）Starter 本质 = 一套制好的 **___ pom文件 _____** + 配套自动配置类，引入一个 starter 依赖就能获得完整功能模块。⭐⭐⭐ [来源：画布 Starter理解 `starter 本质就是一套被制好的 pom 依赖组合 + 自动配置类`]
+（15）Starter 本质 = 一套制好的 **___⭐⭐ pom文件 _____** + 配套⭐⭐自动配置类，引入一个 starter 依赖就能获得⭐⭐完整功能模块。⭐⭐⭐ [来源：画布 Starter理解 `starter 本质就是一套被制好的 pom 依赖组合 + 自动配置类`]
 
-- [ ] （16）自定义 Starter 的规范结构：xxx-spring-boot-**___？功能描述_--正确：autoconfigure____**（自动配置模块，核心代码所在）+ xxx-spring-boot-starter（空壳，只负责引入依赖）；也可以像 springdoc 那样单 jar 合并。⭐⭐⭐ [来源：画布 Starter理解 + SpringBoot Starter]
+- [ ] （16）自定义 Starter 的规范结构：xxx-spring-boot-**__autoconfigure____**（自动配置模块，核心代码所在）+ xxx-spring-boot-starter（空壳，只负责引入依赖）；也可以像 springdoc 那样单 jar 合并。⭐⭐⭐ [来源：画布 Starter理解 + SpringBoot Starter]
 
 
 （17）spring-boot-starter-web 是依赖聚合包，内含：spring-boot-starter-**__ tomcat ______**（内嵌容器，可排除换 Jetty/Undertow）、spring-web + spring-webmvc、jackson-databind（JSON 序列化）、hibernate-validator（参数校验）。⭐⭐⭐ [来源：画布 Starter-springboot-starter-web `spring-boot-starter-tomcat 默认嵌入式 Tomcat 容器`]
 
-（18）自定义 Starter 的价值：把第三方对接细节（重试、异常封装、日志、回调）**__ 封装 ______** 在 starter 内部，业务层不关心对接细节。⭐⭐⭐ [来源：画布 Starter启动器流程 `全部封装在 starter 内部...屏蔽底层第三方 SDK/HTTP 对接细节`]
+（18）自定义 Starter 的价值：把第三方对接细节（重试、异常封装、日志、回调）**__ ⭐⭐封装 ______** 在 starter 内部，业务层不关心对接细节。⭐⭐⭐ [来源：画布 Starter启动器流程 `全部封装在 starter 内部...屏蔽底层第三方 SDK/HTTP 对接细节`]
 
 - [ ] （19）自动配置类的关键注解组合：@Configuration + @EnableConfigurationProperties(SmsProperties.class) + @ConditionalOnClass + **___ @Condition 条件注解 正确：@ConditionalOnProperty_____**（配置开关 sms.enabled=true 才生效）+ @Bean + @ConditionalOnMissingBean。⭐⭐⭐ [来源：画布 Starter启动器流程]
 
@@ -504,26 +646,51 @@
 
 - [ ] （22）SpringBoot 自动配置的核心思想一句话：**______？默认提供配置 __**，允许用户自定义覆盖。⭐⭐⭐ [来源：画布 Starter启动器流程 `默认提供，允许用户自定义覆盖`]
 
+  - [ ] 默认提供配置啥意思
 
-（23）自定义 Starter 完整串联：引入 starter → Boot 扫描所有 jar 的 AutoConfiguration.imports 加载配置类 → **______ 条件注解 __** 筛选（类存在/配置开关/容器缺 Bean 判断）→ @EnableConfigurationProperties 读 yml → @Bean 创建服务 Bean → 业务 @Autowired 使用。⭐⭐⭐ [来源：画布 Starter启动器流程 `三、整体串一遍完整执行流程`]
+    - [ ] 默认提供配置 = SpringBoot 自动帮你把一套组件的 Bean、参数配置提前写好了，你不写就是用它默认的；你自己写了，就优先用你的，覆盖默认的。
+
+
+
+（23）自定义 Starter 完整串联：引入 starter → Boot ⭐⭐扫描所有 jar 的 AutoConfiguration.imports 加载配置类 → **______ ⭐⭐条件注解 __** 筛选（类存在/配置开关/容器缺 Bean 判断）→ @EnableConfigurationProperties 读 yml → @Bean 创建服务 Bean → 业务 @Autowired 使用。⭐⭐⭐ [来源：画布 Starter启动器流程 `三、整体串一遍完整执行流程`]
 
 ### 6.5 启动流程与事件
+
+​	⭐⭐SpringApplication.run() 大流程 ，准备环境；创建applicationContext；执行refresh()管理实例化bean、自动配置；发布启动事件
 
 - [ ] （24）SpringApplication.run() 大流程：new SpringApplication（组装工具箱）→ prepareEnvironment → 创建 **__ ？正确：ApplicationContext ______** → prepareContext → refresh() → callRunners → 发布启动完成事件。⭐⭐⭐ [来源：画布 SpringBoot的启动原理 + 程序入口SpringApplication.run（）方法]
 
 
-（25）new SpringApplication(启动类) 只是普通 Java 对象实例化：推断 web 应用类型、SPI 加载 **___ ？ _正确：ApplicationContextInitializer（初始化器）____** 和 ApplicationListener、保存配置源——此时还没有容器、没有 Bean。⭐⭐⭐ [来源：画布 SpringBoot的启动原理 `SPI加载ApplicationContextInitializer、ApplicationListener、保存配置源`]
+（25）new SpringApplication(启动类) 只是普通 Java 对象⭐⭐实例化：推断 web 应用类型、SPI 加载 **___ ？ _正确：ApplicationContextInitializer（初始化器）____** 和 ApplicationListener、保存配置源——此时还没有容器、没有 Bean。⭐⭐⭐ [来源：画布 SpringBoot的启动原理 `SPI加载ApplicationContextInitializer、ApplicationListener、保存配置源`]
 
 - [ ] （26）prepareContext 阶段：把启动类注册为 **__ 配置源 ______**，执行初始化器、发布 ApplicationPreparedEvent；此阶段只注册不扫描，解析工作交给 refresh。⭐⭐⭐ [来源：画布 SpringBoot的启动原理 `只注册配置源，不扫描、不解析@Import、不实例化Bean，解析工作交给refresh`]（疑问这个源 是什么来着忘记了 ）
+  - [ ] 把这个主启动类 配置源 Spring 拿这个类作为**入口起点**，后续从这个类开始向外扫描、解析导入的各种配置。它是整个自动配置扫描链路的起点。
 
 
-- [ ] （27）refresh() 内部关键四步：invokeBeanFactoryPostProcessors（执行 BeanFactory 后置处理器）→ 注册 **__ ？正确：BeanPostProcessor ______** → 实例化所有非懒加载单例 Bean → 内嵌 Tomcat 启动、端口监听。⭐⭐⭐ [来源：画布 SpringBoot的启动原理 `5.2 注册BeanPostProcessor（AOP的代理创建器就在这里）`]
+
+- [ ] （27）refresh() 内部关键四步：invokeBeanFactoryPostProcessors（⭐⭐执行 BeanFactory 后置处理器）→ 注册 **__ ？正确：BeanPostProcessor ______** → 实例化⭐⭐所有非懒加载单例 Bean → 内嵌 Tomcat ⭐⭐启动、端口监听。⭐⭐⭐ [来源：画布 SpringBoot的启动原理 `5.2 注册BeanPostProcessor（AOP的代理创建器就在这里）`]
+
+  - [ ] 这里的实例化所有非懒加载单例bean 是refresh
+
+    - [ ] refresh () 负责⭐⭐刷新 Spring 容器，解析 Bean 定义、⭐⭐实例化并初始化所有非懒加载单例 Bean，完成容器准备。
+
 
 
 - [ ] （28）容器就绪后执行 Runner：**______ ApplicationRunner __** 拿到封装好的 ApplicationArguments（方便解析 --key=value），CommandLineRunner 拿到原始字符串数组；都是 refresh 完成、Tomcat 启动后才同步执行。⭐⭐⭐ [来源：画布 SpringBoot的启动原理 `ApplicationRunner：拿到封装好的 ApplicationArguments，方便解析 --key=value 参数`]
 
+  - [ ] 啥意思  runner 直译：运行器、执行器？
+
+    - [ ] 简单理解：**项目容器启动完毕之后，自动跑一段你写的代码的组件**。
+    - [ ] 两个 Runner 都是**容器⭐⭐ refresh 完、Bean 全部造好之后**执行，用来在项目启动成功后跑自定义初始化代码；区别就是拿到启动参数的形式不一样：
+    - [ ] **ApplicationRunner**：入参是 `ApplicationArguments`，**封装好的参数对象**，API 好用，方便解析 ⭐⭐`--key=value` 这种命名参数
+    - **CommandLineRunner**：入参是原始 `String[] args`，就是 main 方法传进来的原始字符串数组，自己⭐⭐拆分解析
+
+
 
 - [ ] （29）启动事件链：ApplicationEnvironmentPreparedEvent（环境就绪）→ ContextRefreshedEvent（refresh 完成）→ ApplicationStartedEvent（Runner 之前）→ **______？正确的是：ApplicationReadyEvent__**（Runner 全部跑完，服务完全就绪）。⭐⭐⭐ [来源：画布 SpringBoot的启动原理 `ApplicationReadyEvent：Runner 全部跑完，代表整个启动流程就绪`]
+
+  - [ ] ⭐⭐SpringBoot 启动过程中，每走到一个里程碑，就发一个事件，监听器可以监听这个事件做事情
+
 
 
 - [ ] （30）监控利器 Actuator：引入 spring-boot-starter-actuator 自动暴露 **___ health 正确的是 差不多/actuator/health _____**（健康检查）和 /actuator/metrics（JVM 内存、QPS 指标）等监控接口。⭐⭐ [来源：画布 介绍一下springboot `Actuator（监控）`]
@@ -541,7 +708,7 @@
 
 - [ ] （3）HandlerMapping 找到处理器后返回 **___ controller ？正确的是： HandlerExecutionChain_____**（处理器 + 拦截器的组合），供 DispatcherServlet 执行。⭐⭐ [来源：画布 SpringMVC整体结构和RestFull风格 `返回HandlerExecutionChain（处理器与拦截器的组合）`]
   - [ ] HandlerMapping 找到处理器后返回不就是Controller吗 然后通过HandlerAdapter 执行这个controller
-  - [ ] 算对啊 
+  - [ ] ⭐⭐算对啊 
   - HandlerMapping 根据 url 匹配，找到对应的 handler（就是我们写的 Controller 里面那个方法，也叫 HandlerMethod）
   - 然后把这个 handler + 匹配上的所有拦截器 `HandlerInterceptor`，打包组装成 **HandlerExecutionChain（执行链）** 返回
 
@@ -557,14 +724,14 @@
 
 - [ ] DispatcherServlet 还和自动配置有关系吗？
 
-  - [ ] 引入 `spring-boot-starter-web` → 触发 `DispatcherServletAutoConfiguration` 里面干两件事：
+  - [ ] 引入 `spring-boot-starter-web` → 触发 ⭐⭐`DispatcherServletAutoConfiguration` 里面干两件事：
 
     1. `@ConditionalOnMissingBean`：容器没有 DispatcherServlet，就 new 一个出来放进 Spring 容器
     2. 通过 `ServletRegistrationBean` 把这个 Servlet 注册给内嵌 Tomcat，**默认映射路径 `/`**
 
-  - 还会自动注入WebMvcConfigurer
+  - 还会自动注入⭐⭐WebMvcConfigurer
 
-    - 没有WebMvcConfigurer  就没办法注册拦截器了吗
+    - 没有WebMvcConfigurer  就没办法注册⭐⭐拦截器了吗
 
       - 不实现 WebMvcConfigurer 也可以注册拦截器，可以直接操作 RequestMappingHandlerMapping 设置拦截器列表；但是 WebMvcConfigurer 是官方推荐、最轻量的扩展方式，不会破坏 MVC 默认装配。
 
@@ -627,10 +794,10 @@
 
 （1）@Component 是最基础的组件注解，@Service、@Repository、**__ @Controller ______** 都是它的派生（特化）注解，分别用在 Service 层、Dao 层、Controller 层。⭐⭐⭐ [来源：画布 spring常用注解 `@Service、@Repository、@Controller 这些都是 @Component 的特化版本`]
 
-- [ ] ​	Component  的派生注解
+- [ ] ​	Component  的⭐⭐派生注解
 
 - [ ] （2）配置相关四件套：@Configuration 标识配置类、@Bean 定义 Bean、**__ ？ @Value______** 注入配置文件属性值（Redis、MQ 连接信息常用）、@PropertySource 指定配置文件位置。⭐⭐⭐ [来源：画布 spring常用注解 `@Value 用来注入配置文件中的属性值`]
-  - [ ] 配置相关的四个注解 配置类、bean、字段、配置文件
+  - [ ] ⭐⭐配置相关的四个注解 配置类、bean、字段、配置文件
 
 
 
@@ -639,7 +806,7 @@
 
 - [ ] （4）Web 参数注解：@PathVariable 读路径参数、**___ @RequestParam _____** 读请求参数、@RequestBody 读 JSON 请求体。⭐⭐⭐ [来源：画布 spring常用注解 `@PathVariable 读取路径参数。@RequestParam 读取请求参数`]
 
-  - [ ] web参数：接口参数、路径上的参数、读取请求体、请求体和响应体
+  - [ ] ⭐⭐web参数：接口参数、路径上的参数、读取请求体、请求体和响应体
 
 
 （5）@Transactional 基本上加在 **___ server层业务层 _____** 层需要保证事务原子性的方法上。⭐⭐⭐ [来源：画布 spring常用注解 `基本上 Service 层需要保证事务原子性的方法都会加上这个注解`]
@@ -648,11 +815,11 @@
 
 ### 8.2 设计模式
 
- **单例和工厂 是一对 **
+ **⭐⭐单例和工厂 是一对 **
 
- **AOP代理、RedisTemplate模板 **
+ **⭐⭐AOP代理、RedisTemplate模板 **
 
-**拦截器责任链、事件发布监听观察者**
+**⭐⭐拦截器责任链、观察者**
 
 （6）工厂模式：Spring 中的 **___ BeanFactory _____** 就是典型工厂，负责创建和管理所有 Bean；@Autowired 获取 Bean 底层走的就是工厂模型。⭐⭐⭐ [来源：画布 spring设计模式 `BeanFactory 就是一个典型的工厂`]
 
@@ -716,7 +883,7 @@
       - 调用哪个服务
       - 请求路径、请求方式、参数 **不用写 RestTemplate / HttpClient 去拼接 url、发 http、解析响应**。 底层 JDK 动态代理帮你生成这个接口的实现类，自动发起远程调用。
 
-      > 重点：**声明，就是描述目标，不描述执行步骤**。
+      > 重点：⭐⭐**声明，就是描述目标，不描述执行步骤**。
 
 
 
@@ -724,8 +891,8 @@
 
   - [ ] 熔断降级区分
 
-    - [ ] **熔断规则写在【调用方】身上！ ** 熔断配置在 A → A 发现 B 不稳，A 主动停止调用 B。A 是调用方，熔断在 A。**等一段时间自动探测恢复（保险丝）**
-    - [ ] 兜底方案 也写在A 上 
+    - [ ] **⭐⭐熔断规则写在【调用方】身上！ ** 熔断配置在 A → A 发现 B 不稳，A 主动停止调用 B。A 是调用方，熔断在 A。**等一段时间自动探测恢复（保险丝）**
+    - [ ] ⭐⭐兜底方案 也写在A 上 
     - [ ] **熔断**：A 统计调用 B 的异常，达到阈值 → A 主动停止发请求给 B
     - **降级**：A 不发请求了（熔断拦住），此时 A 执行自己写好的兜底逻辑，返回兜底数据
 
@@ -735,8 +902,8 @@
 
   - [ ] 看不懂 Route 路由 是接收到请求后，分配匹配请求连接到服务吗，那么路由和断言又有什么区别呢
   
-    - [ ]  **Route 路由**：是一条完整的路由条目，**由【断言 + 目标 uri + 过滤器集合】组成**
-    - [ ] **Predicate 断言**：是**匹配规则**，用来判断「这个请求能不能走这条路由」 例子：
+    - [ ]  **⭐⭐Route 路由**：是一条完整的路由条目，**由【断言 + 目标 uri + 过滤器集合】组成**
+    - [ ] **⭐⭐Predicate 断言**：是**匹配规则**，用来判断「这个请求能不能走这条路由」 例子：
   - [ ] 过滤啥 黑白名单Ip限制
   
     - [ ] 过滤器分两类：**前置过滤器（pre）、后置过滤器（post）**
@@ -747,27 +914,27 @@
       > 注意：Gateway 内置过滤器，也可以自定义全局 Filter 做 IP 拦截。
   - [ ] 底层 WebFlux 响应式 啥意思
   
-    - [ ] Spring Cloud Gateway **不是基于 Servlet（Tomcat 那套）**，底层是 Spring WebFlux，基于 Netty。 对比传统 Servlet（阻塞模型）：
+    - [ ] Spring Cloud Gateway **不是基于 Servlet（Tomcat 那套）**，底层是 Spring WebFlux，基于 ⭐⭐Netty。 对比传统 Servlet（阻塞模型）：
       - Servlet（阻塞）：一个请求占一个线程，请求卡在 IO（等数据库、等下游服务）的时候，线程卡住不动，线程资源被占死，并发高了线程池打满就崩。
       - WebFlux（响应式非阻塞）：少量线程，线程不会卡在等待 IO 上；等待下游返回的时候，线程可以去处理别的请求。等 IO 结果回来，再接着处理这个请求。
       - BIO：同步阻塞，一连接一线程
-      - NIO：同步非阻塞，多路复用，Netty、Gateway 底层用它 核心：Selector 多路复用，少量线程管理大量连接 **IO 操作本身还是要自己去轮询查结果，但是线程不会被卡住等数据**
+      - ⭐⭐NIO：同步非阻塞，多路复用，Netty、Gateway 底层用它 核心：Selector 多路复用，少量线程管理大量连接 **IO 操作本身还是要自己去轮询查结果，但是线程不会被卡住等数据**
       - AIO：异步非阻塞，Linux 场景很少用
       - WebFlux 的 “非阻塞响应式” = 基于 NIO 多路复用，不是 AIO
 
 
 （6）分布式事务组件 **__ seata 水塔______**：解决微服务跨库事务一致性（AT/TCC/SAGA/XA 模式）。⭐⭐⭐ [来源：画布 SpringCloud `分布式事务【Seata】：解决微服务跨库事务一致性`]
 
-- [ ] 默认用seat的AT，什么情况下需要手动写代码，进行ATT呢？ 不是ATT 是 TCC
+- [ ] ⭐⭐默认用seat的AT，什么情况下需要手动写代码，进行ATT呢？ 不是ATT 是 TCC
 
 - [ ] Seata AT 模式基于 undo_log 自动回滚，只适合 MySQL 这类关系库的普通 DML 
 
   - [ ] MySQL 自己的 undo log：innodb 用来支持本地事务 MVCC、事务回滚  存的就是操作之前的数据  数据库内核层面；
-  - [ ] Seata undo_log：Seata 自己用的，用来做**分布式事务的补偿回滚**，业务层面的快照日志 
+  - [ ] Seata undo_log：Seata 自己用的，用来做**⭐⭐分布式事务的补偿回滚**，业务层面的快照日志 
 
-- [ ] 为什么**非关系型数据库** Redis、**调用第三方外部接口**AT 不能用？ 👉 Redis 没有办法让 Seata 拦截 SQL、自动生成 before/after 镜像写入 undo_log，没有 undo_log 就没法自动回滚，只能手写 TCC。
+- [ ] 为什么⭐⭐**非关系型数据库** Redis、**调用第三方外部接口**AT 不能用？ 👉 Redis 没有办法让 Seata 拦截 SQL、自动生成 before/after 镜像写入 undo_log，没有 undo_log 就没法自动回滚，只能手写 TCC。
 
-  - [ ] AT 靠代理 JDBC，拦截 SQL，自动记录 `undo_log` 前后镜像，自动回滚；**只支持关系型数据库（MySQL/Oracle）+ 标准 DML（update/insert/delete）**，只需要入口加 `@GlobalTransactional`，业务代码不用写补偿逻辑
+  - [ ] AT 靠代理 JDBC，拦截 SQL，自动记录 `undo_log` 前后镜像，自动回滚；⭐⭐**只支持关系型数据库（MySQL/Oracle）+ 标准 DML（update/insert/delete）**，只需要入口加 `@GlobalTransactional`，业务代码不用写补偿逻辑
 
   
 
@@ -801,7 +968,7 @@
 
 （2）OAuth2 四个角色：资源所有者（用户）、**______ 资源申请者客户端 __**（第三方应用）、授权服务器（认证服务）、资源服务器（业务接口）。⭐⭐⭐ [来源：画布 Oauth2 授权码模式 `角色先记 4 个`]
 
-- [ ] （3）OAuth2 四种授权模式中最常用、最安全的是 **___ 授权码 _____** 模式——微信公众号/小程序、QQ 登录、GitHub 登录都是它。⭐⭐⭐ [来源：画布 Oauth2 授权码模式 `授权码模式（最常用）`]
+- [ ] （3）OAuth2 四种授权模式中最常用、最安全的是 **___ ⭐⭐授权码code _____** 模式——微信公众号/小程序、QQ 登录、GitHub 登录都是它。⭐⭐⭐ [来源：画布 Oauth2 授权码模式 `授权码模式（最常用）`]
   - [ ] 授权码？token吗 不是
   
   - [ ] 一句话分清：**授权码 ≠ token，授权码只是用来换 token 的一次性 “提货券”**
